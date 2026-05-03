@@ -5,6 +5,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis
 
 import { GlossaryPanel } from './components/GlossaryPanel';
 import { joinWaitlist } from './lib/firebase';
+import ticketImg from './assets/ticket.png';
 // Character maps for pixel text (0: empty, 1: solid)
 const CHARS: Record<string, number[][]> = {
   '4': [[1,0,1],[1,0,1],[1,1,1],[0,0,1],[0,0,1]],
@@ -541,7 +542,7 @@ const SectionTicket = ({ grid }: { grid: CellData[][] }) => {
         initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
         className="w-full lg:w-[400px] shrink-0 h-[400px] sm:h-[560px] bg-[#0A1128] border border-gray-200 rounded-xl flex flex-col items-center justify-center relative shadow-sm overflow-hidden group"
       >
-        <img src="/ticket.png" alt="403 BYPASS Ticket" className="absolute inset-0 w-full h-full object-contain sm:object-cover" />
+        <img src={ticketImg} alt="403 BYPASS Ticket" className="absolute inset-0 w-full h-full object-contain sm:object-cover" />
         
         {/* Fallback for when image is not yet uploaded */}
         <div className="z-10 flex flex-col items-center opacity-0 group-hover:opacity-0 transition-opacity">
