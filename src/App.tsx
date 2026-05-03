@@ -4,6 +4,7 @@ import { Ticket, Calendar, Clock, MapPin, Search, ChevronRight, ArrowRight, User
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
 
 import { GlossaryPanel } from './components/GlossaryPanel';
+import { joinWaitlist } from './lib/firebase';
 // Character maps for pixel text (0: empty, 1: solid)
 const CHARS: Record<string, number[][]> = {
   '4': [[1,0,1],[1,0,1],[1,1,1],[0,0,1],[0,0,1]],
@@ -490,7 +491,27 @@ const SmallBanner = ({ title, subtitle, imgBg, iconColor, icon: Icon, onClick }:
   </div>
 );
 
-const SectionTicket = ({ grid }: { grid: CellData[][] }) => (
+const SectionTicket = ({ grid }: { grid: CellData[][] }) => {
+  const [isWaitlistLoading, setIsWaitlistLoading] = useState(false);
+
+  const handleWaitlist = async () => {
+    if (isWaitlistLoading) return;
+    setIsWaitlistLoading(true);
+    try {
+      const success = await joinWaitlist();
+      if (success) {
+        alert("배이패스(403 BYPASS) 정식 출시 알림 신청이 완료되었습니다!");
+      }
+    } finally {
+      setIsWaitlistLoading(false);
+    }
+  };
+
+  const handleReserve = () => {
+    alert("앞으로 우리가 만들 403 BYPASS 서비스로 연결될 예정입니다. 출시를 기대해주세요!");
+  };
+
+  return (
   <div className="w-full max-w-[1240px] mx-auto px-4 mt-8 pb-16">
     <div className="flex text-sm text-gray-500 mb-6 font-medium">
       <span className="cursor-pointer hover:underline">홈</span> <span className="mx-2 text-gray-300">&gt;</span> <span className="text-blue-600 font-bold">전시/행사</span>
@@ -523,11 +544,11 @@ const SectionTicket = ({ grid }: { grid: CellData[][] }) => (
           <div className="border-t border-b border-gray-100 py-6 space-y-4 text-sm sm:text-base text-gray-800 mb-8">
             <div className="flex items-center">
               <span className="w-24 text-gray-500 font-medium">장소</span>
-              <strong className="text-gray-900 cursor-pointer hover:text-blue-600 transition-colors">Google AI Studio (Virtual)</strong>
+              <strong className="text-gray-900 cursor-pointer hover:text-blue-600 transition-colors">Natural Science Museum 7105</strong>
             </div>
             <div className="flex items-center">
               <span className="w-24 text-gray-500 font-medium">관람시간</span>
-              <span>120분 (인터미션 없음)</span>
+              <span>403분</span>
             </div>
             <div className="flex items-baseline">
               <span className="w-24 text-gray-500 font-medium">출연진</span>
@@ -542,12 +563,12 @@ const SectionTicket = ({ grid }: { grid: CellData[][] }) => (
 
         {/* Action Buttons */}
         <div className="flex flex-col gap-3">
-          <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl text-lg transition-colors flex justify-center items-center">
+          <button onClick={handleReserve} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl text-lg transition-colors flex justify-center items-center">
             예매하기
           </button>
           <div className="flex gap-3">
-            <button className="flex-1 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 py-4 rounded-xl transition-colors flex justify-center items-center gap-2 text-sm font-bold">
-              <Heart size={18} className="text-red-500" /> 관심등록
+            <button onClick={handleWaitlist} disabled={isWaitlistLoading} className={`flex-1 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 py-4 rounded-xl transition-colors flex justify-center items-center gap-2 text-sm font-bold ${isWaitlistLoading ? 'opacity-70 cursor-not-allowed' : ''}`}>
+              <Heart size={18} className={`text-red-500 ${isWaitlistLoading ? 'animate-pulse' : ''}`} /> {isWaitlistLoading ? '처리중...' : '관심등록'}
             </button>
             <button className="w-16 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 py-4 rounded-xl transition-colors flex justify-center items-center">
               <Share2 size={18} />
@@ -566,7 +587,8 @@ const SectionTicket = ({ grid }: { grid: CellData[][] }) => (
     </div>
 
   </div>
-);
+  );
+};
 
 const CustomRingChart = ({ data, color, title, valueStr }: any) => (
   <div className="flex flex-col items-center justify-center p-4">

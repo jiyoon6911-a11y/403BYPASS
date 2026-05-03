@@ -1,0 +1,20 @@
+{
+  "entities": {
+    "Waitlist": {
+      "title": "Waitlist Entry",
+      "description": "User subscribed to waitlist",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "createdAt": { "type": "number", "description": "Timestamp" }
+      },
+      "required": ["email", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/waitlist/{userId}": {
+      "schema": { "$ref": "#/entities/Waitlist" },
+      "description": "Waitlist registrations by user"
+    }
+  }
+}
