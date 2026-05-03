@@ -46,11 +46,11 @@ const generateGrid = (): CellData[][] => {
 const Seat = ({ active, rowIdx, delay }: { active: boolean; rowIdx: number; delay: number; key?: string|number|React.Key }) => {
   // Real ticketing site colors (VIP: Purple, R: Green, S: Blue, A: Orange, B: Yellow)
   const activeColors = [
-    'bg-purple-500 border border-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.5)]',
-    'bg-green-500 border border-green-400 shadow-[0_0_10px_rgba(34,197,94,0.5)]',
-    'bg-blue-500 border border-blue-400 shadow-[0_0_10px_rgba(59,130,246,0.5)]',
-    'bg-orange-500 border border-orange-400 shadow-[0_0_10px_rgba(249,115,22,0.5)]',
-    'bg-yellow-400 border border-yellow-300 shadow-[0_0_10px_rgba(250,204,21,0.5)]',
+    'bg-purple-500 border border-purple-600 shadow-sm',
+    'bg-green-500 border border-green-600 shadow-sm',
+    'bg-blue-500 border border-blue-600 shadow-sm',
+    'bg-orange-500 border border-orange-600 shadow-sm',
+    'bg-yellow-400 border border-yellow-500 shadow-sm',
   ];
 
   return (
@@ -59,44 +59,60 @@ const Seat = ({ active, rowIdx, delay }: { active: boolean; rowIdx: number; dela
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: delay * 0.005, duration: 0.3 }}
       whileHover={{ scale: 1.2, zIndex: 10, y: -2 }}
-      className={`w-[14px] h-[12px] sm:w-[18px] sm:h-[16px] md:w-[24px] md:h-[20px] rounded-t-sm rounded-b-none cursor-pointer transition-colors shrink-0
-        ${active ? activeColors[rowIdx] : 'bg-white/5 border border-white/20'}`}
+      className={`w-[11px] h-[9px] sm:w-[15px] sm:h-[13px] md:w-[22px] md:h-[18px] rounded-t-sm rounded-b-none cursor-pointer transition-colors shrink-0
+        ${active ? activeColors[rowIdx] : 'bg-[#f3f4f6] border border-[#e5e7eb] hover:bg-[#d1d5db]'}`}
     />
   );
 };
 
 const StageMap = ({ grid }: { grid: CellData[][] }) => {
   return (
-    <div className="w-full bg-white border border-gray-200 rounded-lg p-4 sm:p-10 flex flex-col items-center">
-      <div className="flex border-b border-gray-200 pb-4 mb-10 w-full justify-between items-end">
-        <h3 className="text-xl font-bold text-gray-900">
-          좌석배치도
-        </h3>
-        <div className="hidden sm:flex gap-4 text-xs font-semibold text-gray-600">
-          <div className="flex items-center gap-1.5"><div className="w-3 h-3 bg-[#A445D1] rounded-sm"></div>VIP석</div>
-          <div className="flex items-center gap-1.5"><div className="w-3 h-3 bg-[#069D42] rounded-sm"></div>R석</div>
-          <div className="flex items-center gap-1.5"><div className="w-3 h-3 bg-[#1F6EEE] rounded-sm"></div>S석</div>
+    <div className="w-full bg-white border border-gray-200 rounded-2xl p-6 sm:p-12 flex flex-col items-center overflow-hidden relative shadow-sm">
+      {/* Subtle Background Pattern */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPjxyZWN0IHdpZHRoPSI4IiBoZWlnaHQ9IjgiIGZpbGw9IiNmM2Y0ZjYiIGZpbGwtb3BhY2l0eT0iMSIvPjwvc3ZnPg==')] opacity-50"></div>
+      
+      <div className="flex flex-col sm:flex-row border-b border-gray-100 pb-6 mb-12 w-full justify-between items-center sm:items-end gap-6 relative z-10">
+        <div className="flex flex-col gap-2 text-center sm:text-left">
+          <h3 className="text-2xl sm:text-3xl font-black text-gray-900 font-display tracking-tight flex items-center justify-center sm:justify-start gap-3">
+             <span className="w-2 h-8 bg-blue-600 rounded-full"></span>
+             좌석배치도
+          </h3>
+          <p className="text-gray-400 text-sm font-bold tracking-widest uppercase">403: Bypass Seating Plan</p>
+        </div>
+        <div className="flex flex-wrap justify-center sm:justify-end gap-3 sm:gap-5 text-[11px] sm:text-xs font-bold text-gray-600">
+          <div className="flex items-center gap-2"><div className="w-3 h-3 bg-purple-500 rounded-sm"></div>VIP석</div>
+          <div className="flex items-center gap-2"><div className="w-3 h-3 bg-green-500 rounded-sm"></div>R석</div>
+          <div className="flex items-center gap-2"><div className="w-3 h-3 bg-blue-500 rounded-sm"></div>S석</div>
+          <div className="flex items-center gap-2"><div className="w-3 h-3 bg-orange-500 rounded-sm"></div>A석</div>
+          <div className="flex items-center gap-2"><div className="w-3 h-3 bg-yellow-400 rounded-sm"></div>B석</div>
         </div>
       </div>
 
-      <div className="w-full max-w-3xl h-10 sm:h-12 bg-gray-100 border border-gray-200 rounded-t-[100px] mb-12 flex justify-center items-center">
-        <span className="text-gray-400 font-bold tracking-[0.3em] text-sm">STAGE</span>
-      </div>
-
-      <div className="flex flex-col gap-[3px] sm:gap-[4px] items-center relative">
-        {grid.map((row, rIdx) => (
-          <div key={rIdx} className="flex gap-[3px] sm:gap-[4px] justify-center relative">
-            <div className="absolute right-[100%] mr-3 sm:mr-6 flex items-center h-full">
-              <span className="text-[10px] sm:text-xs font-bold text-gray-400 w-4 text-right">{String.fromCharCode(65 + rIdx)}</span>
-            </div>
-            {row.map((cell, cIdx) => (
-              <Seat key={cIdx} active={cell.active} rowIdx={cell.charRowIdx} delay={rIdx * 26 + cIdx} />
-            ))}
-             <div className="absolute left-[100%] ml-3 sm:ml-6 flex items-center h-full">
-              <span className="text-[10px] sm:text-xs font-bold text-gray-400 w-4">{String.fromCharCode(65 + rIdx)}</span>
-            </div>
+      <div className="w-full max-w-4xl overflow-x-auto pb-4 hide-scrollbar flex flex-col items-center relative z-10">
+        <div className="w-full min-w-max flex flex-col items-center px-4">
+          
+          <div className="w-full max-w-2xl h-12 sm:h-16 bg-gradient-to-b from-gray-50 to-white border-t border-gray-200 rounded-t-[120px] mb-[60px] flex justify-center items-center relative shadow-[0_-5px_15px_rgba(0,0,0,0.02)]">
+            <span className="text-gray-400 font-black tracking-[0.5em] text-sm sm:text-base">STAGE</span>
+            <div className="absolute top-0 left-[20%] w-4 h-1 rounded-full bg-gray-200"></div>
+            <div className="absolute top-0 right-[20%] w-4 h-1 rounded-full bg-gray-200"></div>
           </div>
-        ))}
+
+          <div className="flex flex-col gap-[4px] sm:gap-[6px] items-center relative">
+            {grid.map((row, rIdx) => (
+              <div key={rIdx} className="flex gap-[4px] sm:gap-[6px] justify-center relative">
+                <div className="absolute right-[100%] mr-4 sm:mr-8 flex items-center h-full">
+                  <span className="text-[10px] sm:text-xs font-bold text-gray-500 w-4 text-right">{String.fromCharCode(65 + rIdx)}</span>
+                </div>
+                {row.map((cell, cIdx) => (
+                  <Seat key={cIdx} active={cell.active} rowIdx={cell.charRowIdx} delay={rIdx * 26 + cIdx} />
+                ))}
+                 <div className="absolute left-[100%] ml-4 sm:ml-8 flex items-center h-full">
+                  <span className="text-[10px] sm:text-xs font-bold text-gray-500 w-4">{String.fromCharCode(65 + rIdx)}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -156,9 +172,9 @@ const ROADMAP_PHASES = [
     title: "서비스 기획 및 UX 디자인",
     progress: 0,
     details: [
-      "4대 솔루션 설계: 관람 여정의 단절을 막기 위한 [이동, 시야, 흐름, 안전] 중심의 핵심 기능을 도출했습니다.",
-      "디자인 시스템: Google Stitch를 활용하여 고대비(High Contrast) UI와 픽셀 아트 감성을 결합한 사용자 중심의 인터페이스를 시각화했습니다.",
-      "여정 고도화: 예매부터 귀가까지 누군가의 도움 없이 스스로 해내는 '독립적 관람' 프로세스를 설계했습니다."
+      "4대 솔루션 설계: 관람 여정의 단절을 막기 위한 [이동, 시야, 흐름, 안전] 중심의 핵심 기능을 구체적으로 도출할 계획입니다.",
+      "디자인 시스템: Google Stitch를 활용하여 고대비(High Contrast) UI와 픽셀 아트 감성을 결합한 사용자 중심의 인터페이스를 시각화할 예정입니다.",
+      "여정 고도화: 예매부터 귀가까지 타인의 도움 없이 스스로 해내는 '독립적 관람' 프로세스를 세밀하게 설계할 발판을 마련합니다."
     ]
   },
   {
@@ -167,9 +183,9 @@ const ROADMAP_PHASES = [
     title: "기술 구현 및 프로토타입",
     progress: 0,
     details: [
-      "지능형 로직 구축: Google AI Studio를 활용해 복잡한 상황별 맞춤 경로와 실시간 정보를 제공하는 서비스 알고리즘을 구현했습니다.",
-      "웹사이트 런칭: Vercel을 통해 프로젝트의 철학과 진행 과정을 공유하는 공식 소개 사이트를 배포했습니다.",
-      "기능 검증: 기획된 솔루션이 실제 관객의 불편함을 어떻게 해소하는지 프로토타입을 통해 테스트하고 보완합니다."
+      "지능형 로직 구축: Google AI Studio를 활용해 복잡한 상황별 맞춤 경로와 실시간 정보를 제공하는 서비스 알고리즘을 구현할 계획입니다.",
+      "웹사이트 런칭 보완: Vercel을 통해 배포된 공식 소개 사이트를 지속적으로 보완하여 프로젝트의 철학과 진행 과정을 생생하게 공유할 것입니다.",
+      "기능 검증 테스트: 기획된 솔루션이 실제 관객의 불편함을 어떻게 해소하는지 프로토타입을 통해 테스트하고 문제점을 보완할 예정입니다."
     ]
   },
   {
@@ -178,9 +194,9 @@ const ROADMAP_PHASES = [
     title: "리서치 보강 및 앱 완성",
     progress: 0,
     details: [
-      "실무 리서치 고도화: 실제 이용자 인터뷰와 추가 조사를 통해 서비스 디테일을 정교하게 다듬는 과정을 거칩니다.",
-      "애플리케이션 완성: 고도화된 리서치 결과를 반영하여 누구나 차별 없이 공연의 감동에 닿을 수 있는 최종 앱을 제작합니다.",
-      "생태계 확장: 궁극적으로 시설 운영자의 자발적 개선을 유도하는 '접근성 랭킹 시스템'을 도입하여 지속 가능한 공연 문화를 만듭니다."
+      "실무 리서치 고도화: 실제 이용자 인터뷰와 추가 심층 조사를 통해 서비스 디테일을 정교하게 다듬어갈 계획입니다.",
+      "애플리케이션 완성: 고도화된 리서치 결과를 반영하여 누구나 차별 없이 공연의 감동에 닿을 수 있는 최종 스마트폰 앱을 출시할 예정입니다.",
+      "생태계 확장: 궁극적으로 시설 운영자의 자발적 개선을 유도하는 '접근성 랭킹 시스템'을 도입하여 지속 가능한 공연 문화를 만들어갈 것입니다."
     ]
   }
 ];
@@ -508,7 +524,8 @@ const SectionTicket = ({ grid }: { grid: CellData[][] }) => {
   };
 
   const handleReserve = () => {
-    alert("앞으로 우리가 만들 403 BYPASS 서비스로 연결될 예정입니다. 출시를 기대해주세요!");
+    // Alert might be blocked by iframe, so we rely on the hover tooltip
+    console.log("앞으로 우리가 만들 403 BYPASS 서비스로 연결될 예정입니다. 출시를 기대해주세요!");
   };
 
   return (
@@ -518,15 +535,17 @@ const SectionTicket = ({ grid }: { grid: CellData[][] }) => {
     </div>
 
     {/* Header Info Area */}
-    <div className="flex flex-col lg:flex-row gap-10 mb-16">
+    <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 mb-16">
       {/* Poster Placeholder */}
       <motion.div 
         initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
-        className="w-full lg:w-[400px] shrink-0 h-[560px] bg-gray-100 border border-gray-200 rounded-xl flex flex-col items-center justify-center relative shadow-sm group"
+        className="w-full lg:w-[400px] shrink-0 h-[400px] sm:h-[560px] bg-[#0A1128] border border-gray-200 rounded-xl flex flex-col items-center justify-center relative shadow-sm overflow-hidden group"
       >
-        <Ticket size={64} className="text-gray-300 mb-4 transition-colors duration-500" />
-        <h2 className="text-3xl font-display font-black text-gray-400">403: BYPASS</h2>
-        <p className="text-gray-500 mt-4 font-bold tracking-widest text-xs">유니버설 서비스 프로젝트</p>
+        <img src="/ticket.png" alt="403 BYPASS Ticket" className="absolute inset-0 w-full h-full object-contain sm:object-cover" />
+        
+        {/* Fallback for when image is not yet uploaded */}
+        <div className="z-10 flex flex-col items-center opacity-0 group-hover:opacity-0 transition-opacity">
+        </div>
       </motion.div>
 
       {/* Info Details */}
@@ -563,14 +582,28 @@ const SectionTicket = ({ grid }: { grid: CellData[][] }) => {
 
         {/* Action Buttons */}
         <div className="flex flex-col gap-3">
-          <button onClick={handleReserve} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl text-lg transition-colors flex justify-center items-center">
-            예매하기
-          </button>
-          <div className="flex gap-3">
-            <button onClick={handleWaitlist} disabled={isWaitlistLoading} className={`flex-1 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 py-4 rounded-xl transition-colors flex justify-center items-center gap-2 text-sm font-bold ${isWaitlistLoading ? 'opacity-70 cursor-not-allowed' : ''}`}>
-              <Heart size={18} className={`text-red-500 ${isWaitlistLoading ? 'animate-pulse' : ''}`} /> {isWaitlistLoading ? '처리중...' : '관심등록'}
+          <div className="relative group w-full">
+            <button onClick={handleReserve} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl text-lg transition-colors flex justify-center items-center">
+              예매하기
             </button>
-            <button className="w-16 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 py-4 rounded-xl transition-colors flex justify-center items-center">
+            <div className="hidden lg:block absolute opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[280px] bg-gray-900 text-white text-xs rounded py-2 px-3 z-50 pointer-events-none shadow-lg text-center break-keep">
+              앞으로 우리가 만들 403 BYPASS 서비스로 연결될 예정입니다. 출시를 기대해주세요!
+              <div className="absolute w-2 h-2 bg-gray-900 rotate-45 transform left-1/2 -translate-x-1/2 -bottom-1"></div>
+            </div>
+            <div className="lg:hidden text-center text-xs text-gray-500 mt-1">앞으로 우리가 만들 403 BYPASS 서비스로 연결될 예정입니다.<br/>출시를 기대해주세요!</div>
+          </div>
+          <div className="flex gap-3">
+            <div className="relative group flex-1">
+              <button onClick={handleWaitlist} disabled={isWaitlistLoading} className={`w-full bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 py-4 rounded-xl transition-colors flex justify-center items-center gap-2 text-sm font-bold ${isWaitlistLoading ? 'opacity-70 cursor-not-allowed' : ''}`}>
+                <Heart size={18} className={`text-red-500 ${isWaitlistLoading ? 'animate-pulse' : ''}`} /> {isWaitlistLoading ? '처리중...' : '관심등록'}
+              </button>
+              <div className="hidden lg:block absolute opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[280px] bg-gray-900 text-white text-xs rounded py-2 px-3 z-50 pointer-events-none shadow-lg text-center break-keep">
+                앱이 정식 출시되면 알림이 갈 수 있게 등록합니다.
+                <div className="absolute w-2 h-2 bg-gray-900 rotate-45 transform left-1/2 -translate-x-1/2 -bottom-1"></div>
+              </div>
+              <div className="lg:hidden text-center text-xs text-gray-500 mt-1">앱이 정식 출시되면 알림이 갈 수 있게 등록합니다.</div>
+            </div>
+            <button className="w-16 h-[56px] shrink-0 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-xl transition-colors flex justify-center items-center">
               <Share2 size={18} />
             </button>
           </div>
