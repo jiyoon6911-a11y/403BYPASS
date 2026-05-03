@@ -209,7 +209,7 @@ const ROADMAP_PHASES = [
     phase: "Phase 2",
     subtitle: "The Insight",
     title: "핵심 인사이트 도출",
-    progress: 50,
+    progress: 100,
     details: [
       "커브컷 효과 발견: 휠체어용 경사로가 모두에게 편리함을 주듯, 접근성 강화가 전체 관객의 경험을 상향 평준화한다는 '커브컷 효과'를 핵심 전략으로 삼았습니다.",
       "데이터 검증: 배리어프리 오페라 관객의 80%가 비장애인이었으며, 이들 중 98%가 서비스에 만족했다는 연구 결과를 통해 유니버설 서비스의 시장성을 확인했습니다.",
@@ -220,11 +220,11 @@ const ROADMAP_PHASES = [
     phase: "Phase 3",
     subtitle: "The Blueprint",
     title: "서비스 기획 및 UX 디자인",
-    progress: 0,
+    progress: 50,
     details: [
-      "4대 솔루션 설계: 관람 여정의 단절을 막기 위한 [이동, 시야, 흐름, 안전] 중심의 핵심 기능을 구체적으로 도출할 계획입니다.",
-      "디자인 시스템: Google Stitch를 활용하여 고대비(High Contrast) UI와 픽셀 아트 감성을 결합한 사용자 중심의 인터페이스를 시각화할 예정입니다.",
-      "여정 고도화: 예매부터 귀가까지 타인의 도움 없이 스스로 해내는 '독립적 관람' 프로세스를 세밀하게 설계할 발판을 마련합니다."
+      "4대 솔루션 설계: 관람 여정의 단절을 막기 위한 [이동, 시야, 흐름, 안전] 중심의 핵심 기능을 구체적으로 도출하고 있습니다.",
+      "디자인 시스템: 고대비(High Contrast) UI와 픽셀 아트 감성을 결합한 사용자 중심의 인터페이스 기틀을 마련하고 있습니다.",
+      "여정 고도화: 예매부터 귀가까지 타인의 도움 없이 스스로 해내는 '독립적 관람' 프로세스를 세밀하게 설계 중입니다."
     ]
   },
   {
@@ -233,8 +233,8 @@ const ROADMAP_PHASES = [
     title: "기술 구현 및 프로토타입",
     progress: 0,
     details: [
-      "지능형 로직 구축: Google AI Studio를 활용해 복잡한 상황별 맞춤 경로와 실시간 정보를 제공하는 서비스 알고리즘을 구현할 계획입니다.",
-      "웹사이트 런칭 보완: Vercel을 통해 배포된 공식 소개 사이트를 지속적으로 보완하여 프로젝트의 철학과 진행 과정을 생생하게 공유할 것입니다.",
+      "지능형 로직 구축: 복잡한 상황별 맞춤 경로와 실시간 정보를 제공하는 서비스 알고리즘을 설계할 계획입니다.",
+      "웹사이트 런칭 보완: 프로젝트의 철학과 진행 과정을 생생하게 공유하기 위한 공식 소개 사이트를 지속적으로 보완할 것입니다.",
       "기능 검증 테스트: 기획된 솔루션이 실제 관객의 불편함을 어떻게 해소하는지 프로토타입을 통해 테스트하고 문제점을 보완할 예정입니다."
     ]
   },
@@ -831,7 +831,7 @@ const SectionIdea = () => {
       <GlossaryPanel isOpen={isGlossaryOpen} onClose={() => setIsGlossaryOpen(false)} />
       
       <div className="mb-12 border-b-2 border-gray-200 pb-4 flex items-center gap-4">
-        <h2 className="text-3xl font-display font-black text-gray-900 tracking-tight">프로젝트 소개 (Project Thesis)</h2>
+        <h2 className="text-3xl font-display font-black text-gray-900 tracking-tight">프로젝트 소개</h2>
       </div>
 
       <div className="space-y-20 text-gray-800">
@@ -877,7 +877,7 @@ const SectionIdea = () => {
           <div className="mb-10">
             <h3 className="text-3xl font-black text-gray-900 mb-4 flex items-center gap-4">
               <span className="text-blue-600 text-4xl font-display">02.</span> 
-              <span className="font-display tracking-tight">문제발굴 (Problem Discovery)</span>
+              <span className="font-display tracking-tight">문제발굴</span>
             </h3>
             <p className="text-xl text-gray-600 font-sans tracking-tight leading-relaxed max-w-4xl">
               현재 공연 시장은 눈에 보이는 장벽뿐만 아니라, 보이지 않는 정보와 인식의 장벽으로 인해 수많은 관객의 발걸음을 돌리게 하고 있습니다.
