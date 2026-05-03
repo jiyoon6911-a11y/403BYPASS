@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Ticket, Calendar, Clock, MapPin, Search, ChevronRight, ArrowRight, User, MousePointerClick, Heart, Share2, Navigation, AlertCircle, Info, Activity, Shield, Eye, BarChart3, PieChart as PieChartIcon, X, Code, Palette, Rocket } from 'lucide-react';
+import { Ticket, Calendar, Clock, MapPin, Search, ChevronRight, ArrowRight, User, MousePointerClick, Heart, Share2, Navigation, AlertCircle, Info, Activity, Shield, Eye, BarChart3, PieChart as PieChartIcon, X, Code, Palette, Rocket, TrainFront, Accessibility, Smartphone, Armchair, Coffee } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
 
 import { GlossaryPanel } from './components/GlossaryPanel';
@@ -47,56 +47,105 @@ const generateGrid = (): CellData[][] => {
 const Seat = ({ active, rowIdx, delay }: { active: boolean; rowIdx: number; delay: number; key?: string|number|React.Key }) => {
   // Real ticketing site colors (VIP: Purple, R: Green, S: Blue, A: Orange, B: Yellow)
   const activeColors = [
-    'bg-purple-500 border border-purple-600 shadow-sm',
-    'bg-green-500 border border-green-600 shadow-sm',
-    'bg-blue-500 border border-blue-600 shadow-sm',
-    'bg-orange-500 border border-orange-600 shadow-sm',
-    'bg-yellow-400 border border-yellow-500 shadow-sm',
+    'from-blue-600 to-blue-700 border-blue-700 shadow-sm',
+    'from-blue-500 to-blue-600 border-blue-600 shadow-sm',
+    'from-blue-400 to-blue-500 border-blue-500 shadow-sm',
+    'from-blue-500 to-blue-600 border-blue-600 shadow-sm',
+    'from-blue-600 to-blue-700 border-blue-700 shadow-sm',
   ];
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.5 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: delay * 0.005, duration: 0.3 }}
-      whileHover={{ scale: 1.2, zIndex: 10, y: -2 }}
-      className={`w-[11px] h-[9px] sm:w-[15px] sm:h-[13px] md:w-[22px] md:h-[18px] rounded-t-sm rounded-b-none cursor-pointer transition-colors shrink-0
-        ${active ? activeColors[rowIdx] : 'bg-[#f3f4f6] border border-[#e5e7eb] hover:bg-[#d1d5db]'}`}
-    />
+      initial={{ opacity: 0, scale: 0, y: 20 }}
+      whileInView={{
+        opacity: active ? 1 : 0.2, // Active pops, inactive drops into the background
+        scale: 1,
+        y: 0,
+        boxShadow: active ? "0px 2px 8px rgba(59,130,246,0.4)" : "none",
+        transition: {
+          delay: delay * 0.01 + 0.1,
+          type: "spring",
+          stiffness: 260,
+          damping: 20
+        }
+      }}
+      viewport={{ once: true, margin: "50px" }}
+      whileHover={{ scale: 1.5, zIndex: 50, y: -5, opacity: 1, transition: { duration: 0.2 } }}
+      className={`w-[11px] h-[9px] sm:w-[15px] sm:h-[13px] md:w-[22px] md:h-[18px] rounded-t-sm rounded-b-none cursor-pointer transition-colors shrink-0 relative overflow-hidden ${active ? 'bg-gradient-to-br border-transparent z-10 ' + activeColors[rowIdx] : 'bg-[#e5e7eb] border border-[#d1d5db]'}`}
+    >
+      {active && <div className="absolute inset-0 bg-white/20 opacity-0 hover:opacity-100 transition-opacity"></div>}
+    </motion.div>
   );
 };
 
 const StageMap = ({ grid }: { grid: CellData[][] }) => {
   return (
-    <div className="w-full bg-white border border-gray-200 rounded-2xl p-6 sm:p-12 flex flex-col items-center overflow-hidden relative shadow-sm">
+    <motion.div 
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="w-full bg-white border border-gray-200 rounded-3xl p-6 sm:p-12 flex flex-col items-center overflow-hidden relative shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-shadow duration-500"
+    >
       {/* Subtle Background Pattern */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPjxyZWN0IHdpZHRoPSI4IiBoZWlnaHQ9IjgiIGZpbGw9IiNmM2Y0ZjYiIGZpbGwtb3BhY2l0eT0iMSIvPjwvc3ZnPg==')] opacity-50"></div>
+      
+      {/* Background ambient animation */}
+      <motion.div 
+        animate={{ rotate: 360 }}
+        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+        className="absolute -top-[50%] -left-[50%] w-[200%] h-[200%] bg-[conic-gradient(from_0deg_at_50%_50%,rgba(59,130,246,0.03)_0deg,transparent_60deg,transparent_300deg,rgba(59,130,246,0.03)_360deg)] pointer-events-none"
+      />
       
       <div className="flex flex-col sm:flex-row border-b border-gray-100 pb-6 mb-12 w-full justify-between items-center sm:items-end gap-6 relative z-10">
         <div className="flex flex-col gap-2 text-center sm:text-left">
           <h3 className="text-2xl sm:text-3xl font-black text-gray-900 font-display tracking-tight flex items-center justify-center sm:justify-start gap-3">
-             <span className="w-2 h-8 bg-blue-600 rounded-full"></span>
+             <motion.span 
+               initial={{ height: 0 }}
+               whileInView={{ height: "2rem" }}
+               transition={{ duration: 0.5, delay: 0.3 }}
+               className="w-2 bg-blue-600 rounded-full inline-block"
+             />
              좌석배치도
           </h3>
           <p className="text-gray-400 text-sm font-bold tracking-widest uppercase">403: Bypass Seating Plan</p>
         </div>
         <div className="flex flex-wrap justify-center sm:justify-end gap-3 sm:gap-5 text-[11px] sm:text-xs font-bold text-gray-600">
-          <div className="flex items-center gap-2"><div className="w-3 h-3 bg-purple-500 rounded-sm"></div>VIP석</div>
-          <div className="flex items-center gap-2"><div className="w-3 h-3 bg-green-500 rounded-sm"></div>R석</div>
-          <div className="flex items-center gap-2"><div className="w-3 h-3 bg-blue-500 rounded-sm"></div>S석</div>
-          <div className="flex items-center gap-2"><div className="w-3 h-3 bg-orange-500 rounded-sm"></div>A석</div>
-          <div className="flex items-center gap-2"><div className="w-3 h-3 bg-yellow-400 rounded-sm"></div>B석</div>
+          <div className="flex items-center gap-2"><div className="w-3 h-3 bg-blue-600 rounded-sm"></div>VIP석</div>
+          <div className="flex items-center gap-2"><div className="w-3 h-3 bg-blue-500 rounded-sm"></div>R석</div>
+          <div className="flex items-center gap-2"><div className="w-3 h-3 bg-blue-400 rounded-sm"></div>S석</div>
+          <div className="flex items-center gap-2"><div className="w-3 h-3 bg-blue-500 rounded-sm"></div>A석</div>
+          <div className="flex items-center gap-2"><div className="w-3 h-3 bg-blue-600 rounded-sm"></div>B석</div>
         </div>
       </div>
 
       <div className="w-full max-w-4xl overflow-x-auto pb-4 hide-scrollbar flex flex-col items-center relative z-10">
         <div className="w-full min-w-max flex flex-col items-center px-4">
           
-          <div className="w-full max-w-2xl h-12 sm:h-16 bg-gradient-to-b from-gray-50 to-white border-t border-gray-200 rounded-t-[120px] mb-[60px] flex justify-center items-center relative shadow-[0_-5px_15px_rgba(0,0,0,0.02)]">
-            <span className="text-gray-400 font-black tracking-[0.5em] text-sm sm:text-base">STAGE</span>
-            <div className="absolute top-0 left-[20%] w-4 h-1 rounded-full bg-gray-200"></div>
-            <div className="absolute top-0 right-[20%] w-4 h-1 rounded-full bg-gray-200"></div>
-          </div>
+          <motion.div 
+            initial={{ scaleX: 0, opacity: 0 }}
+            whileInView={{ scaleX: 1, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.2, ease: "easeInOut" }}
+            className="w-full max-w-2xl h-12 sm:h-16 bg-gradient-to-b from-blue-50/50 to-white border-t border-blue-200 rounded-t-[120px] mb-[60px] flex justify-center items-center relative shadow-[0_-5px_20px_rgba(59,130,246,0.1)] overflow-hidden transform-gpu"
+          >
+            {/* Stage sweeping shine */}
+            <motion.div 
+               animate={{ x: ["-200%", "300%"] }}
+               transition={{ duration: 3, repeat: Infinity, repeatDelay: 4, ease: "easeInOut" }}
+               className="absolute top-0 bottom-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-white to-transparent opacity-80 skew-x-[-20deg]"
+            />
+            <motion.span 
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8, duration: 0.5 }}
+              className="text-blue-500 font-black tracking-[0.5em] text-sm sm:text-base relative z-10"
+            >
+              STAGE
+            </motion.span>
+            <div className="absolute top-0 left-[20%] w-4 h-1 rounded-full bg-blue-200"></div>
+            <div className="absolute top-0 right-[20%] w-4 h-1 rounded-full bg-blue-200"></div>
+          </motion.div>
 
           <div className="flex flex-col gap-[4px] sm:gap-[6px] items-center relative">
             {grid.map((row, rIdx) => (
@@ -115,7 +164,7 @@ const StageMap = ({ grid }: { grid: CellData[][] }) => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -350,90 +399,121 @@ const SectionStorefront = ({ setActiveTab, grid }: { setActiveTab: (v: string) =
     <div className="w-full pb-16 bg-gray-50 pt-8">
        <div className="max-w-[1240px] px-4 mx-auto mb-8">
          {/* Large Banner */}
-         <div 
-           className="w-full h-[400px] sm:h-[480px] relative bg-white border border-gray-200 cursor-pointer overflow-hidden flex rounded-2xl group shadow-sm hover:shadow-lg transition-shadow duration-500"
+         <motion.div 
+           initial={{ opacity: 0, scale: 0.95 }}
+           animate={{ opacity: 1, scale: 1 }}
+           transition={{ duration: 0.6, ease: "easeOut" }}
+           className="w-full h-[400px] sm:h-[480px] relative bg-[#0A0A15] border border-[#a3ff00]/40 cursor-pointer overflow-hidden flex flex-col justify-center items-center rounded-3xl group shadow-[0_0_20px_rgba(163,255,0,0.1)] hover:shadow-[0_0_40px_rgba(163,255,0,0.3)] transition-all duration-500"
            onClick={() => setActiveTab('ticket')}
          >
-           <div className="absolute inset-0 bg-gradient-to-r from-blue-50/50 via-white to-transparent z-0 pointer-events-none" />
-           <div className="w-full h-full flex relative px-8 sm:px-16 mx-auto">
-               {/* Content */}
-               <div className="flex flex-col justify-center z-20 w-full md:w-1/2">
-                  <motion.h2 
-                     initial={{ opacity: 0, y: 20 }}
-                     animate={{ opacity: 1, y: 0 }}
-                     transition={{ duration: 0.5 }}
-                     className="text-5xl sm:text-6xl font-black text-gray-900 tracking-tight mb-4 font-display drop-shadow-sm"
-                  >
-                    403: BYPASS
-                  </motion.h2>
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="w-1 h-6 bg-blue-600"></div>
-                    <motion.p 
-                       initial={{ opacity: 0, y: 20 }}
-                       animate={{ opacity: 1, y: 0 }}
-                       transition={{ duration: 0.5, delay: 0.1 }}
-                       className="text-2xl text-blue-600 font-bold"
-                    >
-                      단독 예매 오픈
-                    </motion.p>
-                  </div>
-                  <motion.p 
-                     initial={{ opacity: 0, y: 20 }}
-                     animate={{ opacity: 1, y: 0 }}
-                     transition={{ duration: 0.5, delay: 0.2 }}
-                     className="text-gray-600 text-lg max-w-md leading-relaxed"
-                  >
-                    장애 유무와 관계없이 모두가 오픈된 무대의 감동에 닿을 수 있는 유니버설 서비스. 새로운 기준을 제시하는 디지털 인문예술입문 프로젝트.
-                  </motion.p>
-                  <motion.div 
-                     initial={{ opacity: 0, y: 20 }}
-                     animate={{ opacity: 1, y: 0 }}
-                     transition={{ duration: 0.5, delay: 0.3 }}
-                     className="mt-8 flex gap-3"
-                  >
-                    <span className="text-xs border border-blue-200 text-blue-600 px-4 py-1.5 bg-blue-50 rounded-full font-bold shadow-sm">GOOGLE AI STUDIO</span>
-                    <span className="text-xs border border-blue-200 text-blue-600 px-4 py-1.5 bg-blue-50 rounded-full font-bold shadow-sm">UNIVERSAL SERVICE</span>
+           {/* Techy background grids / lines */}
+           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PHJlY3Qgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBmaWxsPSJub25lIiBzdHJva2U9IiNhM2ZmMDAiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3N2Zz4=')] opacity-50 z-0 pointer-events-none"></div>
+
+           {/* Animated glowing dots in background */}
+           <motion.div animate={{ opacity: [0.1, 0.5, 0.1] }} transition={{ duration: 4, repeat: Infinity }} className="absolute top-10 left-1/4 w-1 h-1 bg-[#a3ff00] rounded-full shadow-[0_0_5px_#a3ff00]" />
+           <motion.div animate={{ opacity: [0.1, 0.8, 0.1] }} transition={{ duration: 3, repeat: Infinity, delay: 1 }} className="absolute bottom-20 right-1/4 w-1.5 h-1.5 bg-[#a3ff00] rounded-full shadow-[0_0_8px_#a3ff00]" />
+           
+           {/* Decorative Ticket edges (cutouts on the sides) */}
+           <div className="absolute left-[-20px] top-1/2 -translate-y-1/2 flex flex-col gap-6 z-0 pointer-events-none">
+              <div className="w-10 h-10 bg-gray-50 rounded-full border border-[#a3ff00]/40 shadow-[inset_0_0_15px_rgba(163,255,0,0.2)]"></div>
+              <div className="w-10 h-10 bg-gray-50 rounded-full border border-[#a3ff00]/40 shadow-[inset_0_0_15px_rgba(163,255,0,0.2)]"></div>
+              <div className="w-10 h-10 bg-gray-50 rounded-full border border-[#a3ff00]/40 shadow-[inset_0_0_15px_rgba(163,255,0,0.2)]"></div>
+           </div>
+           <div className="absolute right-[-20px] top-1/2 -translate-y-1/2 flex flex-col gap-6 z-0 pointer-events-none">
+              <div className="w-10 h-10 bg-gray-50 rounded-full border border-[#a3ff00]/40 shadow-[inset_0_0_15px_rgba(163,255,0,0.2)]"></div>
+              <div className="w-10 h-10 bg-gray-50 rounded-full border border-[#a3ff00]/40 shadow-[inset_0_0_15px_rgba(163,255,0,0.2)]"></div>
+              <div className="w-10 h-10 bg-gray-50 rounded-full border border-[#a3ff00]/40 shadow-[inset_0_0_15px_rgba(163,255,0,0.2)]"></div>
+           </div>
+
+           {/* Tech UI Overlays */}
+           <div className="absolute top-6 left-12 flex flex-col gap-2 z-10 pointer-events-none opacity-60">
+              <div className="text-[#a3ff00] text-[10px] sm:text-xs font-mono tracking-widest uppercase">Secure Payment</div>
+              <div className="text-gray-400 text-[10px] sm:text-xs font-mono tracking-widest uppercase border-t border-gray-700 pt-2">Easy Booking</div>
+           </div>
+           
+           <div className="absolute top-6 right-12 flex flex-col items-end gap-2 z-10 pointer-events-none opacity-60 hidden sm:flex">
+              <div className="flex gap-2 items-center">
+                 <div className="w-8 h-px bg-[#a3ff00]/50" />
+                 <div className="text-[#a3ff00] text-[10px] xl:text-xs font-mono tracking-widest uppercase">Accessibility Info</div>
+              </div>
+           </div>
+           
+           <div className="absolute bottom-6 right-12 z-10 pointer-events-none opacity-60 hidden sm:flex flex-col gap-2 w-48">
+              <div className="flex justify-between w-full">
+                 <div className="w-1/3 h-1 bg-[#a3ff00] rounded-sm opacity-50" />
+                 <div className="w-8 h-1 bg-[#a3ff00] rounded-sm" />
+              </div>
+              <div className="w-full h-2 rounded bg-gray-800 border border-gray-700/50 overflow-hidden relative">
+                 <motion.div animate={{ width: ["20%", "70%", "100%"] }} transition={{ duration: 5, ease: "linear", repeat: Infinity }} className="h-full bg-[#a3ff00] shadow-[0_0_8px_#a3ff00]" />
+              </div>
+           </div>
+
+           {/* Main Text Content */}
+           <div className="relative z-10 flex flex-col items-center justify-center p-8 -mt-16 sm:-mt-20">
+              <motion.div 
+                 initial={{ opacity: 0, y: -20 }}
+                 animate={{ opacity: 1, y: 0 }}
+                 transition={{ duration: 0.8, delay: 0.2 }}
+                 className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6 mt-4"
+              >
+                  <h2 className="text-6xl sm:text-7xl lg:text-[100px] text-[#a3ff00] font-black font-mono tracking-tighter drop-shadow-[0_0_15px_rgba(163,255,0,0.8)] filter mix-blend-screen" style={{ textShadow: "4px 4px 0px rgba(163,255,0,0.3), -2px -2px 0px rgba(163,255,0,0.2)"}}>
+                    403:
+                  </h2>
+                  <h2 className="text-6xl sm:text-7xl lg:text-[100px] text-white font-black font-mono tracking-tighter drop-shadow-[0_0_15px_rgba(255,255,255,0.6)]" style={{ textShadow: "4px 4px 0px rgba(255,255,255,0.2), -2px -2px 0px rgba(255,255,255,0.1)"}}>
+                    BYPASS
+                  </h2>
+              </motion.div>
+
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8 }}
+                className="mt-6 mb-12 flex flex-col items-center text-center gap-2"
+              >
+                 <div className="flex items-center gap-3">
+                   <span className="text-[#a3ff00] text-xs sm:text-sm uppercase tracking-[0.3em] font-mono border border-[#a3ff00]/50 px-4 py-1.5 rounded bg-[#a3ff00]/10 font-bold backdrop-blur-sm">ACCESSIBILITY INFO</span>
+                   <span className="text-white text-xs sm:text-sm font-bold bg-[#a3ff00]/20 border border-[#a3ff00]/60 px-4 py-1.5 rounded-full shadow-[0_0_10px_rgba(163,255,0,0.3)]">단독 예매 오픈</span>
+                 </div>
+                 <p className="text-gray-300 text-sm max-w-lg mt-4 font-medium px-4">
+                   장애 유무와 관계없이 모두가 오픈된 무대의 감동에 닿을 수 있는 유니버설 서비스.
+                 </p>
+                 <motion.button 
+                   whileHover={{ scale: 1.05 }}
+                   whileTap={{ scale: 0.95 }}
+                   className="mt-6 flex items-center justify-center gap-2 bg-[#a3ff00] text-[#0A0A15] px-6 py-2.5 rounded-full font-bold text-sm tracking-wide shadow-[0_0_15px_rgba(163,255,0,0.5)] hover:shadow-[0_0_20px_rgba(163,255,0,0.8)] transition-all"
+                   onClick={(e) => { e.stopPropagation(); setActiveTab('ticket'); }}
+                 >
+                   예매하러 가기 <ChevronRight size={18} strokeWidth={3} />
+                 </motion.button>
+              </motion.div>
+           </div>
+           
+           {/* Connected Icons Line */}
+           <div className="absolute bottom-16 sm:bottom-[15%] w-full flex items-center justify-center px-4 sm:px-16 z-20">
+               {/* Decorative glowing SVG line connecting them */}
+               <svg className="absolute w-[90%] left-1/2 -translate-x-1/2 h-16 sm:h-24 pointer-events-none drop-shadow-[0_0_8px_rgba(163,255,0,0.8)]" viewBox="0 0 1000 100" preserveAspectRatio="none">
+                 <path d="M 0 50 C 200 50, 250 -30, 350 50 C 450 130, 500 50, 600 50 C 700 50, 750 -30, 850 50 C 950 130, 1000 50, 1000 50" fill="none" stroke="#a3ff00" strokeWidth="4" />
+               </svg>
+               
+               <div className="w-full sm:w-[90%] flex justify-between items-center z-10 relative">
+                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1 }} className="bg-[#0A0A15] p-2.5 sm:p-3.5 rounded-xl border-2 border-[#a3ff00] shadow-[0_0_15px_rgba(163,255,0,0.5)] flex items-center justify-center group-hover:-translate-y-2 transition-transform shadow-inner">
+                    <TrainFront size={24} className="text-[#a3ff00] sm:w-[32px] sm:h-[32px]" />
+                  </motion.div>
+                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.1 }} className="bg-[#0A0A15] p-2.5 sm:p-3.5 rounded-xl border-2 border-[#a3ff00] shadow-[0_0_15px_rgba(163,255,0,0.5)] flex items-center justify-center xl:-translate-y-6 group-hover:xl:-translate-y-8 transition-transform shadow-inner">
+                    <Accessibility size={24} className="text-[#a3ff00] sm:w-[32px] sm:h-[32px]" />
+                  </motion.div>
+                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.2 }} className="bg-[#0A0A15] p-2.5 sm:p-3.5 rounded-xl border-2 border-[#a3ff00] shadow-[0_0_15px_rgba(163,255,0,0.5)] flex items-center justify-center xl:translate-y-6 group-hover:xl:translate-y-4 transition-transform shadow-inner">
+                    <Smartphone size={24} className="text-[#a3ff00] sm:w-[32px] sm:h-[32px]" />
+                  </motion.div>
+                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.3 }} className="bg-[#0A0A15] p-2.5 sm:p-3.5 rounded-xl border-2 border-[#a3ff00] shadow-[0_0_15px_rgba(163,255,0,0.5)] flex items-center justify-center xl:-translate-y-6 group-hover:xl:-translate-y-8 transition-transform shadow-inner">
+                    <Armchair size={24} className="text-[#a3ff00] sm:w-[32px] sm:h-[32px]" />
+                  </motion.div>
+                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.4 }} className="bg-[#0A0A15] p-2.5 sm:p-3.5 rounded-xl border-2 border-[#a3ff00] shadow-[0_0_15px_rgba(163,255,0,0.5)] flex items-center justify-center group-hover:-translate-y-2 transition-transform shadow-inner">
+                    <Coffee size={24} className="text-[#a3ff00] sm:w-[32px] sm:h-[32px]" />
                   </motion.div>
                </div>
-
-               {/* Right Graphic (Seats) */}
-               <div className="hidden lg:flex absolute right-4 xl:right-12 top-1/2 -translate-y-1/2 z-10 w-1/2 justify-end">
-                 <div className="flex flex-col items-center opacity-100 origin-right transition-transform duration-700 scale-[0.85] group-hover:scale-[0.9] drop-shadow-sm">
-                   <div className="w-[80%] max-w-[500px] h-10 bg-gray-100 border border-gray-200 rounded-t-[40px] mb-8 flex justify-center items-center">
-                     <span className="text-gray-400 font-bold tracking-[0.4em] text-xs">STAGE</span>
-                   </div>
-                   <div className="flex flex-col gap-[4px] items-center">
-                     {grid.map((row, rIdx) => (
-                        <div key={rIdx} className="flex gap-[4px] justify-center relative w-full px-8">
-                          <div className="absolute left-0 top-0 bottom-0 flex items-center justify-center w-6">
-                            <span className="text-[11px] font-bold text-gray-400">{String.fromCharCode(65 + rIdx)}</span>
-                          </div>
-                          {row.map((cell, cIdx) => {
-                             const isActive = cell.active;
-                             const colorClass = isActive 
-                               ? ['bg-[#A445D1] shadow-[0_0_12px_rgba(164,69,209,0.5)]', 'bg-[#069D42] shadow-[0_0_12px_rgba(6,157,66,0.5)]', 'bg-[#1F6EEE] shadow-[0_0_12px_rgba(31,110,238,0.5)]', 'bg-[#E77F00] shadow-[0_0_12px_rgba(231,127,0,0.5)]', 'bg-[#EAC700] shadow-[0_0_12px_rgba(234,199,0,0.5)]'][cell.charRowIdx]
-                               : 'bg-transparent';
-                             return (
-                               <div key={`bg-${rIdx}-${cIdx}`} 
-                                  className={`w-[15px] h-[15px] rounded-[3px] transition-colors duration-300 ${colorClass}`} 
-                               />
-                             );
-                          })}
-                          <div className="absolute right-0 top-0 bottom-0 flex items-center justify-center w-6">
-                            <span className="text-[11px] font-bold text-gray-400">{String.fromCharCode(65 + rIdx)}</span>
-                          </div>
-                        </div>
-                     ))}
-                   </div>
-                 </div>
-               </div>
-               
-               {/* Bottom right hint */}
-               <div className="absolute bottom-6 right-8 z-20 flex items-center gap-2 text-blue-600 font-bold tracking-widest text-sm group-hover:text-blue-700 transition-colors">
-                 RESERVATION NOW <ChevronRight size={18} />
-               </div>
            </div>
-         </div>
+         </motion.div>
        </div>
 
        {/* Small Banners */}
@@ -625,8 +705,14 @@ const SectionTicket = ({ grid }: { grid: CellData[][] }) => {
 };
 
 const CustomRingChart = ({ data, color, title, valueStr }: any) => (
-  <div className="flex flex-col items-center justify-center p-4">
-    <div className="relative w-32 h-32 mb-2">
+  <motion.div 
+    initial={{ opacity: 0, scale: 0.8, y: 20 }}
+    whileInView={{ opacity: 1, scale: 1, y: 0 }}
+    viewport={{ once: true, margin: "-20px" }}
+    transition={{ duration: 0.7, type: "spring", bounce: 0.5 }}
+    className="flex flex-col items-center justify-center p-4 w-full"
+  >
+    <div className="relative w-32 h-32 mb-4">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
@@ -637,6 +723,9 @@ const CustomRingChart = ({ data, color, title, valueStr }: any) => (
             endAngle={-270}
             dataKey="value"
             stroke="none"
+            isAnimationActive={true}
+            animationDuration={1500}
+            animationEasing="ease-out"
           >
             {data.map((entry: any, index: number) => (
               <Cell key={`cell-${index}`} fill={entry.fill} />
@@ -645,12 +734,94 @@ const CustomRingChart = ({ data, color, title, valueStr }: any) => (
         </PieChart>
       </ResponsiveContainer>
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <span className="text-xl font-black text-white" style={{ color: color }}>{valueStr}</span>
+        <motion.span 
+          initial={{ opacity: 0, scale: 0.5 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
+          className="text-2xl font-black" 
+          style={{ color: color }}
+        >
+          {valueStr}
+        </motion.span>
       </div>
     </div>
-    <div className="text-white/60 text-xs font-bold font-mono tracking-widest text-center truncate w-full">{title}</div>
-  </div>
+    <motion.div 
+      initial={{ opacity: 0, y: 5 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: 0.7, duration: 0.5 }}
+      className="text-gray-600 text-xs font-bold font-mono tracking-widest text-center break-keep w-full"
+    >
+      {title}
+    </motion.div>
+  </motion.div>
 );
+
+const AnimatedStatBar = ({ label, targetValue, colorClass, barColorClass, barOuterClass = "", delay }: { label: string, targetValue: number, colorClass: string, barColorClass: string, barOuterClass?: string, delay: number }) => {
+  const [displayValue, setDisplayValue] = useState("0");
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    if (inView) {
+      const duration = 1200;
+      const startTime = performance.now();
+      
+      const step = (currentTime: number) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        if (progress < 1) {
+          setDisplayValue(Math.floor(Math.random() * 100).toString());
+          requestAnimationFrame(step);
+        } else {
+          setDisplayValue(targetValue.toString());
+        }
+      };
+      
+      const timeout = setTimeout(() => {
+        requestAnimationFrame(step);
+      }, delay * 1000);
+      return () => clearTimeout(timeout);
+    }
+  }, [inView, targetValue, delay]);
+
+  return (
+    <motion.div 
+      onViewportEnter={() => setInView(true)} 
+      viewport={{ once: true, margin: "-50px" }}
+      className="w-full"
+    >
+      <div className="flex justify-between text-sm font-bold mb-2">
+        <span className="text-gray-600">{label}</span>
+        <motion.span 
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
+          transition={{ delay: delay, duration: 0.3, type: "spring", bounce: 0.5 }}
+          className={`${colorClass} text-xl tracking-tighter tabular-nums text-right min-w-[3ch]`}
+        >
+          {displayValue}%
+        </motion.span>
+      </div>
+      <div className={`w-full bg-gray-200 rounded-full h-4 relative overflow-hidden ${barOuterClass}`}>
+        <motion.div 
+          initial={{ width: '0%' }}
+          animate={inView ? { width: `${targetValue}%` } : { width: '0%' }}
+          transition={{ duration: 1.5, delay: delay, ease: [0.16, 1, 0.3, 1] }}
+          className={`${barColorClass} h-4 rounded-full shadow-[inset_0_0_8px_rgba(255,255,255,0.4)] relative overflow-hidden`} 
+        >
+          {/* Shine effect */}
+          <motion.div 
+            initial={{ x: "-100%" }}
+            animate={inView ? { x: ["-100%", "200%"] } : {}}
+            transition={{ duration: 1.5, delay: delay + 0.2, ease: "easeInOut" }}
+            className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/50 to-transparent skew-x-[-20deg]"
+          />
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+};
 
 const SectionIdea = () => {
   const [isGlossaryOpen, setIsGlossaryOpen] = useState(false);
@@ -740,24 +911,20 @@ const SectionIdea = () => {
                 <div className="bg-gray-50 rounded-xl p-8 flex flex-col items-center justify-center border border-gray-100">
                   <h5 className="font-bold text-gray-700 mb-6 text-sm text-center">필수 편의시설 5종 설치율 비교</h5>
                   <div className="w-full max-w-[280px] space-y-6">
-                    <div>
-                      <div className="flex justify-between text-sm font-bold mb-2">
-                        <span className="text-gray-600">공공 공연장</span>
-                        <span className="text-purple-600 text-xl tracking-tighter">12%</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-4 relative overflow-hidden">
-                        <div className="bg-purple-400 h-4 rounded-full" style={{ width: '12%' }}></div>
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex justify-between text-sm font-bold mb-2">
-                        <span className="text-gray-600">민간 공연장</span>
-                        <span className="text-purple-600 text-xl tracking-tighter">1%</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-4 relative overflow-hidden">
-                        <div className="bg-purple-600 border border-purple-800 h-4 rounded-full" style={{ width: '1%' }}></div>
-                      </div>
-                    </div>
+                    <AnimatedStatBar 
+                      label="공공 공연장" 
+                      targetValue={12} 
+                      colorClass="text-purple-600" 
+                      barColorClass="bg-purple-400" 
+                      delay={0.2} 
+                    />
+                    <AnimatedStatBar 
+                      label="민간 공연장" 
+                      targetValue={1} 
+                      colorClass="text-purple-600 font-black" 
+                      barColorClass="bg-purple-600 border border-purple-800" 
+                      delay={0.6} 
+                    />
                   </div>
                   <p className="text-gray-400 text-[11px] mt-6 text-center break-keep leading-tight">
                     * 출처: 예술경영지원센터, 『월간 공연전산망 2025년 8월호』, "공연장 장애인 편의시설 실태 분석"
@@ -1114,15 +1281,15 @@ const SectionIdea = () => {
   );
 };
 
-const ContentSection = ({ title, desc, icon: Icon }: { title: string; desc: string; icon: any; }) => (
+const ContentSection = ({ title, desc, dateBadge, icon: Icon }: { title: string; desc: string; dateBadge: string; icon: any; }) => (
   <div className="w-full max-w-5xl mx-auto px-4 py-20 flex flex-col items-center justify-center min-h-[50vh] text-center">
     <Icon size={64} className="text-gray-200 mb-6" />
-    <h2 className="text-3xl font-black text-gray-900 mb-4">{title}</h2>
-    <p className="text-gray-500 text-base mb-8 max-w-xl leading-relaxed">{desc}</p>
-    <div className="bg-gray-50 border border-gray-200 p-6 flex flex-col items-center max-w-sm rounded-xl">
-      <AlertCircle size={24} className="text-blue-500 mb-3" />
-      <h3 className="font-bold text-gray-900 mb-1 text-sm">업데이트 예정</h3>
-      <p className="text-gray-500 text-xs text-balance">해당 메뉴의 콘텐츠는 시스템 연동 준비 중입니다.</p>
+    <h2 className="text-3xl font-black text-gray-900 mb-8">{title}</h2>
+    <div className="bg-gray-50 border border-gray-200 p-8 flex flex-col items-center max-w-lg rounded-xl">
+      <AlertCircle size={32} className="text-blue-500 mb-4" />
+      <div className="bg-blue-100 text-blue-800 text-sm font-bold px-4 py-1.5 rounded-full mb-4">{dateBadge}</div>
+      <p className="text-gray-700 font-bold mb-3 text-base leading-relaxed break-keep">{desc}</p>
+      <p className="text-gray-500 text-sm">해당 메뉴의 콘텐츠는 시스템 연동 준비 중입니다.</p>
     </div>
   </div>
 );
@@ -1133,7 +1300,7 @@ const Header = ({ activeTab, setActiveTab }: { activeTab: string, setActiveTab: 
     { id: 'storefront', label: '홈' },
     { id: 'ticket', label: '티켓' },
     { id: 'idea', label: '관람정보 (아이디어)' },
-    { id: 'mid', label: '관람후기 (중간현황)' },
+    { id: 'mid', label: '관람후기 (중간)' },
     { id: 'final', label: '예매안내 (최종)' }
   ];
 
@@ -1208,12 +1375,12 @@ export default function App() {
           )}
           {activeTab === 'mid' && (
             <motion.div key="mid" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <ContentSection title="관람 후기 (중간 현황)" desc="서비스 중간 프로토타입에 대한 관객들의 다양한 피드백과 후기가 등록될 예정입니다." icon={Heart} />
+              <ContentSection title="관람후기 (중간)" desc="서비스 중간 프로토타입이 등록될 예정입니다." dateBadge="5/18 월 업데이트 예정" icon={Heart} />
             </motion.div>
           )}
           {activeTab === 'final' && (
             <motion.div key="final" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <ContentSection title="예매 안내 (최종)" desc="최종 서비스가 런칭되면 실제 예매를 위한 상세 절차와 연동 규정이 안내됩니다." icon={Calendar} />
+              <ContentSection title="예매안내 (최종)" desc="최종 서비스가 런칭되면 실제 예매를 위한 상세 절차와 연동 규정이 안내됩니다." dateBadge="6/1 월 업데이트 예정" icon={Calendar} />
             </motion.div>
           )}
         </AnimatePresence>
