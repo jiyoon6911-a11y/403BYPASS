@@ -529,7 +529,7 @@ const SectionStorefront = ({ setActiveTab, grid }: { setActiveTab: (v: string) =
              onClick={() => setActiveTab('idea')} 
            />
            <SmallBanner 
-             title="중간 현황" 
+             title="중간 발표" 
              subtitle="SYSTEM LOGS" 
              imgBg="bg-indigo-600/10"
              iconColor="text-indigo-600"
