@@ -4,8 +4,15 @@ import { Ticket, Calendar, Clock, MapPin, Search, ChevronRight, ArrowRight, User
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
 
 import { GlossaryPanel } from './components/GlossaryPanel';
+import { CompetitionAnalysis } from './components/CompetitionAnalysis';
+import { InformationArchitecture } from './components/InformationArchitecture';
+import { CoreFeatures } from './components/CoreFeatures';
+import { Partners } from './components/Partners';
+import { DesignPrinciples } from './components/DesignPrinciples';
+import { MarketingStrategy } from './components/MarketingStrategy';
 import { joinWaitlist } from './lib/firebase';
-import ticketImg from './assets/ticket.png';
+import posterImg from './assets/poster.png'; 
+
 // Character maps for pixel text (0: empty, 1: solid)
 const CHARS: Record<string, number[][]> = {
   '4': [[1,0,1],[1,0,1],[1,1,1],[0,0,1],[0,0,1]],
@@ -253,32 +260,31 @@ const ROADMAP_PHASES = [
     phase: "Phase 3",
     subtitle: "The Blueprint",
     title: "서비스 기획 및 UX 디자인",
-    progress: 50,
+    progress: 100,
     details: [
-      "4대 솔루션 설계: 관람 여정의 단절을 막기 위한 [이동, 시야, 흐름, 안전] 중심의 핵심 기능을 구체적으로 도출하고 있습니다.",
-      "디자인 시스템: 고대비(High Contrast) UI와 픽셀 아트 감성을 결합한 사용자 중심의 인터페이스 기틀을 마련하고 있습니다.",
-      "여정 고도화: 예매부터 귀가까지 타인의 도움 없이 스스로 해내는 '독립적 관람' 프로세스를 세밀하게 설계 중입니다."
+      "4대 솔루션 설계: 관람 여정의 단절을 막기 위한 [이동, 시야, 흐름, 안전] 중심의 핵심 기능을 성공적으로 도출했습니다.",
+      "디자인 시스템: 고대비(High Contrast) UI와 픽셀 아트 감성을 결합한 사용자 중심의 인터페이스 가이드라인을 확정했습니다.",
+      "여정 고도화: 예매부터 귀가까지 타인의 도움 없이 스스로 해내는 '독립적 관람' 프로세스 설계를 완료했습니다."
     ]
   },
   {
     phase: "Phase 4",
     subtitle: "The Prototype",
     title: "기술 구현 및 프로토타입",
-    progress: 0,
+    progress: 100,
     details: [
-      "지능형 로직 구축: 복잡한 상황별 맞춤 경로와 실시간 정보를 제공하는 서비스 알고리즘을 설계할 계획입니다.",
-      "웹사이트 런칭 보완: 프로젝트의 철학과 진행 과정을 생생하게 공유하기 위한 공식 소개 사이트를 지속적으로 보완할 것입니다.",
-      "기능 검증 테스트: 기획된 솔루션이 실제 관객의 불편함을 어떻게 해소하는지 프로토타입을 통해 테스트하고 문제점을 보완할 예정입니다."
+      "지능형 로직 구축: 복잡한 상황별 맞춤 경로와 실시간 정보를 제공하는 서비스 알고리즘의 핵심 로직을 구현했습니다.",
+      "웹사이트 런칭: 프로젝트의 철학과 진행 과정을 생생하게 공유하기 위한 공식 소개 사이트 런칭 및 보완을 완료했습니다.",
+      "기능 검증 완료: 기획된 솔루션이 실제 관객의 불편함을 해소하는지 프로토타입을 통해 검증하고 피드백을 반영했습니다."
     ]
   },
   {
     phase: "Phase 5",
     subtitle: "The Horizon",
-    title: "리서치 보강 및 앱 완성",
+    title: "디테일 수정 및 앱 완성",
     progress: 0,
     details: [
-      "실무 리서치 고도화: 실제 이용자 인터뷰와 추가 심층 조사를 통해 서비스 디테일을 정교하게 다듬어갈 계획입니다.",
-      "애플리케이션 완성: 고도화된 리서치 결과를 반영하여 누구나 차별 없이 공연의 감동에 닿을 수 있는 최종 스마트폰 앱을 출시할 예정입니다.",
+      "애플리케이션 완성: 앱 내 기능과 디테일, 피드백을 반영하여 누구나 차별 없이 공연의 감동에 닿을 수 있는 최종 스마트폰 앱을 출시할 예정입니다.",
       "생태계 확장: 궁극적으로 시설 운영자의 자발적 개선을 유도하는 '접근성 랭킹 시스템'을 도입하여 지속 가능한 공연 문화를 만들어갈 것입니다."
     ]
   }
@@ -436,51 +442,51 @@ const SectionStorefront = ({ setActiveTab, grid }: { setActiveTab: (v: string) =
            initial={{ opacity: 0, scale: 0.95 }}
            animate={{ opacity: 1, scale: 1 }}
            transition={{ duration: 0.6, ease: "easeOut" }}
-           className="w-full h-[460px] sm:h-[480px] relative bg-[#0A0A15] border border-[#a3ff00]/40 cursor-pointer flex flex-col justify-center items-center rounded-3xl group shadow-[0_0_20px_rgba(163,255,0,0.1)] hover:shadow-[0_0_40px_rgba(163,255,0,0.3)] transition-all duration-500"
+           className="w-full h-[460px] sm:h-[480px] relative bg-[#0A0A15] border border-[#00BFFF]/40 cursor-pointer flex flex-col justify-center items-center rounded-3xl group shadow-[0_0_20px_rgba(0,191,255,0.1)] hover:shadow-[0_0_40px_rgba(0,191,255,0.3)] transition-all duration-500"
            onClick={() => setActiveTab('ticket')}
          >
            {/* Inner container to clip backgrounds */}
            <div className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none">
              {/* Techy background grids / lines */}
-             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PHJlY3Qgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBmaWxsPSJub25lIiBzdHJva2U9IiNhM2ZmMDAiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3N2Zz4=')] opacity-50 z-0"></div>
+             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PHJlY3Qgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMEJGRkYiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3N2Zz4=')] opacity-50 z-0"></div>
 
              {/* Animated glowing dots in background */}
-             <motion.div animate={{ opacity: [0.1, 0.5, 0.1] }} transition={{ duration: 4, repeat: Infinity }} className="absolute top-10 left-1/4 w-1 h-1 bg-[#a3ff00] rounded-full shadow-[0_0_5px_#a3ff00]" />
-             <motion.div animate={{ opacity: [0.1, 0.8, 0.1] }} transition={{ duration: 3, repeat: Infinity, delay: 1 }} className="absolute bottom-20 right-1/4 w-1.5 h-1.5 bg-[#a3ff00] rounded-full shadow-[0_0_8px_#a3ff00]" />
+             <motion.div animate={{ opacity: [0.1, 0.5, 0.1] }} transition={{ duration: 4, repeat: Infinity }} className="absolute top-10 left-1/4 w-1 h-1 bg-[#00BFFF] rounded-full shadow-[0_0_5px_#00BFFF]" />
+             <motion.div animate={{ opacity: [0.1, 0.8, 0.1] }} transition={{ duration: 3, repeat: Infinity, delay: 1 }} className="absolute bottom-20 right-1/4 w-1.5 h-1.5 bg-[#00BFFF] rounded-full shadow-[0_0_8px_#00BFFF]" />
            </div>
            
            {/* Decorative Ticket edges (cutouts on the sides) */}
            <div className="absolute left-[-1px] top-1/2 -translate-y-1/2 flex flex-col gap-6 z-0 pointer-events-none">
-              <div className="w-5 h-10 bg-gray-50 rounded-r-[50px] border-t border-r border-b border-[#a3ff00]/40"></div>
-              <div className="w-5 h-10 bg-gray-50 rounded-r-[50px] border-t border-r border-b border-[#a3ff00]/40"></div>
-              <div className="w-5 h-10 bg-gray-50 rounded-r-[50px] border-t border-r border-b border-[#a3ff00]/40"></div>
+              <div className="w-5 h-10 bg-gray-50 rounded-r-[50px] border-t border-r border-b border-[#00BFFF]/40"></div>
+              <div className="w-5 h-10 bg-gray-50 rounded-r-[50px] border-t border-r border-b border-[#00BFFF]/40"></div>
+              <div className="w-5 h-10 bg-gray-50 rounded-r-[50px] border-t border-r border-b border-[#00BFFF]/40"></div>
            </div>
            <div className="absolute right-[-1px] top-1/2 -translate-y-1/2 flex flex-col gap-6 z-0 pointer-events-none">
-              <div className="w-5 h-10 bg-gray-50 rounded-l-[50px] border-t border-l border-b border-[#a3ff00]/40"></div>
-              <div className="w-5 h-10 bg-gray-50 rounded-l-[50px] border-t border-l border-b border-[#a3ff00]/40"></div>
-              <div className="w-5 h-10 bg-gray-50 rounded-l-[50px] border-t border-l border-b border-[#a3ff00]/40"></div>
+              <div className="w-5 h-10 bg-gray-50 rounded-l-[50px] border-t border-l border-b border-[#00BFFF]/40"></div>
+              <div className="w-5 h-10 bg-gray-50 rounded-l-[50px] border-t border-l border-b border-[#00BFFF]/40"></div>
+              <div className="w-5 h-10 bg-gray-50 rounded-l-[50px] border-t border-l border-b border-[#00BFFF]/40"></div>
            </div>
 
            {/* Tech UI Overlays */}
            <div className="absolute top-6 left-12 flex flex-col gap-2 z-10 pointer-events-none opacity-60">
-              <div className="text-[#a3ff00] text-[10px] sm:text-xs font-mono tracking-widest uppercase">Secure Payment</div>
+              <div className="text-[#00BFFF] text-[10px] sm:text-xs font-mono tracking-widest uppercase">Secure Payment</div>
               <div className="text-gray-400 text-[10px] sm:text-xs font-mono tracking-widest uppercase border-t border-gray-700 pt-2">Easy Booking</div>
            </div>
            
            <div className="absolute top-6 right-12 flex flex-col items-end gap-2 z-10 pointer-events-none opacity-60 hidden sm:flex">
               <div className="flex gap-2 items-center">
-                 <div className="w-8 h-px bg-[#a3ff00]/50" />
-                 <div className="text-[#a3ff00] text-[10px] xl:text-xs font-mono tracking-widest uppercase">Accessibility Info</div>
+                 <div className="w-8 h-px bg-[#00BFFF]/50" />
+                 <div className="text-[#00BFFF] text-[10px] xl:text-xs font-mono tracking-widest uppercase">Accessibility Info</div>
               </div>
            </div>
            
            <div className="absolute bottom-6 right-12 z-10 pointer-events-none opacity-60 hidden sm:flex flex-col gap-2 w-48">
               <div className="flex justify-between w-full">
-                 <div className="w-1/3 h-1 bg-[#a3ff00] rounded-sm opacity-50" />
-                 <div className="w-8 h-1 bg-[#a3ff00] rounded-sm" />
+                 <div className="w-1/3 h-1 bg-[#00BFFF] rounded-sm opacity-50" />
+                 <div className="w-8 h-1 bg-[#00BFFF] rounded-sm" />
               </div>
               <div className="w-full h-2 rounded bg-gray-800 border border-gray-700/50 overflow-hidden relative">
-                 <motion.div animate={{ width: ["20%", "70%", "100%"] }} transition={{ duration: 5, ease: "linear", repeat: Infinity }} className="h-full bg-[#a3ff00] shadow-[0_0_8px_#a3ff00]" />
+                 <motion.div animate={{ width: ["20%", "70%", "100%"] }} transition={{ duration: 5, ease: "linear", repeat: Infinity }} className="h-full bg-[#00BFFF] shadow-[0_0_8px_#00BFFF]" />
               </div>
            </div>
 
@@ -492,7 +498,7 @@ const SectionStorefront = ({ setActiveTab, grid }: { setActiveTab: (v: string) =
                  transition={{ duration: 0.8, delay: 0.2 }}
                  className="flex flex-col sm:flex-row items-center gap-0 sm:gap-6 mt-8 sm:mt-4 leading-none"
               >
-                  <h2 className="text-6xl sm:text-7xl lg:text-[100px] text-[#a3ff00] font-black font-mono tracking-tighter drop-shadow-[0_0_15px_rgba(163,255,0,0.8)] filter mix-blend-screen" style={{ textShadow: "4px 4px 0px rgba(163,255,0,0.3), -2px -2px 0px rgba(163,255,0,0.2)"}}>
+                  <h2 className="text-6xl sm:text-7xl lg:text-[100px] text-[#00BFFF] font-black font-mono tracking-tighter drop-shadow-[0_0_15px_rgba(0,191,255,0.8)] filter mix-blend-screen" style={{ textShadow: "4px 4px 0px rgba(0,191,255,0.3), -2px -2px 0px rgba(0,191,255,0.2)"}}>
                     403:
                   </h2>
                   <h2 className="text-5xl sm:text-7xl lg:text-[100px] text-white font-black font-mono tracking-tighter drop-shadow-[0_0_15px_rgba(255,255,255,0.6)]" style={{ textShadow: "4px 4px 0px rgba(255,255,255,0.2), -2px -2px 0px rgba(255,255,255,0.1)"}}>
@@ -507,8 +513,8 @@ const SectionStorefront = ({ setActiveTab, grid }: { setActiveTab: (v: string) =
                 className="mt-6 mb-8 flex flex-col items-center text-center gap-2"
               >
                  <div className="flex flex-col sm:flex-row items-center gap-3">
-                   <span className="text-[#a3ff00] text-[10px] sm:text-sm uppercase tracking-widest sm:tracking-[0.3em] font-mono border border-[#a3ff00]/50 px-4 py-1.5 rounded bg-[#a3ff00]/10 font-bold backdrop-blur-sm whitespace-nowrap">ACCESSIBILITY INFO</span>
-                   <span className="text-white text-[10px] sm:text-sm font-bold bg-[#a3ff00]/20 border border-[#a3ff00]/60 px-4 py-1.5 rounded-full shadow-[0_0_10px_rgba(163,255,0,0.3)] whitespace-nowrap">단독 예매 오픈</span>
+                   <span className="text-[#00BFFF] text-[10px] sm:text-sm uppercase tracking-widest sm:tracking-[0.3em] font-mono border border-[#00BFFF]/50 px-4 py-1.5 rounded bg-[#00BFFF]/10 font-bold backdrop-blur-sm whitespace-nowrap">ACCESSIBILITY INFO</span>
+                   <span className="text-white text-[10px] sm:text-sm font-bold bg-[#00BFFF]/20 border border-[#00BFFF]/60 px-4 py-1.5 rounded-full shadow-[0_0_10px_rgba(0,191,255,0.3)] whitespace-nowrap">단독 예매 오픈</span>
                  </div>
                  <p className="text-gray-300 text-xs sm:text-sm max-w-[280px] sm:max-w-lg mt-4 w-full font-medium px-4">
                    장애 유무와 관계없이 모두가 오픈된 무대의 감동에 닿을 수 있는 유니버설 서비스.
@@ -516,10 +522,10 @@ const SectionStorefront = ({ setActiveTab, grid }: { setActiveTab: (v: string) =
                  <motion.button 
                    whileHover={{ scale: 1.05 }}
                    whileTap={{ scale: 0.95 }}
-                   className="mt-6 sm:mt-6 flex items-center justify-center gap-2 bg-[#a3ff00] text-[#0A0A15] px-5 py-2 sm:px-6 sm:py-2.5 rounded-full font-bold text-sm tracking-wide shadow-[0_0_15px_rgba(163,255,0,0.5)] hover:shadow-[0_0_20px_rgba(163,255,0,0.8)] transition-all z-20 relative pointer-events-auto"
+                   className="mt-6 sm:mt-6 flex items-center justify-center gap-2 bg-[#00BFFF] text-[#0A0A15] px-5 py-2 sm:px-6 sm:py-2.5 rounded-full font-bold text-sm tracking-wide shadow-[0_0_15px_rgba(0,191,255,0.5)] hover:shadow-[0_0_20px_rgba(0,191,255,0.8)] transition-all z-20 relative pointer-events-auto"
                    onClick={(e) => { e.stopPropagation(); setActiveTab('ticket'); }}
                  >
-                   예매하러 가기 <ChevronRight size={18} strokeWidth={3} />
+                   더 알아보기 <ChevronRight size={18} strokeWidth={3} />
                  </motion.button>
               </motion.div>
            </div>
@@ -527,25 +533,25 @@ const SectionStorefront = ({ setActiveTab, grid }: { setActiveTab: (v: string) =
            {/* Connected Icons Line */}
            <div className="absolute bottom-6 sm:bottom-10 lg:bottom-12 w-full flex items-center justify-center px-4 sm:px-16 z-10 pointer-events-none">
                {/* Decorative glowing SVG line connecting them */}
-               <svg className="absolute w-[90%] left-1/2 -translate-x-1/2 h-16 sm:h-24 pointer-events-none drop-shadow-[0_0_8px_rgba(163,255,0,0.8)]" viewBox="0 0 1000 100" preserveAspectRatio="none">
-                 <path d="M 0 50 C 200 50, 250 -30, 350 50 C 450 130, 500 50, 600 50 C 700 50, 750 -30, 850 50 C 950 130, 1000 50, 1000 50" fill="none" stroke="#a3ff00" strokeWidth="4" />
+               <svg className="absolute w-[90%] left-1/2 -translate-x-1/2 h-16 sm:h-24 pointer-events-none drop-shadow-[0_0_8px_rgba(0,191,255,0.8)]" viewBox="0 0 1000 100" preserveAspectRatio="none">
+                 <path d="M 0 50 C 200 50, 250 -30, 350 50 C 450 130, 500 50, 600 50 C 700 50, 750 -30, 850 50 C 950 130, 1000 50, 1000 50" fill="none" stroke="#00BFFF" strokeWidth="4" />
                </svg>
                
                <div className="w-full sm:w-[90%] flex justify-between items-center z-10 relative">
-                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1 }} className="bg-[#0A0A15] p-2.5 sm:p-3.5 rounded-xl border-2 border-[#a3ff00] shadow-[0_0_15px_rgba(163,255,0,0.5)] flex items-center justify-center group-hover:-translate-y-2 transition-transform shadow-inner">
-                    <TrainFront size={24} className="text-[#a3ff00] sm:w-[32px] sm:h-[32px]" />
+                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1 }} className="bg-[#0A0A15] p-2.5 sm:p-3.5 rounded-xl border-2 border-[#00BFFF] shadow-[0_0_15px_rgba(0,191,255,0.5)] flex items-center justify-center group-hover:-translate-y-2 transition-transform shadow-inner">
+                    <TrainFront size={24} className="text-[#00BFFF] sm:w-[32px] sm:h-[32px]" />
                   </motion.div>
-                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.1 }} className="bg-[#0A0A15] p-2.5 sm:p-3.5 rounded-xl border-2 border-[#a3ff00] shadow-[0_0_15px_rgba(163,255,0,0.5)] flex items-center justify-center xl:-translate-y-4 group-hover:xl:-translate-y-6 transition-transform shadow-inner">
-                    <Accessibility size={24} className="text-[#a3ff00] sm:w-[32px] sm:h-[32px]" />
+                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.1 }} className="bg-[#0A0A15] p-2.5 sm:p-3.5 rounded-xl border-2 border-[#00BFFF] shadow-[0_0_15px_rgba(0,191,255,0.5)] flex items-center justify-center xl:-translate-y-4 group-hover:xl:-translate-y-6 transition-transform shadow-inner">
+                    <Accessibility size={24} className="text-[#00BFFF] sm:w-[32px] sm:h-[32px]" />
                   </motion.div>
-                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.2 }} className="bg-[#0A0A15] p-2.5 sm:p-3.5 rounded-xl border-2 border-[#a3ff00] shadow-[0_0_15px_rgba(163,255,0,0.5)] flex items-center justify-center xl:translate-y-4 group-hover:xl:translate-y-2 transition-transform shadow-inner">
-                    <Smartphone size={24} className="text-[#a3ff00] sm:w-[32px] sm:h-[32px]" />
+                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.2 }} className="bg-[#0A0A15] p-2.5 sm:p-3.5 rounded-xl border-2 border-[#00BFFF] shadow-[0_0_15px_rgba(0,191,255,0.5)] flex items-center justify-center xl:translate-y-4 group-hover:xl:translate-y-2 transition-transform shadow-inner">
+                    <Smartphone size={24} className="text-[#00BFFF] sm:w-[32px] sm:h-[32px]" />
                   </motion.div>
-                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.3 }} className="bg-[#0A0A15] p-2.5 sm:p-3.5 rounded-xl border-2 border-[#a3ff00] shadow-[0_0_15px_rgba(163,255,0,0.5)] flex items-center justify-center xl:-translate-y-4 group-hover:xl:-translate-y-6 transition-transform shadow-inner">
-                    <Armchair size={24} className="text-[#a3ff00] sm:w-[32px] sm:h-[32px]" />
+                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.3 }} className="bg-[#0A0A15] p-2.5 sm:p-3.5 rounded-xl border-2 border-[#00BFFF] shadow-[0_0_15px_rgba(0,191,255,0.5)] flex items-center justify-center xl:-translate-y-4 group-hover:xl:-translate-y-6 transition-transform shadow-inner">
+                    <Armchair size={24} className="text-[#00BFFF] sm:w-[32px] sm:h-[32px]" />
                   </motion.div>
-                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.4 }} className="bg-[#0A0A15] p-2.5 sm:p-3.5 rounded-xl border-2 border-[#a3ff00] shadow-[0_0_15px_rgba(163,255,0,0.5)] flex items-center justify-center group-hover:-translate-y-2 transition-transform shadow-inner">
-                    <Coffee size={24} className="text-[#a3ff00] sm:w-[32px] sm:h-[32px]" />
+                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.4 }} className="bg-[#0A0A15] p-2.5 sm:p-3.5 rounded-xl border-2 border-[#00BFFF] shadow-[0_0_15px_rgba(0,191,255,0.5)] flex items-center justify-center group-hover:-translate-y-2 transition-transform shadow-inner">
+                    <Coffee size={24} className="text-[#00BFFF] sm:w-[32px] sm:h-[32px]" />
                   </motion.div>
                </div>
            </div>
@@ -641,8 +647,7 @@ const SectionTicket = ({ grid }: { grid: CellData[][] }) => {
   };
 
   const handleReserve = () => {
-    // Alert might be blocked by iframe, so we rely on the hover tooltip
-    console.log("앞으로 우리가 만들 403 BYPASS 서비스로 연결될 예정입니다. 출시를 기대해주세요!");
+    window.open('https://bypass-b5ly.vercel.app/', '_blank');
   };
 
   return (
@@ -658,7 +663,7 @@ const SectionTicket = ({ grid }: { grid: CellData[][] }) => {
         initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
         className="w-full lg:w-[400px] shrink-0 h-[400px] sm:h-[560px] bg-[#0A1128] border border-gray-200 rounded-xl flex flex-col items-center justify-center relative shadow-sm overflow-hidden group"
       >
-        <img src={ticketImg} alt="403 BYPASS Ticket" className="absolute inset-0 w-full h-full object-contain sm:object-cover" />
+        <img src={posterImg} alt="403 BYPASS Poster" className="absolute inset-0 w-full h-full object-contain sm:object-cover" />
         
         {/* Fallback for when image is not yet uploaded */}
         <div className="z-10 flex flex-col items-center opacity-0 group-hover:opacity-0 transition-opacity">
@@ -703,11 +708,6 @@ const SectionTicket = ({ grid }: { grid: CellData[][] }) => {
             <button onClick={handleReserve} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl text-lg transition-colors flex justify-center items-center">
               예매하기
             </button>
-            <div className="hidden lg:block absolute opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[280px] bg-gray-900 text-white text-xs rounded py-2 px-3 z-50 pointer-events-none shadow-lg text-center break-keep">
-              앞으로 우리가 만들 403 BYPASS 서비스로 연결될 예정입니다. 출시를 기대해주세요!
-              <div className="absolute w-2 h-2 bg-gray-900 rotate-45 transform left-1/2 -translate-x-1/2 -bottom-1"></div>
-            </div>
-            <div className="lg:hidden text-center text-xs text-gray-500 mt-1">앞으로 우리가 만들 403 BYPASS 서비스로 연결될 예정입니다.<br/>출시를 기대해주세요!</div>
           </div>
           <div className="flex gap-3">
             <div className="relative group flex-1">
@@ -857,6 +857,124 @@ const AnimatedStatBar = ({ label, targetValue, colorClass, barColorClass, barOut
       </div>
     </motion.div>
   );
+};
+
+const SectionMid = ({ setActiveTab }: { setActiveTab: (v: string) => void }) => {
+  return (
+    <div className="w-full max-w-[1000px] mx-auto px-4 py-16">
+      <div className="mb-12 border-b-2 border-gray-200 pb-4 flex items-center justify-between">
+        <h2 className="text-3xl font-display font-black text-gray-900 tracking-tight">관람후기 (중간 발표)</h2>
+        <div className="px-3 py-1 bg-blue-100 text-blue-700 text-[11px] font-bold rounded-md">5/18 UPDATE</div>
+      </div>
+
+      <div className="space-y-24 text-gray-800">
+        {/* 1. 경쟁 및 유사 서비스 분석 */}
+        <section>
+          <div className="mb-10">
+             <h3 className="text-3xl font-black text-gray-900 mb-4 flex items-center gap-4">
+               <span className="text-blue-600 text-4xl font-display">01.</span> 
+               <span className="font-display tracking-tight">유사 서비스 비교 분석</span>
+             </h3>
+             <p className="text-xl text-gray-600 font-sans tracking-tight leading-relaxed max-w-4xl">
+               국내외 다양한 접근성 및 시야 정보 서비스를 분석하여 403 BYPASS만의 차별화된 하이브리드 전략을 도출했습니다.
+             </p>
+          </div>
+
+          <CompetitionAnalysis />
+        </section>
+
+        {/* 2. 우리 서비스(403bypass) IA */}
+        <section>
+          <div className="mb-10">
+             <h3 className="text-3xl font-black text-gray-900 mb-4 flex items-center gap-4">
+               <span className="text-blue-600 text-4xl font-display">02.</span> 
+               <span className="font-display tracking-tight">서비스 구조 (IA)</span>
+             </h3>
+             <p className="text-xl text-gray-600 font-sans tracking-tight leading-relaxed max-w-4xl">
+               관객의 복잡한 관람 준비 여정을 단순화하고, 필요한 정보를 필요할 때 제공하는 최적화된 정보 설계를 구축했습니다.
+             </p>
+          </div>
+
+          <InformationArchitecture />
+        </section>
+
+        {/* 3. 핵심 기능 */}
+        <section>
+          <div className="mb-16 text-center">
+             <h3 className="text-3xl font-black text-gray-900 mb-4 flex items-center justify-center gap-4">
+               <span className="text-blue-600 text-4xl font-display">03.</span> 
+               <span className="font-display tracking-tight">핵심 기능</span>
+             </h3>
+             <p className="text-xl text-gray-600 font-sans tracking-tight leading-relaxed mx-auto max-w-2xl px-4">
+               앱 화면을 기준으로 구성된 5개 탭(홈 / 안내맵 / 매칭예약 / 나의티켓 / 마이페이지) 별 핵심 기능 명세입니다.
+             </p>
+          </div>
+
+          <CoreFeatures />
+        </section>
+
+        {/* 4. UI 디자인 원칙 */}
+        <section>
+          <div className="mb-16 text-center">
+             <h3 className="text-3xl font-black text-gray-900 mb-4 flex items-center justify-center gap-4">
+               <span className="text-blue-600 text-4xl font-display">04.</span> 
+               <span className="font-display tracking-tight">UI 디자인 원칙</span>
+             </h3>
+             <p className="text-xl text-gray-600 font-sans tracking-tight leading-relaxed mx-auto max-w-2xl px-4">
+               배리어 프리를 넘어 모든 사용자가 직관적으로 인지할 수 있는 '403 BYPASS'만의 유니버설 디자인 언어입니다.
+             </p>
+          </div>
+          <DesignPrinciples />
+        </section>
+
+        {/* 5. 협업 파트너 */}
+        <section>
+          <div className="mb-16 text-center">
+             <h3 className="text-3xl font-black text-gray-900 mb-4 flex items-center justify-center gap-4">
+               <span className="text-blue-600 text-4xl font-display">05.</span> 
+               <span className="font-display tracking-tight">협업 파트너</span>
+             </h3>
+             <p className="text-xl text-gray-600 font-sans tracking-tight leading-relaxed mx-auto max-w-2xl px-4">
+               403 BYPASS는 국내 유수의 공공기관 및 서비스와 협력하여 더욱 견고한 배리어 프리 생태계를 구축합니다.
+             </p>
+          </div>
+          <Partners />
+        </section>
+
+        {/* 6. 홍보 전략 */}
+        <section>
+          <div className="mb-16 text-center">
+             <h3 className="text-3xl font-black text-gray-900 mb-4 flex items-center justify-center gap-4">
+               <span className="text-blue-600 text-4xl font-display">06.</span> 
+               <span className="font-display tracking-tight">홍보 전략</span>
+             </h3>
+             <p className="text-xl text-gray-600 font-sans tracking-tight leading-relaxed mx-auto max-w-2xl px-4">
+               신뢰할 수 있는 파트너십과 강력한 서포터즈 운영을 통해 배리어 프리의 가치를 널리 확산시킵니다.
+             </p>
+          </div>
+          <MarketingStrategy />
+        </section>
+          
+          <div className="mt-16 bg-gray-900 rounded-3xl p-8 sm:p-12 relative overflow-hidden">
+             <div className="absolute inset-0 opacity-20 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PHJlY3Qgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMEJGRkYiIHN0cm9rZS1vcGFjaXR5PSIwLjI1IiBzdHJva2Utd2lkdGg9IjEiLz48L3N2Zz4=')]"></div>
+             <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                <div className="max-w-xl">
+                   <h5 className="text-[#00BFFF] font-black text-2xl sm:text-3xl mb-4 font-display italic">403BYPASS REALIZATION</h5>
+                   <p className="text-gray-300 font-sans leading-relaxed text-sm sm:text-base">
+                     리서치를 바탕으로 한 403BYPASS의 기술 구현이 완료되었습니다. 장애인과 비장애인 모두를 위한 보편적 설계가 적용된 솔루션을 확인해보세요.
+                   </p>
+                </div>
+                <button 
+                  onClick={() => window.open('https://bypass-b5ly.vercel.app/', '_blank')}
+                  className="bg-[#00BFFF] text-black px-8 py-4 rounded-full font-black flex items-center gap-2 whitespace-nowrap shadow-[0_0_20px_rgba(0,191,255,0.4)] hover:shadow-[0_0_40px_rgba(0,191,255,0.6)] transition-all"
+                >
+                  403BYPASS 미리보기 <ChevronRight size={20} strokeWidth={3} />
+                </button>
+             </div>
+          </div>
+        </div>
+      </div>
+    );
 };
 
 const SectionIdea = () => {
@@ -1062,7 +1180,7 @@ const SectionIdea = () => {
                 <div className="bg-white/10 p-5 rounded-xl border border-yellow-500/30 backdrop-blur-sm relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 to-transparent"></div>
                   <span className="font-bold text-yellow-400 block mb-2 text-lg relative z-10">유니버설 서비스의 부재</span>
-                  <span className="text-gray-300 text-sm leading-relaxed relative z-10">성별, 연령, 장애 유무와 관계없이 누구나 편리하게 이용해야 한다는 '보편적 설계(Universal Design)'에 대한 인식이 현저히 낮습니다.</span>
+                  <span className="text-gray-300 text-sm leading-relaxed relative z-10">성별, 연령, 장애 유무와 관계없이 누구나 편리하게 이용해야 한다는 '보편적 설계'에 대한 인식이 현저히 낮습니다.</span>
                 </div>
                 <div className="bg-white/10 p-5 rounded-xl border border-white/10 backdrop-blur-sm">
                   <span className="font-bold text-white block mb-2 text-lg">정보의 디지털 소외</span>
@@ -1410,8 +1528,8 @@ export default function App() {
             </motion.div>
           )}
           {activeTab === 'mid' && (
-            <motion.div key="mid" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <ContentSection title="관람후기 (중간)" desc="서비스 중간 프로토타입이 등록될 예정입니다." dateBadge="5/18 월 업데이트 예정" icon={Heart} />
+            <motion.div key="mid" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+              <SectionMid setActiveTab={setActiveTab} />
             </motion.div>
           )}
           {activeTab === 'final' && (
