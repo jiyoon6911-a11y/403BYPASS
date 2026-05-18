@@ -961,7 +961,7 @@ const SectionMid = ({ setActiveTab }: { setActiveTab: (v: string) => void }) => 
                 <div className="max-w-xl">
                    <h5 className="text-[#00BFFF] font-black text-2xl sm:text-3xl mb-4 font-display italic">403BYPASS REALIZATION</h5>
                    <p className="text-gray-300 font-sans leading-relaxed text-sm sm:text-base">
-                     리서치를 바탕으로 한 403BYPASS의 기술 구현이 완료되었습니다. 장애인과 비장애인 모두를 위한 보편적 설계가 적용된 솔루션을 확인해보세요.
+                     리서치를 바탕으로 한 403BYPASS를 구현했습니다. 추후 디테일과 기능을 더 업데이트 및 수정할 계획입니다. 장애인과 비장애인 모두를 위한 보편적 설계가 적용된 솔루션을 확인해보세요.
                    </p>
                 </div>
                 <button 
