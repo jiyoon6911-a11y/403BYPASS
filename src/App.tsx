@@ -647,7 +647,7 @@ const SectionTicket = ({ grid }: { grid: CellData[][] }) => {
   };
 
   const handleReserve = () => {
-    window.open('https://bypass-b5ly.vercel.app/', '_blank');
+    window.open('https://403bypass-26.vercel.app/', '_blank');
   };
 
   return (
@@ -965,7 +965,7 @@ const SectionMid = ({ setActiveTab }: { setActiveTab: (v: string) => void }) => 
                    </p>
                 </div>
                 <button 
-                  onClick={() => window.open('https://bypass-b5ly.vercel.app/', '_blank')}
+                  onClick={() => window.open('https://403bypass-26.vercel.app/', '_blank')}
                   className="bg-[#00BFFF] text-black px-8 py-4 rounded-full font-black flex items-center gap-2 whitespace-nowrap shadow-[0_0_20px_rgba(0,191,255,0.4)] hover:shadow-[0_0_40px_rgba(0,191,255,0.6)] transition-all"
                 >
                   403BYPASS 미리보기 <ChevronRight size={20} strokeWidth={3} />
