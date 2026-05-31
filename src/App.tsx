@@ -1,4 +1,3 @@
-import aiImage from './assets/my-image.png';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Ticket, Calendar, Clock, MapPin, Search, ChevronRight, ArrowRight, User, MousePointerClick, Heart, Share2, Navigation, AlertCircle, Info, Activity, Shield, Eye, BarChart3, PieChart as PieChartIcon, X, Code, Palette, Rocket, TrainFront, Accessibility, Smartphone, Armchair, Coffee, Layers, Globe, Users, BookOpen, MessageSquare, CheckCircle2, ShieldAlert, Award, Image, Video, Megaphone } from 'lucide-react';
@@ -21,6 +20,14 @@ import image5 from './assets/image5.png';
 import image6 from './assets/image6.png';
 import image7 from './assets/image7.png';
 import image8 from './assets/image8.png';
+import promo1 from './assets/promo_1.png';
+import promo2 from './assets/promo_2.png';
+import promo3 from './assets/promo_3.png';
+import promo4 from './assets/promo_4.png';
+import promo5 from './assets/promo_5.png';
+import promo6 from './assets/promo_6.png';
+import promo7 from './assets/promo_7.png';
+import promo8 from './assets/promo_8.png';
 
 // Character maps for pixel text (0: empty, 1: solid)
 const CHARS: Record<string, number[][]> = {
@@ -2618,7 +2625,7 @@ const SectionFinal = () => {
                             <div className="flex flex-col">
                               <span className="text-xs font-bold text-gray-400 mb-2">플랫폼 연동 홍보</span>
                               <PromoImageWithPlaceholder 
-                                src="/src/assets/promo_1.png" 
+                                src={promo1} 
                                 label="홍보 시안 ①" 
                                 alt="플랫폼 연동 홍보" 
                                 description="기존 예매 플랫폼 제휴 마케팅을 통해 결제 완료 구역 직후 노출되는 배리어프리 시안"
@@ -2629,14 +2636,14 @@ const SectionFinal = () => {
                               <span className="text-xs font-bold text-gray-400 mb-2">팝업 광고</span>
                               <div className="grid sm:grid-cols-2 gap-4 h-full">
                                 <PromoImageWithPlaceholder 
-                                  src="/src/assets/promo_2.png" 
+                                  src={promo2} 
                                   label="광고 시안 ②" 
                                   alt="팝업 광고" 
                                   description="공연장 근경 무장애 내비 및 맞춤 인앱 팝업 광고 시안"
                                   hideCardDetails={true}
                                 />
                                 <PromoImageWithPlaceholder 
-                                  src="/src/assets/promo_3.png" 
+                                  src={promo3} 
                                   label="광고 시안 ③" 
                                   alt="팝업 광고" 
                                   description="지원 장비 대여 및 케어 매칭 서비스 바로가기 팝업 광고 시안"
@@ -2693,7 +2700,7 @@ const SectionFinal = () => {
 
                           <div className="flex flex-col justify-between">
                             <PromoImageWithPlaceholder 
-                              src="/src/assets/promo_4.png" 
+                              src={promo4} 
                               label="서포터즈 홍보 광고 ④" 
                               alt="서포터즈 홍보 광고 포스터" 
                               description="[서포터즈 홍보 광고] '모두의 시선을 맞추다, 무장애를 향해 달리다' 403 BYPASS 배리어프리 서포터즈 공식 모집 포스터 시안"
@@ -2739,7 +2746,7 @@ const SectionFinal = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                           <PromoImageWithPlaceholder 
-                            src="/src/assets/promo_5.png" 
+                            src={promo5} 
                             label="협업 시안 ⑤" 
                             alt="인플루언서 협업 콘텐츠 1" 
                             description="[인플루언서 협업] 지체 휠체어 크리에이터와 함께하는 403 BYPASS 실시간 무단차 안내 챌린지"
@@ -2748,7 +2755,7 @@ const SectionFinal = () => {
                             instagramId="bandgoodgirl"
                           />
                           <PromoImageWithPlaceholder 
-                            src="/src/assets/promo_6.png" 
+                            src={promo6} 
                             label="협업 시안 ⑥" 
                             alt="인플루언서 협업 콘텐츠 2" 
                             description="[인플루언서 협업] 청각약자 매니아가 현장 스마트 자막 안경 착용법에 감동하는 릴스 영상"
@@ -2757,7 +2764,7 @@ const SectionFinal = () => {
                             instagramId="muduckssi"
                           />
                           <PromoImageWithPlaceholder 
-                            src="/src/assets/promo_7.png" 
+                            src={promo7} 
                             label="협업 시안 ⑦" 
                             alt="인플루언서 협업 콘텐츠 3" 
                             description="[인플루언서 협업] 배리어프리 예술 지원 기획단과의 충무아트센터 최적 이동 노선 기행 블로그"
@@ -2795,7 +2802,7 @@ const SectionFinal = () => {
                           </div>
                           <div className="md:col-span-5">
                             <PromoImageWithPlaceholder 
-                              src="/src/assets/promo_8.png" 
+                              src={promo8} 
                               label="SNS 광고 시안 ⑧" 
                               alt="트위터 타임라인 스폰서 배너 광고" 
                               description="[SNS 광고] '티켓팅은 매서웠는데, 극장 앞에 계단뿐이라면? 무장애 동선 안내 403 BYPASS' 트위터 타임라인 배너 시안"
