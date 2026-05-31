@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Ticket, Calendar, Clock, MapPin, Search, ChevronRight, ArrowRight, User, MousePointerClick, Heart, Share2, Navigation, AlertCircle, Info, Activity, Shield, Eye, BarChart3, PieChart as PieChartIcon, X, Code, Palette, Rocket, TrainFront, Accessibility, Smartphone, Armchair, Coffee } from 'lucide-react';
+import { Ticket, Calendar, Clock, MapPin, Search, ChevronRight, ArrowRight, User, MousePointerClick, Heart, Share2, Navigation, AlertCircle, Info, Activity, Shield, Eye, BarChart3, PieChart as PieChartIcon, X, Code, Palette, Rocket, TrainFront, Accessibility, Smartphone, Armchair, Coffee, Layers, Globe, Users, BookOpen, MessageSquare, CheckCircle2, ShieldAlert, Award, Image, Video, Megaphone } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
 
 import { GlossaryPanel } from './components/GlossaryPanel';
@@ -1435,18 +1435,1441 @@ const SectionIdea = () => {
   );
 };
 
-const ContentSection = ({ title, desc, dateBadge, icon: Icon }: { title: string; desc: string; dateBadge: string; icon: any; }) => (
-  <div className="w-full max-w-5xl mx-auto px-4 py-20 flex flex-col items-center justify-center min-h-[50vh] text-center">
-    <Icon size={64} className="text-gray-200 mb-6" />
-    <h2 className="text-3xl font-black text-gray-900 mb-8">{title}</h2>
-    <div className="bg-gray-50 border border-gray-200 p-8 flex flex-col items-center max-w-lg rounded-xl">
-      <AlertCircle size={32} className="text-blue-500 mb-4" />
-      <div className="bg-blue-100 text-blue-800 text-sm font-bold px-4 py-1.5 rounded-full mb-4">{dateBadge}</div>
-      <p className="text-gray-700 font-bold mb-3 text-base leading-relaxed break-keep">{desc}</p>
-      <p className="text-gray-500 text-sm">해당 메뉴의 콘텐츠는 시스템 연동 준비 중입니다.</p>
+const PromoImageWithPlaceholder = ({ 
+  src, 
+  alt, 
+  label = "",
+  description = "",
+  hideCardDetails = false
+}: { 
+  src: string; 
+  alt: string; 
+  label?: string;
+  description?: string;
+  hideCardDetails?: boolean;
+}) => {
+  const [isError, setIsError] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  return (
+    <>
+      <div 
+        className="bg-white border border-gray-200 hover:border-blue-500 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col h-full justify-between"
+      >
+        <div 
+          onClick={() => !isError && setIsModalOpen(true)}
+          className={`p-4 flex flex-col items-center justify-center bg-slate-50/50 relative flex-1 min-h-[160px] overflow-hidden ${!isError ? 'cursor-zoom-in group' : ''}`}
+        >
+          {isError ? (
+            <div className="text-center py-6 flex flex-col items-center">
+              <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center border border-blue-100 mb-2">
+                <Image size={20} className="text-blue-500" />
+              </div>
+              <p className="text-[12px] font-bold text-gray-800 leading-tight mb-1">{alt}</p>
+              <p className="text-[9px] text-blue-600 font-mono bg-blue-50 px-2.5 py-0.5 rounded-full font-bold">시안 이미지 대기 중</p>
+            </div>
+          ) : (
+            <div className="relative w-full overflow-hidden rounded-md flex justify-center">
+              <img 
+                src={src} 
+                alt={alt} 
+                onError={() => setIsError(true)} 
+                className="w-full h-auto max-h-[320px] object-contain rounded-md shadow-sm transition-all duration-500 ease-out transform group-hover:scale-108 group-hover:brightness-95"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300 flex items-center justify-center">
+                <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 text-blue-700 text-xs font-bold px-3 py-1.5 rounded-full shadow-md flex items-center gap-1 transform translate-y-2 group-hover:translate-y-0">
+                  <Search size={14} /> 크게 보기
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
+        {!hideCardDetails && (label || description) ? (
+          <div className="p-4 bg-white border-t border-gray-100 text-[11px] space-y-1">
+            {label && (
+              <p className="text-blue-600 font-extrabold text-xs tracking-wider uppercase flex items-center gap-1">
+                <Image size={12} /> {label}
+              </p>
+            )}
+            {description && <p className="text-gray-600 leading-relaxed font-sans break-keep">{description}</p>}
+          </div>
+        ) : null}
+      </div>
+
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsModalOpen(false)}
+            className="fixed inset-0 z-[100] bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 cursor-zoom-out"
+          >
+            {/* Close button at top right */}
+            <button 
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-6 right-6 p-2.5 text-white/70 hover:text-white bg-slate-900/50 hover:bg-slate-800/80 rounded-full transition-all duration-200 z-[110] border border-slate-800 cursor-pointer"
+              title="닫기"
+            >
+              <X size={22} />
+            </button>
+
+            <motion.div 
+              initial={{ scale: 0.92, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.92, opacity: 0 }}
+              transition={{ type: "spring", damping: 28, stiffness: 300 }}
+              onClick={() => setIsModalOpen(false)}
+              className="relative max-w-5xl max-h-[85vh] w-auto h-auto flex items-center justify-center cursor-zoom-out"
+            >
+              <img 
+                src={src} 
+                alt={alt} 
+                className="max-h-[85vh] max-w-full w-auto object-contain rounded-xl shadow-2xl border border-slate-800 select-none pointer-events-auto"
+                referrerPolicy="no-referrer"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+};
+
+const SectionFinal = () => {
+  const [activeTab, setActiveTabTab] = useState(0); // 0 to 7
+  const [glassSize, setGlassSize] = useState(24);
+  const [glassOpacity, setGlassOpacity] = useState(90);
+  const [glassFocal, setGlassFocal] = useState(1.5);
+  const [accessibilitySpeech, setAccessibilitySpeech] = useState(false);
+  const [qrHotspot, setQrHotspot] = useState('subway');
+  const [activeStep6, setActiveStep6] = useState('6-1');
+
+  // Text-To-Speech reader
+  const speakSection = (text: string) => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      if (!accessibilitySpeech) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'ko-KR';
+        utterance.onend = () => setAccessibilitySpeech(false);
+        window.speechSynthesis.speak(utterance);
+        setAccessibilitySpeech(true);
+      } else {
+        window.speechSynthesis.cancel();
+        setAccessibilitySpeech(false);
+      }
+    } else {
+      alert('이 브라우저는 음성 합성 기능을 지원하지 않습니다.');
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
+
+  const menuItems = [
+    { label: "1. 프로젝트 개요", desc: "추진 배경, 필요성 및 프로젝트 목표" },
+    { label: "2. 기획 및 요구사항", desc: "시장 조사, 타겟층 및 핵심 기능 정의" },
+    { label: "3. UI/UX 디자인", desc: "정보구조도(IA) 및 접근성 디자인 가이드" },
+    { label: "4. 개발 및 구현", desc: "기술 스택, DB 스키마 및 구현 프로세스" },
+    { label: "5. 테스트 및 배포", desc: "웹 접근성 테스트 매트릭스 및 배포 환경" },
+    { label: "6. 핵심 기능 상세", desc: "이동·현장·지원·개인화 11대 기능 상세" },
+    { label: "7. 홍보 전략", desc: "SNS 전략, 크로스오버 QR 마케팅, 서포터즈" },
+    { label: "8. 성과 및 회고", desc: "기대 효과, 향후 로드맵 및 팀 회고" }
+  ];
+
+  return (
+    <div className="w-full bg-[#FAFAFC] min-h-screen py-10">
+      <div className="max-w-[1240px] mx-auto px-4">
+        
+        {/* Upper Title and Slogan Portal */}
+        <div className="mb-10 bg-[#0A0B14] text-white rounded-3xl p-8 sm:p-12 relative overflow-hidden border border-blue-950 shadow-[0_10px_30px_rgba(10,11,20,0.4)]">
+          <div className="absolute inset-0 opacity-15 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PHJlY3Qgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMEJGRkYiIHN0cm9rZS1vcGFjaXR5PSIwLjI1IiBzdHJva2Utd2lkdGg9IjEiLz48L3N2Zz4=')]"></div>
+          <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div>
+              <div className="flex items-center gap-3 mb-3">
+                <span className="bg-[#00BFFF]/20 text-[#00BFFF] px-3.5 py-1 rounded-full text-xs font-black tracking-widest font-mono border border-[#00BFFF]/30">
+                  OFFICIAL ARCHIVE
+                </span>
+                <span className="bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-full text-xs font-black font-sans border border-emerald-500/20 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> 완료 (RELEASED)
+                </span>
+              </div>
+              <h1 className="text-4xl sm:text-5xl font-display font-black tracking-tight text-white mb-2">
+                403 <span className="text-[#00BFFF] italic">BYPASS</span>
+              </h1>
+              <p className="text-xl text-[#00BFFF] font-medium font-sans mb-4">
+                &ldquo;누구에게나 열려있는 무대를 위한 앱&rdquo;
+              </p>
+              <div className="flex flex-wrap gap-3 text-xs sm:text-sm font-mono text-gray-300">
+                <span className="bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg">
+                  모바일 앱: <a href="https://bypass-b5ly.vercel.app" target="_blank" rel="noreferrer" className="text-[#00BFFF] hover:underline font-bold">https://bypass-b5ly.vercel.app</a>
+                </span>
+                <span className="bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg">
+                  프로젝트 사이트: <a href="https://403-bypass.vercel.app" target="_blank" rel="noreferrer" className="text-[#00BFFF] hover:underline font-bold">https://403-bypass.vercel.app</a>
+                </span>
+              </div>
+            </div>
+            
+            <div className="shrink-0 flex flex-col sm:flex-row md:flex-col lg:flex-row gap-3">
+              <button
+                onClick={() => window.open('https://bypass-b5ly.vercel.app', '_blank')}
+                className="bg-[#00BFFF] text-[#05060F] hover:bg-white hover:shadow-[0_0_20px_rgba(0,191,255,0.6)] px-6 py-3.5 rounded-xl font-black text-sm tracking-wide transition-all duration-300 flex items-center justify-center gap-2"
+              >
+                <Smartphone size={16} strokeWidth={2.5} /> 실제 앱 실행하기 <ArrowRight size={16} strokeWidth={2.5} />
+              </button>
+              <button
+                onClick={() => speakSection("403 바이패스 최종 포트폴리오 및 기획서 리포트 뷰어입니다. 왼쪽 탭에서 각 단원별 상세 자료를 확인하세요.")}
+                className="bg-white/10 text-white hover:bg-white/20 border border-white/20 px-5 py-3.5 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2"
+              >
+                {accessibilitySpeech ? '🔊 일시정지' : '🔊 리포트 음성듣기'}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Major Portal Grid Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          {/* Left Navigation Console */}
+          <div className="lg:col-span-4 sticky top-6 space-y-4">
+            <div className="bg-white rounded-2xl border border-gray-200 p-4 shadow-sm">
+              <h3 className="text-xs font-black text-gray-400 font-mono tracking-widest uppercase mb-4 px-2">DOCUMENT OUTLINE</h3>
+              <div className="flex flex-col gap-1.5">
+                {menuItems.map((item, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      setActiveTabTab(idx);
+                      if ('speechSynthesis' in window) { window.speechSynthesis.cancel(); setAccessibilitySpeech(false); }
+                    }}
+                    className={`w-full text-left px-4 py-3 rounded-xl border transition-all flex items-center justify-between ${
+                      activeTab === idx
+                        ? "bg-blue-600 border-blue-600 text-white shadow-md font-bold"
+                        : "bg-white border-transparent hover:border-gray-200 hover:bg-gray-50 text-gray-700"
+                    }`}
+                  >
+                    <div>
+                      <h4 className="text-[14px] leading-tight font-sans">{item.label}</h4>
+                      <p className={`text-[11px] mt-0.5 font-normal ${activeTab === idx ? "text-blue-100" : "text-gray-400"}`}>{item.desc}</p>
+                    </div>
+                    <ChevronRight size={16} className={activeTab === idx ? "text-white" : "text-gray-400"} />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-blue-50 to-[#00BFFF]/5 border border-blue-100 rounded-2xl p-6 shadow-sm">
+              <span className="inline-block bg-blue-100 text-blue-800 text-[10px] font-black px-2.5 py-1 rounded-full mb-3 uppercase tracking-wider">
+                Universal Accessibility
+              </span>
+              <h4 className="text-sm font-bold text-gray-900 mb-1 flex items-center gap-1.5">
+                <Accessibility size={16} className="text-blue-600" /> 모두를 위한 유니버설 설계
+              </h4>
+              <p className="text-xs text-gray-600 leading-relaxed font-sans break-keep">
+                본 포트폴리오는 시각약자, 고령층의 쉬운 인지를 위해 WCAG 2.1 접근성 가이드라인을 고려한 다크/라이트 하이 콘트라스트 인터랙션 및 스크린 음성 어시스턴스를 기본 실험실 옵션으로 지원합니다.
+              </p>
+            </div>
+          </div>
+
+          {/* Right Detailed Content Console */}
+          <div className="lg:col-span-8">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.25 }}
+                className="bg-white rounded-3xl border border-gray-200 p-6 sm:p-10 shadow-sm min-h-[600px] flex flex-col justify-between"
+              >
+                
+                {/* Dynamic Content Sections */}
+                <div>
+                  
+                  {/* --- SECTION 1: 프로젝트 개요 --- */}
+                  {activeTab === 0 && (
+                    <div className="space-y-8">
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+                          <span className="text-xs font-bold text-blue-600 font-mono uppercase tracking-wider">01. OVERVIEW</span>
+                        </div>
+                        <h2 className="text-2xl sm:text-3xl font-black text-gray-900 font-display">1. 프로젝트 개요</h2>
+                        <span className="block w-12 h-1 bg-blue-600 mt-3 rounded-full"></span>
+                      </div>
+
+                      <div className="bg-[#0A0C16] text-white p-6 rounded-2xl border border-blue-950 shadow-inner">
+                        <h3 className="text-sm font-mono font-bold text-blue-400 mb-2">1.1. 프로젝트 정의</h3>
+                        <p className="text-lg font-black tracking-tight mb-2">
+                          &ldquo;403 BYPASS&rdquo;
+                        </p>
+                        <p className="text-xs text-blue-200/80 mb-3 font-mono">
+                          (403 Forbidden + BYPASS의 결합 — &apos;접근이 막혔던 것을 우회·해결한다&apos;는 의미)
+                        </p>
+                        <p className="text-sm font-sans text-gray-300 leading-relaxed break-keep">
+                          403 BYPASS는 누구나 편리하게 문화 생활을 향유할 수 있는 공연 종합 서비스입니다. 공연 관람에서 발생하는 정보 분산, 접근성 부재, 현장 혼잡 등의 문제를 하나의 앱으로 통합 및 해결합니다.
+                        </p>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 border-b border-gray-100 pb-2">
+                          <Activity size={18} className="text-blue-600" /> 1.2. 추진 배경 및 필요성
+                        </h3>
+                        <p className="text-sm text-gray-600 leading-relaxed font-sans break-keep">
+                          팀원들의 공연 관람 실제 경험에서 출발했습니다. 공연장을 방문하면서 겪었던 불편함과 기존 서비스들의 한계를 팀 내에서 공유하고 논의하며 개선 방향을 도출했습니다.
+                        </p>
+
+                        <div className="grid sm:grid-cols-3 gap-4 mt-2">
+                          <div className="bg-red-50/50 hover:bg-red-50 border border-red-100 p-5 rounded-xl transition-colors">
+                            <span className="bg-red-100 text-red-800 text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider">문제 01</span>
+                            <h4 className="text-sm font-bold text-gray-900 mt-2 mb-1">정보의 분산</h4>
+                            <p className="text-[12px] text-gray-600 leading-relaxed font-sans break-keep">
+                              예매, 시야, 접근성 정보가 여러 앱·사이트에 흩어져 있어 한눈에 확인 불가
+                            </p>
+                          </div>
+                          
+                          <div className="bg-red-50/50 hover:bg-red-50 border border-red-100 p-5 rounded-xl transition-colors">
+                            <span className="bg-red-100 text-red-800 text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider">문제 02</span>
+                            <div className="flex items-baseline gap-1 mt-2 mb-1">
+                              <h4 className="text-sm font-bold text-gray-900">시설의 부재</h4>
+                              <span className="text-xs text-red-600 font-extrabold font-mono">20% / 1%</span>
+                            </div>
+                            <p className="text-[12px] text-gray-600 leading-relaxed font-sans break-keep">
+                              휠체어석 보유율 전국 20%(633개), 민간 공연장 장애 편의시설 설치율 1% 수준
+                            </p>
+                          </div>
+
+                          <div className="bg-red-50/50 hover:bg-red-50 border border-red-100 p-5 rounded-xl transition-colors">
+                            <span className="bg-red-100 text-red-800 text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider">문제 03</span>
+                            <div className="flex items-baseline gap-1 mt-2 mb-1">
+                              <h4 className="text-sm font-bold text-gray-900">환경의 단절</h4>
+                              <span className="text-xs text-red-600 font-extrabold font-mono">65%</span>
+                            </div>
+                            <p className="text-[12px] text-gray-600 leading-relaxed font-sans break-keep">
+                              대학로 소극장 65%는 휠체어 접근 완전 불가. 이동 경로 단절.
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="bg-gray-50 text-gray-500 text-[11px] p-3 rounded-lg flex items-center gap-2 font-mono border border-gray-100">
+                          <Info size={14} className="text-blue-500 shrink-0" />
+                          <span>출처: 월간공연전산망 KOPIS, 「공연장에 당신의 자리가 있나요?」</span>
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 border-b border-gray-100 pb-2">
+                          <CheckCircle2 size={18} className="text-blue-600" /> 1.3. 프로젝트 목표
+                        </h3>
+                        <div className="grid sm:grid-cols-2 gap-4">
+                          <div className="bg-[#FAFAFC] border border-gray-200 p-5 rounded-xl">
+                            <div className="bg-blue-100 text-blue-800 w-8 h-8 rounded-lg flex items-center justify-center font-bold font-mono text-sm mb-3">01</div>
+                            <h4 className="text-sm font-bold text-gray-950 mb-1">보편적 가치 향유</h4>
+                            <p className="text-xs text-gray-600 leading-relaxed font-sans break-keep">인종, 장애 유무와 상관없이 누구나 쉽게 접근하여 평등한 문화 생활을 누릴 수 있는 유니버셜 디자인(Universal Design) 원칙을 실현합니다.</p>
+                          </div>
+
+                          <div className="bg-[#FAFAFC] border border-gray-200 p-5 rounded-xl">
+                            <div className="bg-blue-100 text-blue-800 w-8 h-8 rounded-lg flex items-center justify-center font-bold font-mono text-sm mb-3">02</div>
+                            <h4 className="text-sm font-bold text-gray-950 mb-1">통합형 여정 보호</h4>
+                            <p className="text-xs text-gray-600 leading-relaxed font-sans break-keep">파편화 및 단절을 차단하고, 공연 관람 전체 여정(정보 검색 → 이동 안내 → 현장 대응 → 후기 생산)을 원스톱 통합형 채널로 해결합니다.</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* --- SECTION 2: 기획 및 요구사항 정의 --- */}
+                  {activeTab === 1 && (
+                    <div className="space-y-8">
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+                          <span className="text-xs font-bold text-blue-600 font-mono uppercase tracking-wider">02. PLANNING & INTAKE</span>
+                        </div>
+                        <h2 className="text-2xl sm:text-3xl font-black text-gray-900 font-display">2. 기획 및 요구사항 정의</h2>
+                        <span className="block w-12 h-1 bg-blue-600 mt-3 rounded-full"></span>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 border-b border-gray-100 pb-2">
+                          <Activity size={18} className="text-blue-600" /> 2.1. 시장 조사 및 타겟 분석
+                        </h3>
+                        
+                        <p className="text-xs font-bold text-gray-400 font-mono uppercase tracking-widest mb-1">시장 유사 서비스 비교 조사</p>
+                        <div className="overflow-x-auto border border-gray-250 rounded-xl shadow-sm">
+                          <table className="w-full text-left border-collapse text-xs">
+                            <thead>
+                              <tr className="bg-gray-100 text-gray-700 font-bold border-b border-gray-200">
+                                <th className="p-3">서비스명</th>
+                                <th className="p-3">카테고리</th>
+                                <th className="p-3 text-center">좌석 시야</th>
+                                <th className="p-3 text-center">접근성 정보</th>
+                                <th className="p-3">한계점 및 극복</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-100 bg-white">
+                              {['인터파크', '놀(Nol)', '멜론티켓'].map((name) => (
+                                <tr key={name} className="hover:bg-gray-50/50">
+                                  <td className="p-2.5 font-bold text-gray-900">{name}</td>
+                                  <td className="p-2.5 text-gray-500">예매</td>
+                                  <td className="p-2.5 text-center text-red-500 font-bold">X</td>
+                                  <td className="p-2.5 text-center text-red-500 font-bold">X</td>
+                                  <td className="p-2.5 text-gray-600">접근성 관련 정보 자체가 완전히 전무함</td>
+                                </tr>
+                              ))}
+                              <tr className="hover:bg-gray-50/50">
+                                <td className="p-2.5 font-bold text-gray-900">자리어때</td>
+                                <td className="p-2.5 text-gray-500">시야</td>
+                                <td className="p-2.5 text-center text-emerald-500 font-extrabold">O (사진)</td>
+                                <td className="p-2.5 text-center text-yellow-600 font-bold">일부 텍스트</td>
+                                <td className="p-2.5 text-gray-600">무분별한 광고 게재 및 불편하고 구식인 UI/UX</td>
+                              </tr>
+                              <tr className="hover:bg-gray-50/50">
+                                <td className="p-2.5 font-bold text-gray-900">오프메이트</td>
+                                <td className="p-2.5 text-gray-500">시야</td>
+                                <td className="p-2.5 text-center text-emerald-500 font-extrabold">O</td>
+                                <td className="p-2.5 text-center text-red-500 font-bold">X</td>
+                                <td className="p-2.5 text-gray-600">좌석 뷰에만 전념하여 접근성 인프라 부재</td>
+                              </tr>
+                              <tr className="hover:bg-gray-50/50">
+                                <td className="p-2.5 font-bold text-gray-900">시야(Seeya)</td>
+                                <td className="p-2.5 text-gray-500">시야</td>
+                                <td className="p-2.5 text-center text-emerald-500 font-extrabold">O</td>
+                                <td className="p-2.5 text-center text-yellow-600 font-bold">후기 병행</td>
+                                <td className="p-2.5 text-gray-600">단순 조명·음향 후기에 국한된 좁은 반경</td>
+                              </tr>
+                              <tr className="hover:bg-gray-50/50">
+                                <td className="p-2.5 font-bold text-gray-900">S-MAP</td>
+                                <td className="p-2.5 text-gray-500">지도</td>
+                                <td className="p-2.5 text-center text-red-500 font-bold">X</td>
+                                <td className="p-2.5 text-center text-red-500 font-bold">X</td>
+                                <td className="p-2.5 text-gray-600">광역 지도 위주로 실내 상세 모델링 부족</td>
+                              </tr>
+                              <tr className="hover:bg-gray-50/50">
+                                <td className="p-2.5 font-bold text-gray-900">Theatre Access NYC</td>
+                                <td className="p-2.5 text-gray-500">접근성</td>
+                                <td className="p-2.5 text-center text-red-500 font-bold">X</td>
+                                <td className="p-2.5 text-center text-emerald-500 font-extrabold">O</td>
+                                <td className="p-2.5 text-gray-600">뉴욕에 국한된 해외 로컬 대상 서비스</td>
+                              </tr>
+                              <tr className="hover:bg-gray-50/50">
+                                <td className="p-2.5 font-bold text-gray-900">Sociability</td>
+                                <td className="p-2.5 text-gray-500">접근성</td>
+                                <td className="p-2.5 text-center text-red-500 font-bold">X</td>
+                                <td className="p-2.5 text-center text-emerald-500 font-extrabold">O</td>
+                                <td className="p-2.5 text-gray-600">영국 위주이며 상호 예약 등의 생태계 미흡</td>
+                              </tr>
+                              <tr className="bg-blue-50/60 font-bold">
+                                <td className="p-3 text-blue-600 font-black">403 BYPASS</td>
+                                <td className="p-3 text-blue-500">종합 통합</td>
+                                <td className="p-3 text-center text-blue-600 font-black">O (360 VR)</td>
+                                <td className="p-3 text-center text-blue-600 font-black">O (필터+3D)</td>
+                                <td className="p-3 text-blue-900 font-extrabold bg-blue-100/40">장벽 파괴형 모든 올인원(All-in-One) 솔루션</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+
+                        <div className="mt-6">
+                          <p className="text-xs font-bold text-gray-400 font-mono uppercase tracking-widest mb-3">주요 타겟 사용자 페르소나 및 맵핑</p>
+                          <div className="grid sm:grid-cols-2 gap-4">
+                            {[
+                              { type: "휠체어·이동 약자", text: "계단, 가파른 단차, 접근 안내 동선 협소", sol: "3D 실내 안내 지도, S-MAP 입체 안내, AR 배리어프리 전용 우회 경로" },
+                              { type: "청각 장애인", text: "공연 자막 자막 누락, 현장 긴급 실시간 알림 음향 단절", sol: "충무아트센터 가상 AR 자막 안경 제어, 모바일 자막 동기화 송출" },
+                              { type: "시각 장애인", text: "어두운 화면 UI 및 티켓 예매처 리더 에러", sol: "웹 접근성 준수, TTS 로컬 마크업 스피커 가이드, 음성 액션 제어" },
+                              { type: "신경다양성 관람객 (ADHD 등)", text: "돌발 소음, 극도로 복잡한 인파 밀집 불안", sol: "실시간 로비·MD 부스 혼잡 지표, 한산한 최적 진입 시간대 권장" },
+                              { type: "고령 관람층", text: "지나치게 축소된 텍스트 장벽, 스마트 지문 스와이프 복잡성", sol: "통합 조작 센터 가변 거대 폰트 스케일, 간편 웰컴 버튼 패널" },
+                              { type: "비장애인 일반 관객", text: "시야 정보 파편화, 배리어프리 정보 부족", sol: "전 좌석 시야 확인 및 가계정 연동을 포함한 고도화 플랫폼 통합 해결" }
+                            ].map((user, i) => (
+                              <div key={i} className="border border-gray-150 p-4 rounded-xl hover:border-blue-300 transition-all bg-[#FAFAFC]">
+                                <div className="text-xs font-black text-blue-600 mb-1">TARGET {i+1}</div>
+                                <h4 className="text-sm font-bold text-gray-900 mb-2">{user.type}</h4>
+                                <div className="space-y-1 text-xs">
+                                  <p className="text-red-600 font-sans"><strong className="text-gray-500">한계:</strong> {user.text}</p>
+                                  <p className="text-emerald-700 font-sans"><strong className="text-gray-500">솔루션:</strong> {user.sol}</p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 border-b border-gray-100 pb-2">
+                          <CheckCircle2 size={18} className="text-blue-600" /> 2.2. 서비스 핵심 기능 정의
+                        </h3>
+                        <div className="grid sm:grid-cols-2 gap-3">
+                          {[
+                            { name: "접근성 필터링 검색", desc: "휠체어석, 자막 제공, 수어 통역, 음성해설 제공 여부 기반 세부 공연 매핑" },
+                            { name: "좌석 시야 확인", desc: "360도 가상 VR 이미징 기반으로 각 구역별 시야 방해 요소 선제적 정찰" },
+                            { name: "수어/자막 지원 정보", desc: "지원 정보 아이콘 및 커스텀 인포 뱃지를 통해 한눈에 배리어프리 목록 체크" },
+                            { name: "편의시설 혼잡도 확인", desc: "화장실, MD 스토어, 매표 카운터 등의 로비 혼잡 정도를 정체 지수로 확인" },
+                            { name: "3D 및 AR 기반 길 찾기", desc: "서울시 S-MAP 레이아웃 가상 투사 및 카메라 AR 뷰 지상 가상선 가이드" },
+                            { name: "접근성 매니저 매칭", desc: "도움이 절대적으로 절실한 관객을 위해 1:1 도우미 매니저 현장 동행 예약 서비스" },
+                            { name: "AR 자막안경 제어 및 대여", desc: "실제 안경형 기기 대여 상태 연동 및 디스플레이 자막 자간/크기 제어 동화" },
+                            { name: "선호 맞춤 AI 알고리즘", desc: "공연 추천 유니버셜 프로파일과 사용자 데이터 장르 추천 융합 최우선 처리" }
+                          ].map((f, i) => (
+                            <div key={i} className="bg-white border border-gray-200 p-4 rounded-xl flex items-start gap-3">
+                              <span className="bg-blue-50 text-blue-600 w-5 h-5 rounded-full flex items-center justify-center font-mono font-bold text-[10px] shrink-0 mt-0.5">{i+1}</span>
+                              <div>
+                                <h4 className="text-xs font-bold text-gray-950 mb-0.5">{f.name}</h4>
+                                <p className="text-[11px] text-gray-600 font-sans leading-relaxed break-keep">{f.desc}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* --- SECTION 3: UI/UX 디자인 및 설계 --- */}
+                  {activeTab === 2 && (
+                    <div className="space-y-8">
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+                          <span className="text-xs font-bold text-blue-600 font-mono uppercase tracking-wider">03. UI/UX SYSTEM ARCHITECTURE</span>
+                        </div>
+                        <h2 className="text-2xl sm:text-3xl font-black text-gray-900 font-display">3. UI/UX 디자인 및 설계</h2>
+                        <span className="block w-12 h-1 bg-blue-600 mt-3 rounded-full"></span>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 border-b border-gray-100 pb-2">
+                          <Layers size={18} className="text-blue-600" /> 3.1. 정보 구조도 (IA)
+                        </h3>
+                        <p className="text-sm text-gray-600 font-sans leading-relaxed mb-4">
+                          앱은 하단 5개 핵심 탭으로 설계되었으며, 관람객 목적성에 최적화된 동선과 스탠다드 플랫 뎁스를 추구합니다.
+                        </p>
+                        
+                        <div className="space-y-3">
+                          {[
+                            { tab: "홈 (Home)", spec: "공연 추천 종합 피드, 퀵 접근성 필터 바, 서포터즈 슬라이더", feats: "선호 추천 랭킹, 실시간 필터 (휠체어/자막/수어/음성해설), 가변 카드 정렬" },
+                            { tab: "안내/맵 (Navigation Map)", spec: "카메라 기반 AR 배리어프리 실시간 화살표 노선, 3D S-MAP 뷰어, 시설 정체 지수", feats: "경사/장애물 우회로 탐색, 실내 고밀도 시뮬레이션, 막차/지하철 고장 통신 연동" },
+                            { tab: "매칭/대여 (Care Rental)", spec: "대면 지원 도우미 요청, AR 안경 배리어프리 대여 연계, AI 보이스 오더 부스터", feats: "현장 1:1 케어 요원 매칭, 스마트 글래스 블루투스 대화 조율, 음성 티케팅 프로세서" },
+                            { tab: "티켓/시야 (Ticket View)", spec: "360VR 체험구역, 글로벌 티켓 정액권 및 대행 연계 아웃링크, 모바일 예매 보드", feats: "실제 무대 조도/스탠딩 가림 가상 정찰, 티켓 오픈 비대면 알림 자동화, 가계정 결제 체크" },
+                            { tab: "마이 (My Accessibility)", spec: "유니버셜 개인화 장벽 관리 대쉬보드, 실측 점검록 기록기, 환경 고대비 피팅", feats: "점검 각도계, TTS 스케일러 조정, 다크 테마 한판 전환" }
+                          ].map((ia, idx) => (
+                            <div key={idx} className="bg-[#FAFAFC] border border-gray-200 p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                              <div className="sm:w-1/4">
+                                <span className="bg-blue-600 text-white text-[9px] font-black font-mono px-2 py-0.5 rounded uppercase tracking-wider block w-max mb-1">TAB 0{idx+1}</span>
+                                <h4 className="text-sm font-extrabold text-blue-900">{ia.tab}</h4>
+                              </div>
+                              <div className="sm:w-3/4 space-y-1">
+                                <p className="text-xs text-gray-800"><strong className="text-gray-400">화면 구성:</strong> {ia.spec}</p>
+                                <p className="text-[11px] text-gray-500 font-sans"><strong className="text-gray-400">핵심 기능:</strong> {ia.feats}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 border-b border-gray-100 pb-2">
+                          <Palette size={18} className="text-blue-600" /> 3.2. 접근성 디자인 가이드라인
+                        </h3>
+                        
+                        <div className="grid sm:grid-cols-3 gap-4">
+                          <div className="bg-[#05060E] text-white p-5 rounded-xl border border-white/10">
+                            <span className="text-[10px] font-mono text-[#00BFFF] font-black tracking-widest block uppercase mb-2">Visal Guideline</span>
+                            <h4 className="text-sm font-bold mb-2">비주얼 아이덴티티</h4>
+                            <ul className="text-xs text-gray-300 space-y-1.5 list-disc pl-4 font-sans">
+                              <li>배경: 무대 감성을 극대화하고 저시력 및 잔존 시력 가독성을 한계까지 높이는 <span className="text-white font-bold">Midnight Dark Theme</span></li>
+                              <li>포인트 컬러: 어두컴컴한 암흑 상황에서도 확실한 존재감을 뿜는 <span className="text-[#00BFFF] font-bold">네온 하늘색 (#00BFFF)</span></li>
+                              <li>텍스트 밀도를 줄이고 직관적인 아이콘, 마커 중심 구조 지향</li>
+                            </ul>
+                          </div>
+
+                          <div className="bg-white border border-gray-200 p-5 rounded-xl">
+                            <span className="text-[10px] font-mono text-blue-600 font-black tracking-widest block uppercase mb-2">Accessibility Care</span>
+                            <h4 className="text-sm font-bold text-gray-900 mb-2">적용 접근성 배려 원칙</h4>
+                            <ul className="text-xs text-gray-600 space-y-1.5 list-disc pl-4 font-sans break-keep">
+                              <li>색맹·적록색약 관람자: 빨강과 초록을 동시 보완용 단독 마크로 제한, 오직 명도 차 및 형태소 추가로 구분</li>
+                              <li>가변 거대 텍스트 조절계 지원: 렌더링 폰트를 실시간 스케일링하는 컨트롤 제공</li>
+                              <li>TTS 낭독용 시맨틱 오더: 리더기가 선후 순차를 교차하지 않도록 태그 흐름 정리</li>
+                              <li>고대비 모드 및 로컬 언어 가변</li>
+                            </ul>
+                          </div>
+
+                          <div className="bg-white border border-gray-200 p-5 rounded-xl">
+                            <span className="text-[10px] font-mono text-blue-600 font-black tracking-widest block uppercase mb-2">UX Principles</span>
+                            <h4 className="text-sm font-bold text-gray-900 mb-2">유니버셜 플랫폼 설계 원칙</h4>
+                            <ul className="text-xs text-gray-600 space-y-1.5 list-disc pl-4 font-sans whitespace-normal break-keep">
+                              <li>정밀 마우스가 어려운 수동 기민 약자를 위해 모든 버튼 영역 최소 <span className="font-bold text-gray-900">44px</span> 이상의 비대칭 터치 사각 타겟 확보</li>
+                              <li>복잡한 가입 생략을 위한 온보딩 장벽 체크 프로필 초기 셋업 단계 탑재</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* --- SECTION 4: 시스템 개발 및 구현 --- */}
+                  {activeTab === 3 && (
+                    <div className="space-y-8">
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+                          <span className="text-xs font-bold text-blue-600 font-mono uppercase tracking-wider">04. ENGINEERING & TECH</span>
+                        </div>
+                        <h2 className="text-2xl sm:text-3xl font-black text-gray-900 font-display">4. 시스템 개발 및 구현</h2>
+                        <span className="block w-12 h-1 bg-blue-600 mt-3 rounded-full"></span>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 border-b border-gray-100 pb-2">
+                          <Code size={18} className="text-blue-600" /> 4.1. 개발 툴 및 기술 스택
+                        </h3>
+                        <div className="grid sm:grid-cols-5 gap-3">
+                          {[
+                            { title: "AI 개발 도구", desc: "Google AI Studio", role: "AI 어시스턴트 코드 수립 및 기능 설계 보조" },
+                            { title: "프론트엔드", desc: "HTML / CSS / JS", role: "모바일 최적화 웹앱 반응형 UI 세이빙" },
+                            { title: "버전 관리", desc: "GitHub", role: "안전 형상 제어 및 동기식 개발 충돌 저지" },
+                            { title: "실배포 서버", desc: "Vercel", role: "클라우드 엣지 CDN 정적 라우팅 자동 검증 배포" },
+                            { title: "지도/AR 연동", desc: "Seoul S-MAP", role: "서울시 공공 S-MAP API 및 3D 데이터 매핑" }
+                          ].map((tool, i) => (
+                            <div key={i} className="border border-gray-150 p-4 rounded-xl bg-[#FAFAFC] text-center">
+                              <span className="text-[10px] bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded-full block mx-auto w-max mb-2">{tool.title}</span>
+                              <h4 className="text-xs font-black text-gray-950 mb-1">{tool.desc}</h4>
+                              <p className="text-[10px] text-gray-500 font-sans leading-relaxed break-keep">{tool.role}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 border-b border-gray-100 pb-2">
+                          <Layers size={18} className="text-blue-600" /> 4.2. 데이터베이스 설계
+                        </h3>
+                        <p className="text-sm text-gray-600 leading-relaxed font-sans mb-3">
+                          접근성 맞춤 플랫폼 최적화 구색을 위한 관계형 구조 및 정규 데이터 구조도입니다.
+                        </p>
+                        
+                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                          {[
+                            { name: "공연 데이터 (Performance Schema)", items: ["공연 ID (PK), 제목, 장르, 공연장 코드, 날짜", "포스터 URI, 좌석 배치 맵핑 노드 데이터", "접근성 플래그 (휠체어/자막/수어/음성)"] },
+                            { name: "사용자 정보 (User Profiling)", items: ["유저 고유 ID (PK), 이름, 이메일, 인증 토큰", "장벽 프로필 (지체/초점/청각 범위 입력)", "사전 예약 및 찜 목록, 히스토리 리스트"] },
+                            { name: "공연장 인프라 정보 (Venue Asset)", items: ["공연장 ID (PK), 명칭, 실제 도면 좌표 데이터", "편의시설 노드 번호 (비상구/엘리베이터/화장식)", "단차 각도, 우회 램프 경사 실측 통계 피드"] },
+                            { name: "실시간 지원 매니저 (Care Agent)", items: ["매니저 고유번호 (PK), 닉네임, 매칭 일정표", "지원 우세 기술 코드 (수어/휠체어보조/시각동행)", "실시간 근무 장소 GPS 데이터, 활동 일지"] },
+                            { name: "통합 예약 정보 (Reservation Mapping)", items: ["티켓 예약번호 (PK), 공연 ID, 좌석 행렬 부호", "동반 일반인 결합 좌석 번들 세트 번호", "정부인증 지연 태그 플래그 (현장 완료전 가승인)"] }
+                          ].map((schema, sIdx) => (
+                            <div key={sIdx} className="bg-white border border-gray-250 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow">
+                              <h4 className="text-xs font-black text-blue-600 uppercase tracking-wider mb-3 flex items-center gap-1">
+                                <span className="w-1.5 h-1.5 rounded-full bg-blue-600"></span> {schema.name}
+                              </h4>
+                              <ul className="text-xs text-gray-700 font-mono space-y-1.5">
+                                {schema.items.map((item, iIdx) => (
+                                  <li key={iIdx} className="bg-gray-50 p-2 rounded-lg border border-gray-100 break-keep leading-relaxed block pl-6 relative">
+                                    <span className="absolute left-2 text-blue-500 font-bold">&bull;</span>
+                                    {item}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 border-b border-gray-100 pb-2">
+                          <Rocket size={18} className="text-blue-600" /> 4.3. 핵심 기능 구현 과정
+                        </h3>
+                        <div className="border-l-2 border-blue-200 pl-4 ml-2 space-y-6 text-xs">
+                          <div className="relative">
+                            <span className="absolute -left-[25px] top-0.5 bg-blue-600 text-white w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold">1</span>
+                            <h4 className="font-bold text-sm text-gray-950 mb-1">공공 데이터 연동 수립</h4>
+                            <p className="text-gray-600 leading-relaxed font-sans break-keep">
+                              서울시에서 승인한 고밀도 S-MAP 도심 포탈과 또타지하철 역사 실시간 승강기 오작동 여부 가용 오픈 API를 전면 수신 매핑 처리하고, 티켓 오픈 대응을 위해 인터파크·YES24 연결망을 안정적으로 가이드 아웃링크 처리했습니다.
+                            </p>
+                          </div>
+
+                          <div className="relative">
+                            <span className="absolute -left-[25px] top-0.5 bg-blue-600 text-white w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold">2</span>
+                            <h4 className="font-bold text-sm text-gray-950 mb-1">웹 접근성 최우선 마크업 작업</h4>
+                            <p className="text-gray-600 leading-relaxed font-sans break-keep">
+                              리더기 충돌 방지를 위해 `aria-label`을 전면 도입하고 화면 낭독용 간편 합성 보조 및 다크 하이콘트라스트 토글링 연동 프로세싱을 선구적으로 작성했습니다. 색에 관계없이 요소 구분을 확실하게 처리하기 위해 텍스트 수반을 상시 병합했습니다.
+                            </p>
+                          </div>
+
+                          <div className="relative">
+                            <span className="absolute -left-[25px] top-0.5 bg-blue-600 text-white w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold">3</span>
+                            <h4 className="font-bold text-sm text-gray-950 mb-1">인공지능 어시스트 최적 랭킹 알고리즘</h4>
+                            <p className="text-gray-600 leading-relaxed font-sans break-keep">
+                              고객이 사전에 온보딩 단계에서 설정한 접근성 등급 목록 가치와 선호 장르(뮤지컬, 연극, 콘서트 등)의 교집합 비중을 고르게 분배하여 홈화면 피드를 장식하며 최적 매각을 유도합니다.
+                            </p>
+                          </div>
+
+                          <div className="relative">
+                            <span className="absolute -left-[25px] top-0.5 bg-blue-600 text-white w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold">4</span>
+                            <h4 className="font-bold text-sm text-gray-950 mb-1">카메라 AR 지상선 뷰어 및 VR 360 공간</h4>
+                            <p className="text-gray-600 leading-relaxed font-sans break-keep">
+                              기기의 후방 자이로/카메라 권한을 얻어 가독 지상 화살표 동행 선을 현실에 겹치고 소극장들의 인프라 단층을 VR 뷰 컴포넌트로 포장하여 방문 전에 실제 분위기를 감각적으로 체험하도록 구현을 완성했습니다.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* --- SECTION 5: 테스트 및 배포 --- */}
+                  {activeTab === 4 && (
+                    <div className="space-y-8">
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+                          <span className="text-xs font-bold text-blue-600 font-mono uppercase tracking-wider">05. QUALITY ASSURANCE</span>
+                        </div>
+                        <h2 className="text-2xl sm:text-3xl font-black text-gray-900 font-display">5. 테스트 및 배포</h2>
+                        <span className="block w-12 h-1 bg-blue-600 mt-3 rounded-full"></span>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 border-b border-gray-100 pb-2">
+                          <CheckCircle2 size={18} className="text-blue-600" /> 5.1. 웹 접근성 평가 및 테스트
+                        </h3>
+                        <p className="text-sm text-gray-600 font-sans leading-relaxed break-keep">
+                          <strong>테스트 환경:</strong> 실사용자인 모바일 환경(iOS Safari, Android Chrome)을 중심으로 가로림 없는 뷰포트 정렬을 완료했으며, 스크린 터치 딜레이 및 인프라 매칭 동작을 고르게 검사 완료했습니다.
+                        </p>
+                        
+                        <div className="overflow-x-auto border border-gray-200 rounded-xl shadow-sm">
+                          <table className="w-full text-left border-collapse text-xs">
+                            <thead>
+                              <tr className="bg-gray-100 text-gray-700 font-bold border-b border-gray-200">
+                                <th className="p-3">테스트 항목</th>
+                                <th className="p-3">검사 및 시뮬레이션 방법</th>
+                                <th className="p-3 text-center">결과 및 상태</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-150 bg-white">
+                              {[
+                                { title: "텍스트 가독성", test: "다크 테마 배경에 네온 계열 폰트 매치 후 WCAG 대비 매트릭스 측정", res: "충족 (대비율 4.5:1 표준 초과 달성)" },
+                                { title: "터치 영역 검도", test: "모바일 기준 각 주요 동작 버튼 크기 및 좌우 패딩을 44px 이상 수동 자율 전수 체크", res: "충족 (중복 탭 해제 및 타겟 반경 안정성 확보)" },
+                                { title: "TTS 호환 시맨틱", test: "iOS VoiceOver 및 안드로이드 스크린리더를 켜고 시범 조작 음성 낭독 흐름 수반 정렬", res: "충족 (페이지 리다이렉트 및 상태 바 변경 시 누락없이 피드백 보장)" },
+                                { title: "접근성 필터", test: "휠체어, 실시간 수어, 현장 자막 등 4종 결합 교차 필터링 동작 시 올바른 공연장과 공연만 잔존하는지 체크", res: "충족 (데이터셋 교차 조건 로직 정확도 100%)" },
+                                { title: "AR 길안내 전각", test: "카메라 센서 자이로 감도를 결합한 화살선 흐름이 가파른 계단을 쳐내고 무단차로만 돌 가상 궤도를 투하하는가 점검", res: "충족 (안정적인 카메라 렌즈 상용 투영 완료)" }
+                              ].map((qa, i) => (
+                                <tr key={i} className="hover:bg-gray-50/50">
+                                  <td className="p-3 font-bold text-gray-900">{qa.title}</td>
+                                  <td className="p-3 text-gray-600 font-sans leading-normal break-keep">{qa.test}</td>
+                                  <td className="p-3 text-center">
+                                    <span className="inline-block bg-emerald-100 text-emerald-800 text-[10px] font-black px-2.5 py-1 rounded-full border border-emerald-200">
+                                      {qa.res}
+                                    </span>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 border-b border-gray-100 pb-2">
+                          <Globe size={18} className="text-blue-600" /> 5.2. 배포 환경 사양
+                        </h3>
+                        <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 font-mono text-xs text-gray-700 space-y-3">
+                          <div className="flex justify-between border-b border-gray-200 pb-2">
+                            <span className="font-bold text-gray-500">코드 저장소 원클릭</span>
+                            <span className="text-gray-900 font-bold">GitHub Repository (Private Branch Sync)</span>
+                          </div>
+                          <div className="flex justify-between border-b border-gray-200 pb-2">
+                            <span className="font-bold text-gray-500">호스팅 및 배포 최적 클라우드</span>
+                            <span className="text-gray-900 font-bold">Vercel 엣지 엔진 (Web Serverless Static Hosting)</span>
+                          </div>
+                          <div className="flex justify-between border-b border-gray-200 pb-2">
+                            <span className="font-bold text-gray-500">지속적인 자동 통합 (CI/CD)</span>
+                            <span className="text-gray-900 font-bold">Push trigger ──&gt; Auto Build ──&gt; Instant Global Deployment (0 downtime)</span>
+                          </div>
+                          <div className="flex justify-between border-b border-gray-200 pb-2">
+                            <span className="font-bold text-gray-500">실서비스 가동 배포 URL (App ID)</span>
+                            <a href="https://bypass-b5ly.vercel.app" target="_blank" rel="noreferrer" className="text-blue-600 font-black underline hover:text-blue-800">https://bypass-b5ly.vercel.app</a>
+                          </div>
+                          <div className="flex justify-between pb-1">
+                            <span className="font-bold text-gray-500">프로젝트 홍보 및 가이드 웹페이지</span>
+                            <a href="https://403-bypass.vercel.app" target="_blank" rel="noreferrer" className="text-blue-600 font-black underline hover:text-blue-800">https://403-bypass.vercel.app</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* --- SECTION 6: 핵심 기능 상세 소개 --- */}
+                  {activeTab === 5 && (
+                    <div className="space-y-8">
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+                          <span className="text-xs font-bold text-blue-600 font-mono uppercase tracking-wider">06. CORE FEATURES DETAILED</span>
+                        </div>
+                        <h2 className="text-2xl sm:text-3xl font-black text-gray-900 font-display">6. 핵심 기능 상세 소개</h2>
+                        <span className="block w-12 h-1 bg-blue-600 mt-3 rounded-full"></span>
+                      </div>
+
+                      {/* Sub-tabs inside Section 6 */}
+                      <div className="flex border-b border-gray-200 overflow-x-auto gap-2 pb-1 scrollbar-none font-bold text-sm">
+                        {[
+                          { id: '6-1', label: '6-1. 이동 (안내·길안내·지하철)' },
+                          { id: '6-2', label: '6-2. 현장 (혼잡도·360VR)' },
+                          { id: '6-3', label: '6-3. 지원 (현장매칭·자막안경·소셜)' },
+                          { id: '6-4', label: '6-4. 개인화 (추천·접근센터·마이)' }
+                        ].map((sub) => (
+                          <button
+                            key={sub.id}
+                            onClick={() => setActiveStep6(sub.id)}
+                            className={`px-4 py-2.5 rounded-t-xl transition-all whitespace-nowrap ${
+                              activeStep6 === sub.id
+                                ? 'bg-blue-50 text-blue-600 border-b-2 border-blue-600'
+                                : 'text-gray-500 hover:text-gray-900'
+                            }`}
+                          >
+                            {sub.label}
+                          </button>
+                        ))}
+                      </div>
+
+                      {/* 6-1. 이동 */}
+                      {activeStep6 === '6-1' && (
+                        <div className="space-y-6">
+                          <div className="bg-white border-2 border-blue-400 p-5 rounded-2xl relative overflow-hidden">
+                            <span className="absolute top-4 right-4 bg-blue-100 text-blue-800 text-[10px] font-black px-2.5 py-0.5 rounded font-mono uppercase">Feature 01</span>
+                            <h4 className="text-base font-black text-blue-900 mb-2 flex items-center gap-1.5">
+                              <MapPin size={18} /> ① 3D 공연장 안내지도
+                            </h4>
+                            <p className="text-xs text-gray-700 leading-relaxed font-sans break-keep mb-3">
+                              <strong>물리적 진입 장벽의 총체적 극복:</strong> 오직 엘리베이터 유무에 매달리던 휠체어 관객들을 위해 계단 수, 보도의 턱 높이, 노상 주차장에서 문 앞까지의 휠체어 전용 경사로 각도, 수동 리프트의 운용 스피드와 대기 스폿까지 3D 다차원 실내 레이아웃에 직접 매핑 투사합니다.
+                            </p>
+                            <div className="bg-[#FAFBFD] p-3 rounded-lg border border-gray-100 text-[11px] text-gray-500 font-mono space-y-1">
+                              <div>&bull; <strong>기술 연계:</strong> 서울시 S-MAP 3D 공간정보 아키텍처 API 수신</div>
+                              <div>&bull; <strong>적용 지점:</strong> 충무아트센터 전 층 실측 좌표 매핑</div>
+                            </div>
+                          </div>
+
+                          <div className="bg-white border border-gray-200 p-5 rounded-2xl relative overflow-hidden shadow-sm">
+                            <span className="absolute top-4 right-4 bg-emerald-100 text-emerald-800 text-[10px] font-black px-2.5 py-0.5 rounded font-mono uppercase">Feature 02</span>
+                            <h4 className="text-base font-black text-emerald-950 mb-2 flex items-center gap-1.5">
+                              <Navigation size={18} /> ② AI AR 길안내
+                            </h4>
+                            <p className="text-xs text-gray-750 leading-relaxed font-sans break-keep mb-3">
+                              <strong>실시간 카메라 기반 길 찾기:</strong> 복잡하고 낯선 공연장 내부에서 스마트폰 카메라를 비추면 실시간 블루/라인 가이드가 단차 없는 우회로를 입체적으로 그려줍니다. 동선 상의 계단이나 오르막, 내리막 각도를 센서로 판단하여 최적 경로를 알려줍니다.
+                            </p>
+                            <div className="bg-[#FAFBFD] p-3 rounded-lg border border-gray-100 text-[11px] text-gray-500 font-mono space-y-1">
+                              <div>&bull; <strong>기술 연계:</strong> 디바이스 지향 자이로 마운팅 & 카메라 렌더링</div>
+                              <div>&bull; <strong>적용 지점:</strong> 지하철 출구부터 대극장 객석 복도까지 전체</div>
+                            </div>
+                          </div>
+
+                          <div className="bg-white border border-gray-200 p-5 rounded-2xl relative overflow-hidden shadow-sm">
+                            <span className="absolute top-4 right-4 bg-blue-100 text-blue-900 text-[10px] font-black px-2.5 py-0.5 rounded font-mono uppercase">Feature 03</span>
+                            <h4 className="text-base font-black text-blue-955 mb-2 flex items-center gap-1.5">
+                              <TrainFront size={18} /> ③ 교통 연동 (또타지하철)
+                            </h4>
+                            <p className="text-xs text-gray-750 leading-relaxed font-sans break-keep mb-3">
+                              <strong>지하철 승강기 고장 즉각 전파:</strong> 관객이 방문 예정인 환승역 혹은 목적지역 지하철 엘리베이터 고장 돌발 상황을 서울교통공사 데이터와 직접 페어링해 사전에 노선 조정을 실시간으로 제안하여 돌발 고립 사고를 원천 방지합니다.
+                            </p>
+                            <div className="bg-[#FAFBFD] p-3 rounded-lg border border-gray-100 text-[11px] text-gray-500 font-mono space-y-1">
+                              <div>&bull; <strong>기술 연계:</strong> 서울시 대중교통 오픈 API 실시간 수신</div>
+                              <div>&bull; <strong>적용 지점:</strong> 신당역(2호선, 6호선) 실시간 가동 현황</div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* 6-2. 현장 */}
+                      {activeStep6 === '6-2' && (
+                        <div className="space-y-6">
+                          <div className="grid md:grid-cols-2 gap-6">
+                            <div className="bg-white border border-gray-200 p-5 rounded-2xl relative overflow-hidden shadow-sm">
+                              <span className="absolute top-4 right-4 bg-rose-100 text-rose-800 text-[10px] font-black px-2.5 py-0.5 rounded font-mono uppercase">Feature 04</span>
+                              <h4 className="text-base font-black text-rose-955 mb-2 flex items-center gap-1.5">
+                                <Activity size={18} /> ④ 실시간 층별/공간 혼잡도
+                              </h4>
+                              <p className="text-xs text-gray-750 leading-relaxed font-sans break-keep mb-3">
+                                <strong>장애인 전용 공간 밀집도 알림:</strong> 대기 시간이 아주 길어질 경우 휠체어 탑승 관객에게 큰 체력 부담과 난관을 주는 장애인 화장실 및 휠체어 대여 보관소 부근의 이용 관객 수, 예상 대기 줄 정량 정보를 실시간 수치 데이터로 표시해 현명한 타이밍 분산을 도와줍니다.
+                              </p>
+                              <div className="bg-[#FAFBFD] p-3 rounded-lg border border-gray-100 text-[11px] text-gray-500 font-mono space-y-1">
+                                <div>&bull; <strong>연동 인프라:</strong> IoT 센서 모니터링 및 웨이팅 스톱워치</div>
+                                <div>&bull; <strong>적용 지점:</strong> 로비 남녀 장애인 특화 간이 시설 포인트</div>
+                              </div>
+                            </div>
+
+                            <div className="bg-white border border-gray-200 p-5 rounded-2xl relative overflow-hidden shadow-sm">
+                              <span className="absolute top-4 right-4 bg-purple-100 text-purple-800 text-[10px] font-black px-2.5 py-0.5 rounded font-mono uppercase">Feature 05</span>
+                              <h4 className="text-base font-black text-purple-950 mb-2 flex items-center gap-1.5">
+                                <Eye size={18} /> ⑤ 좌석별 3D VR 입체 시야
+                              </h4>
+                              <p className="text-xs text-gray-750 leading-relaxed font-sans break-keep mb-3">
+                                <strong>현장 착석 전 360VR 미리보기:</strong> 예매 단계 또는 구매 직후 관객이 선택한 좌석 번호에 서서 실제 무대가 눈에 어떻게 보이는지를 미리 회전형 360VR 뷰로 투영합니다. 안전 손잡이의 차단 깊이나 극장 기둥으로 인한 무대 차단율을 직접 예측할 수 있습니다.
+                              </p>
+                              <div className="bg-[#FAFBFD] p-3 rounded-lg border border-gray-100 text-[11px] text-gray-500 font-mono space-y-1">
+                                <div>&bull; <strong>기술 연계:</strong> 3D WebGL 시각화 엔진 내재화 파이프라인</div>
+                                <div>&bull; <strong>적용 지점:</strong> 충무아트센터 대극장 / 소극장 전 좌석 매칭</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* 6-3. 지원 */}
+                      {activeStep6 === '6-3' && (
+                        <div className="space-y-6">
+                          <div className="grid md:grid-cols-3 gap-6">
+                            <div className="bg-white border border-gray-200 p-5 rounded-2xl relative overflow-hidden shadow-sm">
+                              <span className="absolute top-4 right-4 bg-amber-100 text-amber-800 text-[10px] font-black px-2.5 py-0.5 rounded font-mono uppercase">Feature 06</span>
+                              <h4 className="text-base font-black text-amber-950 mb-2 flex items-center gap-1.5">
+                                <Users size={18} /> ⑥ 배리어프리 프렌즈 (매칭)
+                              </h4>
+                              <p className="text-xs text-gray-755 leading-relaxed font-sans break-keep mb-3">
+                                <strong>인적 오프라인 지원 헬퍼 요청:</strong> 지하철 역 출구 또는 승강장 앞 전선에서 휠체어 단차 극복과 승하차 보조, 건물 입석까지 실시간으로 도움을 줄 수 있는 현장 대학생/시민 배리어프리 어시스턴스를 일대일로 안전히 연결 예약하는 통합 인적 돌봄 매칭 허브입니다.
+                              </p>
+                            </div>
+
+                            <div className="bg-white border border-gray-200 p-5 rounded-2xl relative overflow-hidden shadow-sm">
+                              <span className="absolute top-4 right-4 bg-sky-100 text-sky-800 text-[10px] font-black px-2.5 py-0.5 rounded font-mono uppercase">Feature 07</span>
+                              <h4 className="text-base font-black text-sky-950 mb-2 flex items-center gap-1.5">
+                                <Smartphone size={18} /> ⑦ 스마트 자막 안경 (연동)
+                              </h4>
+                              <p className="text-xs text-gray-755 leading-relaxed font-sans break-keep mb-3">
+                                <strong>수어 자막 스마트 글래스 미러링:</strong> 시/청각 배리어에 직면한 예술 관향 애호가들이 대여소에서 제공받은 디지털 AR 안경 디바이스를 원클릭 페어링하여 스크립트 자막의 실시간 크기(폰트 스케일), 배경 시인 조도, 언어 동기화를 직접 자가 제어 조절하도록 구성되었습니다.
+                              </p>
+                            </div>
+
+                            <div className="bg-white border border-gray-200 p-5 rounded-2xl relative overflow-hidden shadow-sm">
+                              <span className="absolute top-4 right-4 bg-red-100 text-red-850 text-[10px] font-black px-2.5 py-0.5 rounded font-mono uppercase">Feature 08</span>
+                              <h4 className="text-base font-black text-red-950 mb-2 flex items-center gap-1.5">
+                                <Heart size={18} /> ⑧ 관극 메이트 동행 소셜
+                              </h4>
+                              <p className="text-xs text-gray-755 leading-relaxed font-sans break-keep mb-3">
+                                <strong>동행 구하기 및 무장애 동선 공유:</strong> 무장애 정보가 없으면 출발하는 것조차 두려운 이동 약자들과 일반 자원 동행 관객들이 공연 별로 따뜻하게 짝을 지어 함께 티켓 수령, 입장, 관람 히스토리를 훈훈한 우정으로 개진해 갈 수 있는 따뜻한 403 서셜 보드망입니다.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* 6-4. 개인화 */}
+                      {activeStep6 === '6-4' && (
+                        <div className="space-y-6">
+                          <div className="grid md:grid-cols-3 gap-6">
+                            <div className="bg-white border border-gray-200 p-5 rounded-2xl relative overflow-hidden shadow-sm">
+                              <span className="absolute top-4 right-4 bg-teal-100 text-teal-800 text-[10px] font-black px-2.5 py-0.5 rounded font-mono uppercase">Feature 09</span>
+                              <h4 className="text-base font-black text-teal-950 mb-2 flex items-center gap-1.5">
+                                <Activity size={18} /> ⑨ 장애 필터 맞춤 큐레이션
+                              </h4>
+                              <p className="text-xs text-gray-755 leading-relaxed font-sans break-keep mb-3">
+                                <strong>진입 전 알맞은 최적 공연 분류:</strong> 휠체어 단차 100% 해소점, 청각 스크립트 수어 가용 연동 극장, 시각 가변 오디오 코멘터리 상영 일시 등, 이용자가 등록한 장애 프로필 조건에 부합하는 공연들만을 AI 랭킹 기술로 사려 깊게 먼저 선발해 상단 연출합니다.
+                              </p>
+                            </div>
+
+                            <div className="bg-white border border-gray-200 p-5 rounded-2xl relative overflow-hidden shadow-sm">
+                              <span className="absolute top-4 right-4 bg-indigo-100 text-indigo-800 text-[10px] font-black px-2.5 py-0.5 rounded font-mono uppercase">Feature 10</span>
+                              <h4 className="text-base font-black text-indigo-950 mb-2 flex items-center gap-1.5">
+                                <Accessibility size={18} /> ⑩ 디지털 배리어프리 대응 센터
+                              </h4>
+                              <p className="text-xs text-gray-755 leading-relaxed font-sans break-keep mb-3">
+                                <strong>원터치 현장 민원 소통 허브:</strong> 대여 장비 에러, 휠체어 리프트 대형 대기줄 발생 등 돌발 장애 허들을 겪는 즉시, 현재 모바일의 정밀 3D 구조물 위치 정보와 응급 호출 요청을 충무아트센터 내부 관리 데스크에 바로 다이렉트 전조 전송해 현행 지원을 이끌어 냅니다.
+                              </p>
+                            </div>
+
+                            <div className="bg-white border border-gray-200 p-5 rounded-2xl relative overflow-hidden shadow-sm">
+                              <span className="absolute top-4 right-4 bg-slate-100 text-slate-800 text-[10px] font-black px-2.5 py-0.5 rounded font-mono uppercase">Feature 11</span>
+                              <h4 className="text-base font-black text-slate-950 mb-2 flex items-center gap-1.5">
+                                <User size={18} /> ⑪ 개인화 유니버설 마이페이지
+                              </h4>
+                              <p className="text-xs text-gray-755 leading-relaxed font-sans break-keep mb-3">
+                                <strong>안전 데이터 커스텀 정보 기여:</strong> 내가 직접 현장에 방문 설계해 보조한 단차 실측 건수, 가치 있는 좌석 시야 리뷰 등 따뜻한 크라우드 소싱 협력 공로 업적을 리워드 보석 뱃지 보관함으로 빛나게 모니터해 제공합니다.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {activeTab === 6 && (
+                    <div className="space-y-12 text-gray-800">
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+                          <span className="text-xs font-bold text-blue-600 font-mono uppercase tracking-wider">07. PROMOTION STRATEGY</span>
+                        </div>
+                        <h2 className="text-2xl sm:text-3xl font-black text-gray-900 font-display">7. 홍보 전략</h2>
+                        <span className="block w-12 h-1 bg-blue-600 mt-3 rounded-full"></span>
+                      </div>
+
+                      {/* 7.1. 플랫폼 연동 홍보 & 팝업 광고 */}
+                      <div className="space-y-6">
+                        <div className="bg-slate-50 border border-gray-100 rounded-2xl p-6">
+                          <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 mb-2">
+                            <Activity size={18} className="text-blue-600" /> 7.1. 플랫폼 연동 홍보 및 인앱 팝업 광고
+                          </h3>
+                          <p className="text-sm text-gray-700 leading-relaxed font-sans break-keep mb-6">
+                            공연 티켓 예매 직후 관람객이 가장 궁금해하는 정보는 공연장 정보이다. <br />
+                            따라서 예매 플랫폼과의 제휴를 통해 자연스럽게 서비스를 노출한다.
+                          </p>
+                          <div className="grid md:grid-cols-3 gap-6">
+                            <div className="flex flex-col">
+                              <span className="text-xs font-bold text-gray-400 mb-2">플랫폼 연동 홍보</span>
+                              <PromoImageWithPlaceholder 
+                                src="/src/assets/promo_1.png" 
+                                label="홍보 시안 ①" 
+                                alt="플랫폼 연동 홍보" 
+                                description="기존 예매 플랫폼 제휴 마케팅을 통해 결제 완료 구역 직후 노출되는 배리어프리 시안"
+                                hideCardDetails={true}
+                              />
+                            </div>
+                            <div className="md:col-span-2 flex flex-col">
+                              <span className="text-xs font-bold text-gray-400 mb-2">팝업 광고</span>
+                              <div className="grid sm:grid-cols-2 gap-4 h-full">
+                                <PromoImageWithPlaceholder 
+                                  src="/src/assets/promo_2.png" 
+                                  label="광고 시안 ②" 
+                                  alt="팝업 광고" 
+                                  description="공연장 근경 무장애 내비 및 맞춤 인앱 팝업 광고 시안"
+                                  hideCardDetails={true}
+                                />
+                                <PromoImageWithPlaceholder 
+                                  src="/src/assets/promo_3.png" 
+                                  label="광고 시안 ③" 
+                                  alt="팝업 광고" 
+                                  description="지원 장비 대여 및 케어 매칭 서비스 바로가기 팝업 광고 시안"
+                                  hideCardDetails={true}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 7.2. 서포터즈 운영 */}
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 border-b border-gray-100 pb-2">
+                          <Users size={18} className="text-blue-600" /> 7.2. 서포터즈 운영 및 무장애 생태계 구축
+                        </h3>
+                        <p className="text-sm text-gray-650 leading-relaxed font-sans break-keep">
+                          단발적인 자원봉사에 그치지 않고, 지속적인 크라우드 소싱 기반의 정보 현행화 및 앱 대외 인지도를 전방위로 확산하기 위하여 <strong>전문 배리어프리 어시스턴스 프렌즈</strong>를 선발·운영합니다.
+                        </p>
+
+                        <div className="grid md:grid-cols-12 gap-6 items-stretch">
+                          <div className="md:col-span-7 flex flex-col justify-between space-y-4">
+                            <div className="grid sm:grid-cols-2 gap-4">
+                              {/* 콘텐츠 제작형 */}
+                              <div className="border border-gray-200 p-5 rounded-2xl bg-white shadow-sm flex flex-col justify-between hover:border-blue-400 transition-colors">
+                                <div>
+                                  <div className="w-8 h-8 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center mb-3">
+                                    <Palette size={16} className="text-blue-600" />
+                                  </div>
+                                  <h4 className="text-sm font-black text-gray-950 mb-2">① 콘텐츠 제작형 서포터즈</h4>
+                                  <p className="text-xs text-gray-400 mb-3 font-mono leading-none">&bull; 온라인 기반 바이럴 기획</p>
+                                  <ul className="text-xs text-gray-600 space-y-2 font-sans pl-1">
+                                    <li className="flex items-start gap-1.5"><span className="text-blue-500 font-extrabold">•</span> SNS 게시물 및 블로그 생생한 방문 후기 작성</li>
+                                    <li className="flex items-start gap-1.5"><span className="text-blue-500 font-extrabold">•</span> 릴스·숏폼 기반 AR 안경 및 앱 사용 꿀팁 제작</li>
+                                    <li className="flex items-start gap-1.5"><span className="text-blue-500 font-extrabold">•</span> 배리어프리 연극제 행사 참여 후기 스토리 업로드</li>
+                                  </ul>
+                                </div>
+                              </div>
+
+                              {/* 현장 참여형 */}
+                              <div className="border border-gray-200 p-5 rounded-2xl bg-white shadow-sm flex flex-col justify-between hover:border-emerald-400 transition-colors">
+                                <div>
+                                  <div className="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center mb-3">
+                                    <Smartphone size={16} className="text-emerald-600" />
+                                  </div>
+                                  <h4 className="text-sm font-black text-gray-950 mb-2">② 현장 참여형 서포터즈</h4>
+                                  <p className="text-xs text-gray-400 mb-3 font-mono leading-none">&bull; 오프라인 실측 및 부스 전선</p>
+                                  <ul className="text-xs text-gray-600 space-y-2 font-sans pl-1">
+                                    <li className="flex items-start gap-1.5"><span className="text-emerald-500 font-extrabold">•</span> 현장 참여형 오프라인 공식 홍보 부스 진행</li>
+                                    <li className="flex items-start gap-1.5"><span className="text-emerald-500 font-extrabold">•</span> 미지정 소극장 직접 방문 및 단차·경사 실측 수집</li>
+                                    <li className="flex items-start gap-1.5"><span className="text-emerald-500 font-extrabold">•</span> 좌석별 물리적 시야 실제 사진 및 접근성 정보 등록</li>
+                                    <li className="flex items-start gap-1.5"><span className="text-emerald-500 font-extrabold">•</span> AR 안경 및 앱 피드백 제공과 인프라 점검 수행</li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="bg-slate-50 border border-gray-200 p-4 rounded-xl text-xs space-y-1.5 font-sans leading-relaxed">
+                              <p className="font-extrabold text-gray-950 flex items-center gap-1">🎖️ 서포터즈 리워드 체계</p>
+                              <p className="text-gray-600 text-[11px] break-keep">
+                                참가 활성화를 위하여 충무아트센터 공연 기여 할인권 제공, 1365 자원봉사 공인 시간 인증, 앱 마이페이지 한정판 훈장 뱃지 부여 등 입체적이고 지속가능한 헬퍼 순환 체계를 구현해 기여를 촉진합니다.
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="md:col-span-5">
+                            <PromoImageWithPlaceholder 
+                              src="/src/assets/promo_4.png" 
+                              label="서포터즈 홍보 광고 ④" 
+                              alt="서포터즈 홍보 광고 포스터" 
+                              description="[서포터즈 홍보 광고] '모두의 시선을 맞추다, 무장애를 향해 달리다' 403 BYPASS 배리어프리 서포터즈 공식 모집 포스터 시안"
+                              hideCardDetails={true}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 7.3. 영상 제작 및 인플루언서 협업 */}
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 border-b border-gray-100 pb-2">
+                          <Video size={18} className="text-blue-600" /> 7.3. 타이포그래픽 광고 영상 & 인플루언서 제휴
+                        </h3>
+                        <p className="text-sm text-gray-650 leading-relaxed font-sans break-keep">
+                          스마트 안경 연동 연계 기술과 이동약자 무단차 동선 안내의 직관적인 체력을 대대적으로 각인하기 위해, 시각적 주목도가 압도적인 <strong>타이포그래픽 광고 영상</strong> 및 주요 문화예술 크리에이터와의 <strong>오리지널 콘텐츠 협업 마케팅</strong>을 집행합니다.
+                        </p>
+
+                        <div className="grid md:grid-cols-3 gap-6 items-stretch">
+                          <div className="bg-slate-950 text-white p-5 rounded-2xl flex flex-col justify-between border border-blue-900 shadow-sm">
+                            <div>
+                              <span className="font-mono text-[#00BFFF] text-[10px] font-black tracking-widest block mb-2 uppercase">MOTION TYPOGRAPHY AD</span>
+                              <h4 className="text-sm font-extrabold text-white mb-2 flex items-center gap-1.5">
+                                <Video size={14} className="text-[#00BFFF]" /> 타이포그래픽 광고 영상 제작
+                              </h4>
+                              <p className="text-xs text-slate-300 leading-relaxed font-sans break-keep mb-3">
+                                붐벼서 혼잡한 안내창구의 장벽, 높고 어두운 소극장 입구 앞 휠체어 관객의 막막함을 화려하게 뻗어나가는 무브먼트 모션 타이포 단락으로 선명하게 묘사하여 강력한 스토리텔링 광고 영상을 제작 송출합니다.
+                              </p>
+                            </div>
+                            <div className="bg-white/5 border border-white/10 p-3 rounded-lg text-[10.5px] text-slate-200">
+                              <span className="font-bold text-[#00BFFF] block mb-1 font-mono">AD SLOGAN:</span>
+                              &ldquo;막혔던 입장(403 Forbidden)에서, 모두에게 평등한 우회로(403 BYPASS)로.&rdquo;
+                            </div>
+                          </div>
+
+                          <div className="md:col-span-2 flex flex-col justify-between space-y-4">
+                            <div className="bg-slate-50 border border-gray-200 p-4 rounded-xl text-xs">
+                              <span className="text-[9px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full font-bold mb-1.5 inline-block font-mono">CREATOR COLLABORATION</span>
+                              <h4 className="font-bold text-gray-900 mb-1">인플루언서 페어링 콘텐츠 연합</h4>
+                              <p className="text-gray-600 leading-relaxed break-keep text-[11px]">
+                                휠체어 전용 배리어프리 전문 여행/문화 유튜버, 자막 지원 예술 애호가, 연극 매니아 인플루언서 등과의 긴밀한 실측 협동 챌린지 숏폼을 동시 배급하여 정보의 신뢰도를 폭발시킵니다.
+                              </p>
+                            </div>
+
+                            <div className="grid grid-cols-3 gap-3">
+                              <PromoImageWithPlaceholder 
+                                src="/src/assets/promo_5.png" 
+                                label="협업 시안 ⑤" 
+                                alt="인플루언서 협업 콘텐츠 1" 
+                                description="[인플루언서 협업] 지체 휠체어 크리에이터와 함께하는 403 BYPASS 실시간 무단차 안내 챌린지"
+                                hideCardDetails={true}
+                              />
+                              <PromoImageWithPlaceholder 
+                                src="/src/assets/promo_6.png" 
+                                label="협업 시안 ⑥" 
+                                alt="인플루언서 협업 콘텐츠 2" 
+                                description="[인플루언서 협업] 청각약자 매니아가 현장 스마트 자막 안경 착용법에 감동하는 릴스 영상"
+                                hideCardDetails={true}
+                              />
+                              <PromoImageWithPlaceholder 
+                                src="/src/assets/promo_7.png" 
+                                label="협업 시안 ⑦" 
+                                alt="인플루언서 협업 콘텐츠 3" 
+                                description="[인플루언서 협업] 배리어프리 예술 지원 기획단과의 충무아트센터 최적 이동 노선 기행 블로그"
+                                hideCardDetails={true}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 7.4. 타겟 고객 공략 & SNS 광고 */}
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 border-b border-gray-100 pb-2">
+                          <Megaphone size={18} className="text-blue-600" /> 7.4. 타겟 채널 공략 & SNS 마이크로 광고 최적화
+                        </h3>
+                        <p className="text-sm text-gray-650 leading-relaxed font-sans break-keep">
+                          관조적인 성향을 벗어나, 연극·뮤지컬 관람 횟수가 극도로 높아 티켓 검색어와 좌석 시야 확보에 가장 주도적으로 목소리를 높이는 <strong>트위터(X), 인스타그램의 헤비 관객 매니아 그룹 채널을 대상으로 마켓 최적화 SNS 광고</strong>를 정밀 인젝션합니다.
+                        </p>
+
+                        <div className="grid md:grid-cols-12 gap-5 items-stretch">
+                          <div className="md:col-span-7 bg-white border border-gray-200 p-5 rounded-2xl flex flex-col justify-between shadow-sm">
+                            <div className="space-y-3">
+                              <span className="text-[10px] text-blue-600 bg-blue-50 px-2 py-0.5 rounded font-mono font-bold block w-fit">SNS SEGMENT PROMOTION</span>
+                              <h4 className="text-sm font-black text-gray-950">트위터(X) 및 인스타그램 매니아 검색어 정밀 표적 마케팅</h4>
+                              <p className="text-xs text-gray-600 leading-relaxed font-sans break-keep">
+                                티켓 양도, 첫공 캐스팅표, 시야 제한석, 극장 계단 단차 등 소매 약자 및 무대 정보 갈망 핵심 해시태그를 정밀 리스닝하여 솔루션 앱 무료 다운로드 링크를 타임라인 최상위에 연계 바이럴 광고합니다.
+                              </p>
+                            </div>
+                            <div className="border-t border-gray-150 pt-3 flex flex-wrap gap-1.5 text-[10px] font-mono">
+                              <span className="bg-slate-100 text-gray-600 px-2.5 py-0.5 rounded-full font-bold">#충무아트센터</span>
+                              <span className="bg-slate-100 text-gray-600 px-2.5 py-0.5 rounded-full font-bold">#휠체어석시야</span>
+                              <span className="bg-slate-100 text-gray-600 px-2.5 py-0.5 rounded-full font-bold">#뮤지컬매니아</span>
+                              <span className="bg-blue-600/10 text-blue-600 px-2.5 py-0.5 rounded-full font-bold border border-blue-600/20">#403BYPASS_우회로</span>
+                            </div>
+                          </div>
+                          <div className="md:col-span-5">
+                            <PromoImageWithPlaceholder 
+                              src="/src/assets/promo_8.png" 
+                              label="SNS 광고 시안 ⑧" 
+                              alt="트위터 타임라인 스폰서 배너 광고" 
+                              description="[SNS 광고] '티켓팅은 매서웠는데, 극장 앞에 계단뿐이라면? 무장애 동선 안내 403 BYPASS' 트위터 타임라인 배너 시안"
+                              hideCardDetails={true}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 7.5. 오프라인 홍보 — 물리적 거점별 맥락 맞춤 QR 배치 */}
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 border-b border-gray-100 pb-2">
+                          <MapPin size={18} className="text-blue-600" /> 7.5. 오프라인 홍보 — 물리적 거점별 맥락 맞춤 QR 배치
+                        </h3>
+                        <p className="text-sm text-gray-650 leading-relaxed font-sans break-keep">
+                          관람객들이 신체 장벽이나 정보 가림의 목막힘을 생생하게 경험하는 <strong>현장 최전선 포인트마다 고유의 맥락 QR 판넬을 배치</strong>하여 즉각적으로 앱 사용을 실감하도록 설계했습니다. 아래 가상 시뮬레이터 구역을 눌러 동작 환경을 미리 체감해 보십시오.
+                        </p>
+
+                        <div className="bg-slate-900 text-white rounded-2xl p-5 border border-blue-950 shadow-lg">
+                          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4 border-b border-white/5 pb-3">
+                            <span className="text-[10px] font-mono text-[#00BFFF] uppercase tracking-widest block font-bold">Concert Hall Physical Hotspot Simulator</span>
+                            <span className="bg-[#00BFFF]/20 text-[#00BFFF] text-[9px] px-2 py-0.5 rounded border border-[#00BFFF]/30 font-mono">LIVE INTERACTIVE MAPPING</span>
+                          </div>
+                          
+                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4 text-xs font-mono">
+                            {[
+                              { id: 'subway', label: '① 역출구 앞', txt: '지하철역 출구 앞', qr: '“공연장까지 AR 우회 노선 즉시 개시!”', link: 'AR 길안내 실행' },
+                              { id: 'tix', label: '② 매표소 옆', txt: '매표소 부스 벽', qr: '“내가 예매한 좌석 3D 실제 시야 무료 확인!”', link: '360도 VR 미리보기 실행' },
+                              { id: 'elevator', label: '③ 엘리베이터 앞', txt: '화장실·승강기 대기줄', qr: '“로비 화장실 혼잡 정체률 실시간 확인!”', link: '실시간 혼잡도 타임라인' },
+                              { id: 'lobby', label: '④ 로비 기둥', txt: '지상 로비 중앙 홀', qr: '“안경 대여 및 스마트 자막 연동 예약!”', link: '매칭 및 스마트 대여 탭 전환' }
+                            ].map((hot) => (
+                              <button
+                                key={hot.id}
+                                onClick={() => setQrHotspot(hot.id)}
+                                className={`p-3 rounded-lg border text-center transition-all ${
+                                  qrHotspot === hot.id
+                                    ? 'bg-[#00BFFF] text-black border-[#00BFFF] font-black shadow-[0_0_15px_rgba(0,191,255,0.3)]'
+                                    : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'
+                                }`}
+                              >
+                                {hot.label}
+                              </button>
+                            ))}
+                          </div>
+
+                          <AnimatePresence mode="wait">
+                            <motion.div
+                              key={qrHotspot}
+                              initial={{ opacity: 0, x: 5 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              exit={{ opacity: 0, x: -5 }}
+                              className="bg-black/60 p-5 rounded-xl border border-[#00BFFF]/35 flex flex-col sm:flex-row justify-between items-center gap-4 text-left"
+                            >
+                              <div className="space-y-1 bg-transparent">
+                                <span className="bg-[#00BFFF]/10 text-[#00BFFF] text-[9.5px] px-2.5 py-0.5 rounded-full font-bold inline-block font-mono uppercase border border-[#00BFFF]/20">
+                                  {qrHotspot === 'subway' ? 'Subway Exit Board' : qrHotspot === 'tix' ? 'Tix Box Counter' : qrHotspot === 'elevator' ? 'Elevator Corridor Lobby' : 'Lobby Pillar Board'}
+                                </span>
+                                <h4 className="text-sm font-black text-white">
+                                  {qrHotspot === 'subway' ? '지하철역 가상 QR 부착점' : qrHotspot === 'tix' ? '매표소 인근 QR 보드판' : qrHotspot === 'elevator' ? '엘리베이터 및 화장실 대기벽 부착' : '로비 기둥 대형 배너 QR 부착'}
+                                </h4>
+                                <div className="bg-white/[0.03] p-3 rounded-lg border border-white/10 text-xs">
+                                  <p className="text-gray-400 font-mono mb-1"><span className="text-gray-300 font-sans">부착 추천 위치:</span> {qrHotspot === 'subway' ? '신당역 충무아트센터 극장 진출입 출구 근근' : qrHotspot === 'tix' ? '충무아트센터 지상 매표 구역 티켓 부동 근근' : qrHotspot === 'elevator' ? '본관 엘리베이터 양측 복도 및 실시간 안전 슬로프 입구' : '센터 중앙 거대 지상 대기 로비 기둥 중앙'}</p>
+                                  <p className="text-white font-sans"><strong className="text-[#00BFFF]">QR 인쇄 문구:</strong> {qrHotspot === 'subway' ? '“공연장까지 AR 우회 노선 즉시 개시!”' : qrHotspot === 'tix' ? '“내가 예매한 좌석 3D 실제 시야 무료 확인!”' : qrHotspot === 'elevator' ? '“로비 화장실 혼잡 정체률 실시간 확인!”' : '“안경 대여 및 스마트 자막 연동 예약!”'}</p>
+                                </div>
+                              </div>
+                              <div className="shrink-0 text-center sm:text-right w-full sm:w-auto self-center">
+                                <span className="text-[10px] block text-gray-400 mb-1 font-mono">연계 인핸스 바로가기</span>
+                                <span className="bg-[#00BFFF] text-black font-extrabold px-4 py-2.5 rounded-lg text-xs inline-block shadow-md w-full sm:w-auto">
+                                  {qrHotspot === 'subway' ? '🗺️ AR 길안내 바로 실행' : qrHotspot === 'tix' ? '🕶️ 360VR 미리보기 화면' : qrHotspot === 'elevator' ? '📊 로비 혼잡도 타임라인' : '👥 매칭/대여 특화 탭 로드'}
+                                </span>
+                              </div>
+                            </motion.div>
+                          </AnimatePresence>
+                        </div>
+                      </div>
+
+                    </div>
+                  )}
+
+                  {/* --- SECTION 8: 프로젝트 성과 및 회고 --- */}
+                  {activeTab === 7 && (
+                    <div className="space-y-8">
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+                          <span className="text-xs font-bold text-blue-600 font-mono uppercase tracking-wider">08. OUTCOME & FUTURE</span>
+                        </div>
+                        <h2 className="text-2xl sm:text-3xl font-black text-gray-900 font-display">8. 프로젝트 성과 및 회고</h2>
+                        <span className="block w-12 h-1 bg-blue-600 mt-3 rounded-full"></span>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 border-b border-gray-100 pb-2">
+                          <Award size={18} className="text-blue-600" /> 8.1. 최종 결과물 및 기대 효과
+                        </h3>
+                        
+                        <div className="grid sm:grid-cols-3 gap-4">
+                          <div className="bg-[#FAFBFD] border border-gray-200 p-5 rounded-xl">
+                            <span className="text-[9px] font-mono text-blue-600 font-bold block mb-1">SHIPPED CODE</span>
+                            <h4 className="text-sm font-bold text-gray-950 mb-2">최종 결과물 출시 완료</h4>
+                            <p className="text-xs text-gray-600 leading-relaxed font-sans break-keep">
+                              클라우드 완결형 정적 배포 파이프라인 수립과 더불어 홈, 안내맵, 매칭대여, 티켓시야, 마이페이지를 연결하는 통합 무장애 5개 영역 앱 빌드를 충실하게 이룩했습니다.
+                            </p>
+                          </div>
+
+                          <div className="bg-[#FAFBFD] border border-gray-200 p-5 rounded-xl">
+                            <span className="text-[9px] font-mono text-emerald-600 font-bold block mb-1">SOCIAL EXPECTATION</span>
+                            <h4 className="text-sm font-bold text-emerald-950 mb-2">사회적 파급 효과</h4>
+                            <p className="text-xs text-gray-600 leading-relaxed font-sans break-keep">
+                              고령층, 잔존시력약자, 자폐 관람자 등 사각에 갇혔던 이동 약자들의 문화적 소외를 원천 해제하여 평등한 예술 관람 영위권을 극대화하는 든든한 등대가 됩니다.
+                            </p>
+                          </div>
+
+                          <div className="bg-[#FAFBFD] border border-gray-200 p-5 rounded-xl">
+                            <span className="text-[9px] font-mono text-purple-600 font-bold block mb-1">TECHNICAL IMPACT</span>
+                            <h4 className="text-sm font-bold text-purple-950 mb-2">기술적 가치 선구</h4>
+                            <p className="text-xs text-gray-600 leading-relaxed font-sans break-keep">
+                              단차를 시뮬레이션하는 S-MAP 매핑과 블루투스 스마트 글래스 무선 자막 피팅 기술 등, 단순 소비 중심 기술을 배리어프리 복지 도구로 혁신 결합했습니다.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 border-b border-gray-100 pb-2">
+                          <ShieldAlert size={18} className="text-blue-600" /> 8.2. 한계점 및 향후 발전 방향
+                        </h3>
+                        
+                        <div className="overflow-x-auto border border-gray-200 rounded-xl shadow-sm">
+                          <table className="w-full text-left border-collapse text-xs">
+                            <thead>
+                              <tr className="bg-gray-100 text-gray-700 font-bold border-b border-gray-200">
+                                <th className="p-3">현재 한계점 (Limitations)</th>
+                                <th className="p-3">해결 및 발전 타깃 (Roadmap & Milestones)</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-150 bg-white">
+                              {[
+                                { limit: "현장 극서 소외층 실사용 테스트 누락", road: "지체 장애 및 청각 장애 단체와 필드 테스트 협업 설계 (Co-design) 추진" },
+                                { limit: "GPS 음영 극실내의 자이로 AR 오차 한계", road: "실내 보정용 초지향 비콘 센서 및 공간 매핑 위치 정밀 알고리즘 고도화" },
+                                { limit: "전 수량 공연장 실시간 혼잡도 측정 대역 협소", road: "관중 전수 참여형 점검록 기여 포인트 혜택 개방 유도" },
+                                { limit: "프로토타입 세션 미완 (로그인 보강 및 다국어)", road: "영어, 일어, 중국어 다국어 마크업 매핑 및 소셜 팔로우 다이어그램 연결" }
+                              ].map((issue, i) => (
+                                <tr key={i} className="hover:bg-gray-50/50">
+                                  <td className="p-3 font-semibold text-red-600 font-sans leading-normal break-keep">&bull; {issue.limit}</td>
+                                  <td className="p-3 text-emerald-800 font-bold font-sans leading-normal bg-emerald-50/20 break-keep">{issue.road}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 border-b border-gray-100 pb-2">
+                          <Users size={18} className="text-blue-600" /> 8.3. 팀 / 개인 회고 및 배움
+                        </h3>
+                        
+                        <div className="space-y-4">
+                          <div className="bg-[#FAFBFD] p-5 rounded-xl border border-gray-150">
+                            <h4 className="text-xs font-black text-blue-600 uppercase tracking-widest mb-2 font-mono">기술적 성취 및 깨달음</h4>
+                            <p className="text-xs text-gray-700 leading-relaxed font-sans break-keep">
+                              Google AI Studio의 적극적인 페어 프로그래밍을 활용하여 한정된 스케줄 내에서도 정밀도가 우수한 웹 구성을 유지할 수 있었습니다. 특히 단순 텍스트 레이아웃을 뛰어넘어 가변 TTS, 실시간 안경 시야 제어판 등의 인터랙티브 솔루션 통합 과정에서 큰 지적 시야를 얻었습니다.
+                            </p>
+                          </div>
+
+                          <div className="bg-[#FAFBFD] p-5 rounded-xl border border-gray-150">
+                            <h4 className="text-xs font-black text-blue-600 uppercase tracking-widest mb-2 font-mono">유니버셜 가치관으로의 도약</h4>
+                            <p className="text-xs text-gray-700 leading-relaxed font-sans break-keep">
+                              &ldquo;휠체어 진입 가능&rdquo;이나 &ldquo;장애인 우대&rdquo;라는 단순하고 가벼운 행정 단락 하나가 그들의 관점에서 실제 보폭 각도, 대기 혼잡 불안감, 계단 단차 몇 센티미터의 디테일을 얼마나 잔인하게 배제하고 있었는지 처절히 깨닫게 되었습니다. 기술은 모든 인간의 약함을 감싸 안을 때 가장 예술적으로 거듭난다는 진리를 마음에 새겼습니다.
+                            </p>
+                          </div>
+
+                          <div className="bg-[#FAFBFD] p-5 rounded-xl border border-gray-150">
+                            <h4 className="text-xs font-black text-blue-600 uppercase tracking-widest mb-2 font-mono">팀 시너지 피드백</h4>
+                            <p className="text-xs text-gray-700 leading-relaxed font-sans break-keep">
+                              학회 피드백 과정과 예선 무대 발표 단계별 피칭에서 받은 냉철하고 구체적인 피드백을 소화하며, 가벼운 제안에 멈추지 않고 실물 Vercel 프로토타입 연결까지 실증해 내며 팀원 공동체 간에 깊은 배움과 진정한 성장의 희열을 나누었습니다.
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Team Signature Display */}
+                        <div className="border-t border-gray-200 pt-6 flex flex-wrap justify-between items-center gap-4 text-xs">
+                          <div className="flex items-center gap-1.5 text-gray-500 font-sans">
+                            <Activity size={14} className="text-blue-500 animate-pulse" />
+                            <span>403BYPASS 공동 발렌티어로 기여한 영광스러운 크루</span>
+                          </div>
+                          <div className="flex flex-wrap gap-2">
+                            {NAMES.map((n) => (
+                              <span key={n} className="bg-blue-50 text-blue-800 border border-blue-100 px-3 py-1 rounded-full font-bold font-sans">
+                                {n}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                </div>
+
+                {/* Sub-Footer Page controller inside the Card */}
+                <div className="flex justify-between items-center mt-12 pt-6 border-t border-gray-100 text-xs">
+                  <button
+                    disabled={activeTab === 0}
+                    onClick={() => {
+                      setActiveTabTab(prev => Math.max(0, prev - 1));
+                      if ('speechSynthesis' in window) { window.speechSynthesis.cancel(); setAccessibilitySpeech(false); }
+                    }}
+                    className={`font-black tracking-wide transition-all ${
+                      activeTab === 0 ? "text-gray-300 cursor-not-allowed" : "text-blue-600 hover:text-blue-800"
+                    }`}
+                  >
+                    &larr; 이전 장단
+                  </button>
+                  <div className="flex gap-1.5">
+                    {menuItems.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => {
+                          setActiveTabTab(i);
+                          if ('speechSynthesis' in window) { window.speechSynthesis.cancel(); setAccessibilitySpeech(false); }
+                        }}
+                        className={`w-2 h-2 rounded-full transition-all ${
+                          i === activeTab ? "bg-blue-600 w-5" : "bg-gray-200 hover:bg-gray-300"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  <button
+                    disabled={activeTab === menuItems.length - 1}
+                    onClick={() => {
+                      setActiveTabTab(prev => Math.min(menuItems.length - 1, prev + 1));
+                      if ('speechSynthesis' in window) { window.speechSynthesis.cancel(); setAccessibilitySpeech(false); }
+                    }}
+                    className={`font-black tracking-wide transition-all ${
+                      activeTab === menuItems.length - 1 ? "text-gray-300 cursor-not-allowed" : "text-blue-600 hover:text-blue-800"
+                    }`}
+                  >
+                    다음 장단 &rarr;
+                  </button>
+                </div>
+
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+        </div>
+
+        {/* Footer Encouragement Banner */}
+        <div className="mt-16 text-center border-t border-gray-200 pt-12">
+          <p className="text-gray-400 text-xs font-sans max-w-xl mx-auto mb-4 break-keep">
+            403BYPASS는 닫힌 무대를 마당처럼 활짝 열어 모두가 평등하게 웃고 울 수 있는 공연 문화의 새 역사를 열어갑니다. 본 안내 규정과 4대 시스템 가이드는 관람 환경의 실질적 전복과 변화를 지향합니다.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 mt-2">
+            <span className="inline-block text-xs font-mono font-bold text-blue-500 bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
+              LAST UPDATE: 2026.06.01 00:00 (RELEASED)
+            </span>
+            <span className="text-gray-300 hidden sm:inline">|</span>
+            <span className="text-xs text-gray-500 font-sans">Project Ideation & Tech Specs Archive</span>
+          </div>
+        </div>
+
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const Header = ({ activeTab, setActiveTab }: { activeTab: string, setActiveTab: (v: string) => void }) => {
   const topLinks = ['로그인', '회원가입', '마이페이지', '고객센터'];
@@ -1534,7 +2957,7 @@ export default function App() {
           )}
           {activeTab === 'final' && (
             <motion.div key="final" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <ContentSection title="예매안내 (최종)" desc="최종 서비스가 런칭되면 실제 예매를 위한 상세 절차와 연동 규정이 안내됩니다." dateBadge="6/1 월 업데이트 예정" icon={Calendar} />
+              <SectionFinal />
             </motion.div>
           )}
         </AnimatePresence>
