@@ -1,3 +1,4 @@
+import aiImage from './assets/my-image.png';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Ticket, Calendar, Clock, MapPin, Search, ChevronRight, ArrowRight, User, MousePointerClick, Heart, Share2, Navigation, AlertCircle, Info, Activity, Shield, Eye, BarChart3, PieChart as PieChartIcon, X, Code, Palette, Rocket, TrainFront, Accessibility, Smartphone, Armchair, Coffee, Layers, Globe, Users, BookOpen, MessageSquare, CheckCircle2, ShieldAlert, Award, Image, Video, Megaphone } from 'lucide-react';
