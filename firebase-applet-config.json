@@ -1,10 +1,10 @@
 {
-  "projectId": "celestial-composition-fsjh2",
-  "appId": "1:456306361386:web:f6c5d3e26fb273f6deaf53",
-  "apiKey": "AIzaSyA2YHtbEWVECMM7F3-4Z1PjhzI9KkhpHJw",
-  "authDomain": "celestial-composition-fsjh2.firebaseapp.com",
-  "firestoreDatabaseId": "ai-studio-8afa54b1-1646-4811-a230-2a93262214bf",
-  "storageBucket": "celestial-composition-fsjh2.firebasestorage.app",
-  "messagingSenderId": "456306361386",
+  "projectId": "ai-studio-applet-webapp-21b3c",
+  "appId": "1:721513583792:web:fcab79d9c32311bf86d775",
+  "apiKey": "AIzaSyBviA183y3khR5s3_nqivzJfxocUz1IjYY",
+  "authDomain": "ai-studio-applet-webapp-21b3c.firebaseapp.com",
+  "firestoreDatabaseId": "ai-studio-03b9f8d3-bb27-4d58-a267-b2c1db8af15d",
+  "storageBucket": "ai-studio-applet-webapp-21b3c.firebasestorage.app",
+  "messagingSenderId": "721513583792",
   "measurementId": ""
 }

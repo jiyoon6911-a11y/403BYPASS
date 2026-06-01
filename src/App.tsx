@@ -2529,30 +2529,39 @@ const SectionFinal = () => {
                         <div className="space-y-6">
                           <div className="grid md:grid-cols-3 gap-6">
                             <div className="bg-white border border-gray-200 p-5 rounded-2xl relative overflow-hidden shadow-sm">
-                              <span className="absolute top-4 right-4 bg-amber-100 text-amber-800 text-[10px] font-black px-2.5 py-0.5 rounded font-mono uppercase">Feature 06</span>
-                              <h4 className="text-base font-black text-amber-950 mb-2 flex items-center gap-1.5">
-                                <Users size={18} /> ⑥ 배리어프리 프렌즈 (매칭)
-                              </h4>
+                              <div className="flex justify-between items-start gap-3 mb-3">
+                                <h4 className="text-base font-black text-amber-950 flex items-center gap-1.5">
+                                  <Users className="shrink-0" size={18} />
+                                  <span className="leading-tight">⑥ 배리어프리 프렌즈 (매칭)</span>
+                                </h4>
+                                <span className="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded font-mono uppercase shrink-0">Feature 06</span>
+                              </div>
                               <p className="text-xs text-gray-755 leading-relaxed font-sans break-keep mb-3">
                                 <strong>인적 오프라인 지원 헬퍼 요청:</strong> 지하철 역 출구 또는 승강장 앞 전선에서 휠체어 단차 극복과 승하차 보조, 건물 입석까지 실시간으로 도움을 줄 수 있는 현장 대학생/시민 배리어프리 어시스턴스를 일대일로 안전히 연결 예약하는 통합 인적 돌봄 매칭 허브입니다.
                               </p>
                             </div>
 
                             <div className="bg-white border border-gray-200 p-5 rounded-2xl relative overflow-hidden shadow-sm">
-                              <span className="absolute top-4 right-4 bg-sky-100 text-sky-800 text-[10px] font-black px-2.5 py-0.5 rounded font-mono uppercase">Feature 07</span>
-                              <h4 className="text-base font-black text-sky-950 mb-2 flex items-center gap-1.5">
-                                <Smartphone size={18} /> ⑦ 스마트 자막 안경 (연동)
-                              </h4>
+                              <div className="flex justify-between items-start gap-3 mb-3">
+                                <h4 className="text-base font-black text-sky-950 flex items-center gap-1.5">
+                                  <Smartphone className="shrink-0" size={18} />
+                                  <span className="leading-tight">⑦ 스마트 자막 안경 (연동)</span>
+                                </h4>
+                                <span className="bg-sky-100 text-sky-800 text-[10px] font-black px-2 py-0.5 rounded font-mono uppercase shrink-0">Feature 07</span>
+                              </div>
                               <p className="text-xs text-gray-755 leading-relaxed font-sans break-keep mb-3">
                                 <strong>수어 자막 스마트 글래스 미러링:</strong> 시/청각 배리어에 직면한 예술 관향 애호가들이 대여소에서 제공받은 디지털 AR 안경 디바이스를 원클릭 페어링하여 스크립트 자막의 실시간 크기(폰트 스케일), 배경 시인 조도, 언어 동기화를 직접 자가 제어 조절하도록 구성되었습니다.
                               </p>
                             </div>
 
-                            <div className="bg-white border border-gray-200 p-5 rounded-2xl relative overflow-hidden shadow-sm">
-                              <span className="absolute top-4 right-4 bg-red-100 text-red-850 text-[10px] font-black px-2.5 py-0.5 rounded font-mono uppercase">Feature 08</span>
-                              <h4 className="text-base font-black text-red-950 mb-2 flex items-center gap-1.5">
-                                <Heart size={18} /> ⑧ 관극 메이트 동행 소셜
-                              </h4>
+                            <div className="bg-white border border-gray-205 p-5 rounded-2xl relative overflow-hidden shadow-sm">
+                              <div className="flex justify-between items-start gap-3 mb-3">
+                                <h4 className="text-base font-black text-red-950 flex items-center gap-1.5">
+                                  <Heart className="shrink-0" size={18} />
+                                  <span className="leading-tight">⑧ 관극 메이트 동행 소셜</span>
+                                </h4>
+                                <span className="bg-red-100 text-red-850 text-[10px] font-black px-2 py-0.5 rounded font-mono uppercase shrink-0">Feature 08</span>
+                              </div>
                               <p className="text-xs text-gray-755 leading-relaxed font-sans break-keep mb-3">
                                 <strong>동행 구하기 및 무장애 동선 공유:</strong> 무장애 정보가 없으면 출발하는 것조차 두려운 이동 약자들과 일반 자원 동행 관객들이 공연 별로 따뜻하게 짝을 지어 함께 티켓 수령, 입장, 관람 히스토리를 훈훈한 우정으로 개진해 갈 수 있는 따뜻한 403 서셜 보드망입니다.
                               </p>
@@ -2566,30 +2575,39 @@ const SectionFinal = () => {
                         <div className="space-y-6">
                           <div className="grid md:grid-cols-3 gap-6">
                             <div className="bg-white border border-gray-200 p-5 rounded-2xl relative overflow-hidden shadow-sm">
-                              <span className="absolute top-4 right-4 bg-teal-100 text-teal-800 text-[10px] font-black px-2.5 py-0.5 rounded font-mono uppercase">Feature 09</span>
-                              <h4 className="text-base font-black text-teal-950 mb-2 flex items-center gap-1.5">
-                                <Activity size={18} /> ⑨ 장애 필터 맞춤 큐레이션
-                              </h4>
+                              <div className="flex justify-between items-start gap-3 mb-3">
+                                <h4 className="text-base font-black text-teal-950 flex items-center gap-1.5">
+                                  <Activity className="shrink-0" size={18} />
+                                  <span className="leading-tight">⑨ 장애 필터 맞춤 큐레이션</span>
+                                </h4>
+                                <span className="bg-teal-100 text-teal-800 text-[10px] font-black px-2 py-0.5 rounded font-mono uppercase shrink-0">Feature 09</span>
+                              </div>
                               <p className="text-xs text-gray-755 leading-relaxed font-sans break-keep mb-3">
                                 <strong>진입 전 알맞은 최적 공연 분류:</strong> 휠체어 단차 100% 해소점, 청각 스크립트 수어 가용 연동 극장, 시각 가변 오디오 코멘터리 상영 일시 등, 이용자가 등록한 장애 프로필 조건에 부합하는 공연들만을 AI 랭킹 기술로 사려 깊게 먼저 선발해 상단 연출합니다.
                               </p>
                             </div>
 
                             <div className="bg-white border border-gray-200 p-5 rounded-2xl relative overflow-hidden shadow-sm">
-                              <span className="absolute top-4 right-4 bg-indigo-100 text-indigo-800 text-[10px] font-black px-2.5 py-0.5 rounded font-mono uppercase">Feature 10</span>
-                              <h4 className="text-base font-black text-indigo-950 mb-2 flex items-center gap-1.5">
-                                <Accessibility size={18} /> ⑩ 디지털 배리어프리 대응 센터
-                              </h4>
+                              <div className="flex justify-between items-start gap-3 mb-3">
+                                <h4 className="text-base font-black text-indigo-950 flex items-center gap-1.5">
+                                  <Accessibility className="shrink-0" size={18} />
+                                  <span className="leading-tight">⑩ 디지털 배리어프리 대응 센터</span>
+                                </h4>
+                                <span className="bg-indigo-100 text-indigo-800 text-[10px] font-black px-2 py-0.5 rounded font-mono uppercase shrink-0">Feature 10</span>
+                              </div>
                               <p className="text-xs text-gray-755 leading-relaxed font-sans break-keep mb-3">
                                 <strong>원터치 현장 민원 소통 허브:</strong> 대여 장비 에러, 휠체어 리프트 대형 대기줄 발생 등 돌발 장애 허들을 겪는 즉시, 현재 모바일의 정밀 3D 구조물 위치 정보와 응급 호출 요청을 충무아트센터 내부 관리 데스크에 바로 다이렉트 전조 전송해 현행 지원을 이끌어 냅니다.
                               </p>
                             </div>
 
                             <div className="bg-white border border-gray-200 p-5 rounded-2xl relative overflow-hidden shadow-sm">
-                              <span className="absolute top-4 right-4 bg-slate-100 text-slate-800 text-[10px] font-black px-2.5 py-0.5 rounded font-mono uppercase">Feature 11</span>
-                              <h4 className="text-base font-black text-slate-950 mb-2 flex items-center gap-1.5">
-                                <User size={18} /> ⑪ 개인화 유니버설 마이페이지
-                              </h4>
+                              <div className="flex justify-between items-start gap-3 mb-3">
+                                <h4 className="text-base font-black text-slate-950 flex items-center gap-1.5">
+                                  <User className="shrink-0" size={18} />
+                                  <span className="leading-tight">⑪ 개인화 유니버설 마이페이지</span>
+                                </h4>
+                                <span className="bg-slate-100 text-slate-800 text-[10px] font-black px-2 py-0.5 rounded font-mono uppercase shrink-0">Feature 11</span>
+                              </div>
                               <p className="text-xs text-gray-755 leading-relaxed font-sans break-keep mb-3">
                                 <strong>안전 데이터 커스텀 정보 기여:</strong> 내가 직접 현장에 방문 설계해 보조한 단차 실측 건수, 가치 있는 좌석 시야 리뷰 등 따뜻한 크라우드 소싱 협력 공로 업적을 리워드 보석 뱃지 보관함으로 빛나게 모니터해 제공합니다.
                               </p>
