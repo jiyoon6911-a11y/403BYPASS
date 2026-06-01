@@ -1596,13 +1596,13 @@ const SectionFinal = () => {
   const [glassFocal, setGlassFocal] = useState(1.5);
   const [qrHotspot, setQrHotspot] = useState('subway');
   const [activeStep6, setActiveStep6] = useState('6-1');
-  const [youtubeUrl, setYoutubeUrl] = useState('https://www.youtube.com/watch?v=R3IuX2aGjX4');
+  const [youtubeUrl, setYoutubeUrl] = useState('https://www.youtube.com/watch?v=j2UPOi7qosc');
 
   const getYouTubeId = (url: string) => {
-    if (!url) return 'R3IuX2aGjX4';
+    if (!url) return 'j2UPOi7qosc';
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?]*).*/;
     const match = url.match(regExp);
-    return (match && match[2].length === 11) ? match[2] : 'R3IuX2aGjX4';
+    return (match && match[2].length === 11) ? match[2] : 'j2UPOi7qosc';
   };
 
 
